@@ -1,14 +1,12 @@
 # Ismail Hossain
 ### <span style="color: #FF7F50;">Flutter & Kotlin Developer</span>
 
-📧 [md.ismailhosenismailjames@gmail.com](mailto:md.ismailhosenismailjames@gmail.com) &nbsp;|&nbsp; 📞 +880174109533  
-📍 Tangail Sadar, Tangail, Bangladesh &nbsp;|&nbsp; 🔗 [LinkedIn](https://www.linkedin.com/in/ismail-hossain-3756a4211/)  
-**GitHub:** [github.com/IsmailHosenIsmailJames](https://github.com/IsmailHosenIsmailJames)  
-**Facebook:** [facebook.com/IsmailHossainJames](https://web.facebook.com/IsmailHossainJames)
-<br>
+Mail: [md.ismailhosenismailjames@gmail.com](mailto:md.ismailhosenismailjames@gmail.com) &nbsp;|&nbsp; Mobile: +880174109533  
+Address: Tangail Sadar, Tangail, Bangladesh &nbsp;|&nbsp;  [LinkedIn](https://www.linkedin.com/in/ismail-hossain-3756a4211/)  
+**GitHub:** [github.com/IsmailHosenIsmailJames](https://github.com/IsmailHosenIsmailJames)<br>
 
 ## Professional Summary
-Results-driven Mobile Application Developer with over 3 years of hands-on experience in Flutter, Kotlin, and Android development. Proven track record of building, publishing, and maintaining production-grade applications with 100k+ downloads and high user ratings. Experienced in end-to-end app development, including backend integration, real-time systems, and scalable architectures. Currently working on enterprise-level applications for Radiant Pharmaceuticals through Impala Intech Limited.
+Results-driven Mobile Application Developer with over **3 years** of hands-on experience in Flutter, Kotlin, and Android development. Proven track record of building, publishing, and maintaining production-grade applications with 100k+ downloads and high user ratings. Experienced in end-to-end app development, including backend integration. Currently working on enterprise-level applications for Radiant Pharmaceuticals through Impala Intech Limited.
 
 ---
 <table>
@@ -19,7 +17,7 @@ Results-driven Mobile Application Developer with over 3 years of hands-on experi
 
 **Junior Flutter Developer Junior Officer**
 <br><span style="color: #FF7F50;">**Impala Intech Limited, Radiant Pharmaceuticals**</span>
-<br>🗓️ March, 2024 - Present &nbsp;&nbsp; 📍 Mohakhali, Dhaka
+<br>Date: March, 2024 - Present &nbsp;&nbsp; Location: Mohakhali, Dhaka
 
 *   Developed & Maintaining ODMS (Outbound Delivery Management System) Android App using Flutter that is used by 3k+ Delivery Employe of Radiant. Have Real Time Location & Activities Tracking System.
 *   Developed an Islamic app (Mumin) with Quran, it’s Translation, Recitation, Qibla Compass, Jakat Calculator, Hadith & more. This app is now in Google Play ([Link](https://play.google.com/store/apps/details?id=com.impala.mumin&hl=en)) Store and Apple App Store ([Link](https://apps.apple.com/us/app/mumin-your-daily-companion/id6755508745)).
@@ -29,7 +27,7 @@ Results-driven Mobile Application Developer with over 3 years of hands-on experi
 <br>
 
 **Independent Mobile App Developer**
-<br>🗓️ January 2023 – Present
+<br>Date: January 2023 – Present
 
 *   Developed & Actively Maintaining both Backend & app of **Quran's Tafsir, Audio & Prayer** since 2023. The app has 69 Language Support of Quran Translation, 6 Language of Tafsir and with 40+ reciters recitation. Have over **105k** Downloads on Google Play Store. Have **4.6/5** Rating in Bangladesh. Here is the app [link](https://github.com/IsmailHosenIsmailJames/al_quran_v3.git) for Google Play Store & [link](https://apps.microsoft.com/detail/9nx2chfq26gd) for Microsoft Store.
 
@@ -52,8 +50,8 @@ Results-driven Mobile Application Developer with over 3 years of hands-on experi
 
 **Diploma In Engineering on CST**
 <br><span style="color: #FF7F50;">**Tangail Polytechnic Inistitute.**</span>
-<br>🗓️ 2021- 2025
-<br>📍 Tangail, Bangladesh
+<br>Date: 2021- 2025
+<br>Location: Tangail, Bangladesh
 
 ## SKILLS
 
