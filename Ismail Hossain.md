@@ -22,7 +22,6 @@ Results-driven Mobile Application Developer with over **3 years** of hands-on ex
 <td valign="top" width="55%">
 
 ## Work Experience
-
 **Junior Flutter Developer Junior Officer**
 <br><span style="color: #FF7F50;">**Impala Intech Limited, Radiant Pharmaceuticals**</span>
 <br>Date: March, 2024 - Present &nbsp;&nbsp; Location: Mohakhali, Dhaka
@@ -51,17 +50,8 @@ Results-driven Mobile Application Developer with over **3 years** of hands-on ex
 
 </td>
 <td valign="top" width="45%">
- 
-
-## EDUCATION
-
-**Diploma In Engineering on CST**
-<br><span style="color: #FF7F50;">**Tangail Polytechnic Inistitute.**</span>
-<br>Date: 2021- 2025
-<br>Location: Tangail, Bangladesh
 
 ## SKILLS
-
 *   Flutter for App Development
 *   Kotlin & KMP
 *   Android Studio
@@ -70,9 +60,15 @@ Results-driven Mobile Application Developer with over **3 years** of hands-on ex
 *   C & C++
 
 ## Awards
-
 *   I am the **Winner** on **National Skills Competition 2025** on Mobile App Development. Organized by **NSDA**. For more info, get to my Linkedin.
 <br>
+
+## EDUCATION
+
+**Diploma In Engineering on CST**
+<br><span style="color: #FF7F50;">**Tangail Polytechnic Inistitute.**</span>
+<br>Date: 2021- 2025
+<br>Location: Tangail, Bangladesh
 
 ## ACTIVITIES
 *   Led and developed programming workshops for community members of TPI programming Club, focusing on teaching programming and apply those on real life project. Mentoring a team in Flutter app development.
