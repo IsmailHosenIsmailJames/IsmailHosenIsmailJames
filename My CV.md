@@ -1,9 +1,17 @@
-# Ismail Hossain
-### <span style="color: #FF7F50;">Flutter & Kotlin Developer</span>
-
-Mail: [md.ismailhosenismailjames@gmail.com](mailto:md.ismailhosenismailjames@gmail.com) &nbsp;|&nbsp; Mobile: +880174109533  
-Address: Tangail Sadar, Tangail, Bangladesh &nbsp;|&nbsp;  [LinkedIn](https://www.linkedin.com/in/ismail-hossain-3756a4211/)  
-**GitHub:** [github.com/IsmailHosenIsmailJames](https://github.com/IsmailHosenIsmailJames)<br>
+<table border="0">
+  <tr>
+    <td width="150" valign="top">
+      <img src="https://avatars.githubusercontent.com/u/99122172?v=4" width="150" style="border-radius: 50%; border: 3px solid #FF7F50;">
+    </td>
+    <td valign="top">
+      <h1 style="margin-top: 0; margin-bottom: 5px;">Ismail Hossain</h1>
+      <h3 style="margin-top: 0; margin-bottom: 10px;"><span style="color: #FF7F50;">Flutter & Kotlin Developer</span></h3>
+      <strong>Mail:</strong> <a href="mailto:md.ismailhosenismailjames@gmail.com">md.ismailhosenismailjames@gmail.com</a> &nbsp;|&nbsp; <strong>Mobile:</strong> +880174109533<br>
+      <strong>Address:</strong> Tangail Sadar, Tangail, Bangladesh &nbsp;|&nbsp; <a href="https://www.linkedin.com/in/ismail-hossain-3756a4211/">LinkedIn</a><br>
+      <strong>GitHub:</strong> <a href="https://github.com/IsmailHosenIsmailJames">github.com/IsmailHosenIsmailJames</a>
+    </td>
+  </tr>
+</table>
 
 ## Professional Summary
 Results-driven Mobile Application Developer with over **3 years** of hands-on experience in Flutter, Kotlin, and Android development. Proven track record of building, publishing, and maintaining production-grade applications with 100k+ downloads and high user ratings. Experienced in end-to-end app development, including backend integration. Currently working on enterprise-level applications for Radiant Pharmaceuticals through Impala Intech Limited.
@@ -19,12 +27,16 @@ Results-driven Mobile Application Developer with over **3 years** of hands-on ex
 <br><span style="color: #FF7F50;">**Impala Intech Limited, Radiant Pharmaceuticals**</span>
 <br>Date: March, 2024 - Present &nbsp;&nbsp; Location: Mohakhali, Dhaka
 
-*   Developed & Maintaining ODMS (Outbound Delivery Management System) Android App using Flutter that is used by 3k+ Delivery Employe of Radiant. Have Real Time Location & Activities Tracking System.
-*   Developed an Islamic app (Mumin) with Quran, it’s Translation, Recitation, Qibla Compass, Jakat Calculator, Hadith & more. This app is now in Google Play ([Link](https://play.google.com/store/apps/details?id=com.impala.mumin&hl=en)) Store and Apple App Store ([Link](https://apps.apple.com/us/app/mumin-your-daily-companion/id6755508745)).
+*   Developed & Maintaining **ODMS (Outbound Delivery Management System)** Android App using Flutter that is used by 3k+ Delivery Employe of Radiant. Have Real Time Location & Activities Tracking System.
+*   Developed an Islamic app **(Mumin) with Quran, it’s Translation, Recitation, Qibla Compass, Jakat Calculator, Hadith & more**. This app is now in Google Play ([Link](https://play.google.com/store/apps/details?id=com.impala.mumin&hl=en)) Store and Apple App Store ([Link](https://apps.apple.com/us/app/mumin-your-daily-companion/id6755508745)).
 *   Developed and maintaining more than 10 android apps.
-*   Developed a Maintaining a Fitness app (X-Obese) available on Play Store ([Link](https://play.google.com/store/apps/details?id=com.impala.x_obese&hl=en)) and Apple App Store ([Link](https://apps.apple.com/us/app/x-obese/id6748353141)).
+*   Developed a Maintaining a Fitness app **(X-Obese)** available on Play Store ([Link](https://play.google.com/store/apps/details?id=com.impala.x_obese&hl=en)) and Apple App Store ([Link](https://apps.apple.com/us/app/x-obese/id6748353141)).
 
 <br>
+
+**ePharma Mobile Application** (Date: 15 Dec 2025 - 25 Jan 2026)
+*   I have rewritten the legacy Expo (React Native) app into Flutter, implementing new features (Products Variations, Order Tracking, order history, Gift Catalog, Handling Checkout, etc.), performance optimizations, and bug fixes while contributing to backend development. Here is the App link on PlayStore [Link](https://play.google.com/store/apps/details?id=com.themessenger.epharma) and on iOS App Store [Link](https://apps.apple.com/us/app/epharma-healthcare-app/id6739850783). I also worked on backend development with Node.js, Express.js, and mySQL.
+
 
 **Independent Mobile App Developer**
 <br>Date: January 2023 – Present
@@ -39,12 +51,7 @@ Results-driven Mobile Application Developer with over **3 years** of hands-on ex
 
 </td>
 <td valign="top" width="45%">
-
-## Ongoing Projects
-
-**ePharma Mobile Application (Ongoing)**
-
-*   Rewriting legacy Expo (React Native) app into Flutter, implementing new features, performance optimizations, and bug fixes while contributing to backend development.
+ 
 
 ## EDUCATION
 
@@ -66,6 +73,7 @@ Results-driven Mobile Application Developer with over **3 years** of hands-on ex
 
 *   I am the **Winner** on **National Skills Competition 2025** on Mobile App Development. Organized by **NSDA**. For more info, get to my Linkedin.
 <br>
+
 ## ACTIVITIES
 *   Led and developed programming workshops for community members of TPI programming Club, focusing on teaching programming and apply those on real life project. Mentoring a team in Flutter app development.
 *   Worked on multiple science project.
