@@ -15,8 +15,6 @@
 
 ## Professional Summary
 Results-driven Mobile Application Developer with over **3 years** of hands-on experience in Flutter, Kotlin, and Android development. Proven track record of building, publishing, and maintaining production-grade applications with 100k+ downloads and high user ratings. Experienced in end-to-end app development, including backend integration. Currently working on enterprise-level applications for Radiant Pharmaceuticals through Impala Intech Limited.
-
----
 <table>
 <tr>
 <td valign="top" width="55%">
