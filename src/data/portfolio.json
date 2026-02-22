@@ -1,0 +1,73 @@
+{
+  "hero": {
+    "name": "Ismail Hossain",
+    "title": "Flutter & Kotlin Developer | Mobile App Enthusiast",
+    "description": "I am a passionate Mobile Application Developer based in Tangail, Bangladesh. I specialize in building high-quality, user-friendly mobile applications using Flutter and Kotlin.",
+    "socialLinks": {
+      "linkedin": "https://www.linkedin.com/in/ismail-hossain-3756a4211/",
+      "github": "https://github.com/IsmailHosenIsmailJames",
+      "facebook": "https://web.facebook.com/IsmailHossainJames",
+      "email": "mailto:md.ismailhosenismailjames@gmail.com"
+    }
+  },
+  "about": {
+    "title": "About Me",
+    "description": "I’m currently working as a Junior Flutter Developer at Impala Intech Limited. I’m currently learning Kotlin Multiplatform (KMP) and Rust. Winner of the National Skills Competition 2025 (Mobile App Development). Ask me about Flutter, Android Development, and App Optimization."
+  },
+  "projects": [
+    {
+      "id": "1",
+      "title": "Al Quran Tafsir & Audio",
+      "description": "A comprehensive Islamic app serving thousands of users. Features 69 Language Translations, Tafsir in 6 languages, 40+ Reciters, Prayer Times.",
+      "techStack": ["Flutter", "Dart"],
+      "link": "https://github.com/IsmailHosenIsmailJames/al_quran_v3",
+      "stats": "95k+ Downloads, 4.9/5 Rating"
+    },
+    {
+      "id": "2",
+      "title": "Rust Book App",
+      "description": "An educational app for learning the Rust programming language. Features Rust Book translation in 18 languages, Offline access.",
+      "techStack": ["Kotlin", "Jetpack Compose"],
+      "link": "https://play.google.com/store/apps/details?id=com.rust_book.example",
+      "stats": "7k+ Downloads, 4.5/5 Rating"
+    },
+    {
+      "id": "3",
+      "title": "ODMS (Outbound Delivery Management System)",
+      "description": "Enterprise solution for Radiant Pharmaceuticals. Used by 3k+ delivery employees for real-time tracking and activity management.",
+      "techStack": ["Flutter", "Android"],
+      "link": "#",
+      "stats": "Enterprise Solution"
+    }
+  ],
+  "experience": [
+    {
+      "id": "1",
+      "company": "Impala Intech Limited",
+      "role": "Junior Flutter Developer",
+      "duration": "Present",
+      "description": "Working on mobile application development."
+    }
+  ],
+  "achievements": [
+    {
+      "id": "1",
+      "title": "National Skills Competition 2025",
+      "description": "Winner (Mobile App Development) - Organized by NSDA."
+    },
+    {
+      "id": "2",
+      "title": "Community Leader",
+      "description": "Led programming workshops at TPI Programming Club."
+    },
+    {
+      "id": "3",
+      "title": "Mentor",
+      "description": "Guiding teams in Flutter app development."
+    }
+  ],
+  "contact": {
+    "email": "md.ismailhosenismailjames@gmail.com",
+    "location": "Tangail, Bangladesh"
+  }
+}
