@@ -1,93 +1,73 @@
-<div align="center">
+# Ismail Hossain Portfolio
 
-# Hi there, I'm Ismail Hossain 👋
+This is a high-performance, animated personal portfolio website built with Next.js, Tailwind CSS, and Framer Motion. It features a fully static architecture with a client-side admin panel for managing content.
 
-### Flutter & Kotlin Developer | Mobile App Enthusiast
+## 🚀 Features
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=FF7F50&center=true&vCenter=true&width=435&lines=Flutter+Developer;Kotlin+Multiplatform+Enthusiast;Building+Apps+for+Impact;Open+Source+Contributor)](https://git.io/typing-svg)
-
-[![](https://visitcount.itsvg.in/api?id=IsmailHosenIsmailJames&label=Profile%20Views&color=0&icon=5&pretty=true)](https://visitcount.itsvg.in)
-
-</div>
-
----
-
-## 👨‍💻 About Me
-
-I am a passionate **Mobile Application Developer** based in **Tangail, Bangladesh**. I specialize in building high-quality, user-friendly mobile applications using **Flutter** and **Kotlin**. 
-
-- 🔭 I’m currently working as a **Junior Flutter Developer** at **Impala Intech Limited**.
-- 🌱 I’m currently learning **Kotlin Multiplatform (KMP)** and **Rust**.
-- 🏆 **Winner** of the **National Skills Competition 2025** (Mobile App Development).
-- 💬 Ask me about **Flutter, Android Development, and App Optimization**.
-- 📫 Reach me at: **md.ismailhosenismailjames@gmail.com**
-
----
+*   **Modern Design**: Clean, responsive layout with a sticky navbar and dark/light mode.
+*   **Animations**: Smooth scrolling, staggered fade-ins, and hover effects powered by Framer Motion.
+*   **Static Data**: All content is driven by a local JSON file (`src/data/portfolio.json`).
+*   **Client-Side Admin**: Built-in `/admin` route to edit content and copy the updated JSON structure.
+*   **Type-Safe**: Built with TypeScript for robustness.
 
 ## 🛠️ Tech Stack
 
-<div align="center">
+*   **Framework**: Next.js 15 (App Router)
+*   **Styling**: Tailwind CSS
+*   **Animations**: Framer Motion
+*   **Icons**: Lucide React
 
-| Mobile Development | Languages | Tools & Others |
-| :---: | :---: | :---: |
-| ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white) | ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white) | ![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=for-the-badge&logo=android-studio&logoColor=white) |
-| ![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=for-the-badge&logo=android&logoColor=white) | ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white) | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) |
-| ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white) | ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) | ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase) |
-| | ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) | ![Arduino](https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white) |
+## 📦 Prerequisites
 
-</div>
+Ensure you have the following installed on your machine:
 
----
+*   [Node.js](https://nodejs.org/) (v18 or later recommended)
+*   npm (comes with Node.js)
 
-## 📊 GitHub Stats
+## 🏁 Getting Started
 
-<div align="center">
+Follow these steps to run the project locally on your Linux laptop (or any other OS):
 
-[![Ismail's GitHub Stats](https://github-readme-stats.vercel.app/api?username=IsmailHosenIsmailJames&show_icons=true&theme=radical&hide_border=true)](https://github.com/IsmailHosenIsmailJames)
+1.  **Clone the repository**:
+    ```bash
+    git clone <repository-url>
+    cd <repository-directory>
+    ```
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=IsmailHosenIsmailJames&layout=compact&theme=radical&hide_border=true)](https://github.com/IsmailHosenIsmailJames)
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-</div>
+3.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
 
----
+4.  **Open in Browser**:
+    Visit [http://localhost:3000](http://localhost:3000) to view the portfolio.
 
-## 🚀 Featured Projects
+## ⚙️ Building for Production
 
-### 📱 [Al Quran Tafsir & Audio](https://github.com/IsmailHosenIsmailJames/al_quran_v3)
-> A comprehensive Islamic app serving thousands of users.
-- **Downloads:** 95k+ on Google Play Store.
-- **Rating:** 4.9/5 ⭐
-- **Features:** 69 Language Translations, Tafsir in 6 languages, 40+ Reciters, Prayer Times.
-- **Tech:** Flutter, Dart.
+To create an optimized production build:
 
-### 🦀 [Rust Book App](https://play.google.com/store/apps/details?id=com.rust_book.example)
-> An educational app for learning the Rust programming language.
-- **Downloads:** 7k+ on Google Play Store.
-- **Rating:** 4.5/5 ⭐
-- **Features:** Rust Book translation in 18 languages, Offline access.
-- **Tech:** Kotlin, Jetpack Compose.
+```bash
+npm run build
+npm start
+```
 
-### 🏢 ODMS (Outbound Delivery Management System)
-> Enterprise solution for Radiant Pharmaceuticals.
-- **Impact:** Used by 3k+ delivery employees for real-time tracking and activity management.
-- **Tech:** Flutter, Android.
+## 📝 Managing Content
 
----
+The content is stored in `src/data/portfolio.json`. You can edit this file directly or use the built-in admin panel.
 
-## 🎖️ Achievements & Activities
+### Using the Admin Panel
 
-- 🥇 **Winner**, National Skills Competition 2025 (Mobile App Development) - Organized by NSDA.
-- 🗣️ **Community Leader**, Led programming workshops at TPI Programming Club.
-- 🛠️ **Mentor**, Guiding teams in Flutter app development.
+1.  Navigate to [http://localhost:3000/admin](http://localhost:3000/admin).
+2.  Edit the text fields for Hero, About, Projects, Experience, etc.
+3.  Click the **"Copy JSON"** button in the top right corner.
+4.  Paste the copied JSON into `src/data/portfolio.json` in your code editor.
+5.  Commit and push the changes to update the live site.
 
----
+## 📄 License
 
-## 🤝 Connect with Me
-
-<div align="center">
-
-[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ismail-hossain-3756a4211/)
-[![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?style=for-the-badge&logo=Facebook&logoColor=white)](https://web.facebook.com/IsmailHossainJames)
-[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:md.ismailhosenismailjames@gmail.com)
-
-</div>
+This project is open source and available under the [MIT License](LICENSE).
