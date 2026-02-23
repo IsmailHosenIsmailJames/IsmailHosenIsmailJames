@@ -15,7 +15,18 @@
   "about": {
     "summary": "Results-driven Mobile Application Developer with over 3 years of hands-on experience in Flutter, Kotlin, and Android development. Proven track record of building, publishing, and maintaining production-grade applications with 100k+ downloads and high user ratings."
   },
-  "skills": ["Flutter", "Kotlin", "Android Studio", "Jetpack Compose", "Dart", "Python", "Firebase", "C++", "Arduino", "Git"],
+  "skills": [
+    "Flutter",
+    "Kotlin",
+    "Android Studio",
+    "Jetpack Compose",
+    "Dart",
+    "Python",
+    "Firebase",
+    "C++",
+    "Arduino",
+    "Git"
+  ],
   "experience": [
     {
       "role": "Junior Flutter Developer",
@@ -40,18 +51,32 @@
     {
       "title": "Al Quran Tafsir & Audio",
       "description": "A comprehensive Islamic app serving thousands of users. Features 69 Language Translations, Tafsir in 6 languages.",
-      "tech": ["Flutter", "Dart"],
-      "link": "https://github.com/IsmailHosenIsmailJames/al_quran_v3"
+      "tech": [
+        "Flutter",
+        "Dart"
+      ],
+      "link": "https://github.com/IsmailHosenIsmailJames/al_quran_v3",
+      "image": ""
     },
     {
       "title": "Rust Book App",
       "description": "An educational app for learning the Rust programming language. Rust Book translation in 18 languages.",
-      "tech": ["Kotlin", "Jetpack Compose"],
-      "link": "https://play.google.com/store/apps/details?id=com.rust_book.example"
+      "tech": [
+        "Kotlin",
+        "Jetpack Compose"
+      ],
+      "link": "https://play.google.com/store/apps/details?id=com.rust_book.example",
+      "image": ""
     }
   ],
   "achievements": [
-    "Winner, National Skills Competition 2025 (Mobile App Development) - Organized by NSDA.",
-    "Community Leader, Led programming workshops at TPI Programming Club."
+    {
+      "title": "Winner, National Skills Competition 2025 (Mobile App Development) - Organized by NSDA.",
+      "image": ""
+    },
+    {
+      "title": "Community Leader, Led programming workshops at TPI Programming Club.",
+      "image": ""
+    }
   ]
 }

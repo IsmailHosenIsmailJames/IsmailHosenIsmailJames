@@ -11,9 +11,34 @@ export default function AdminPage() {
 
     const handleCopyJson = () => {
         const jsonString = JSON.stringify(data, null, 2);
-        navigator.clipboard.writeText(jsonString)
-            .then(() => toast.success("JSON copied to clipboard! Paste it into src/data/portfolio.json"))
-            .catch(() => toast.error("Failed to copy JSON"));
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(jsonString)
+                .then(() => toast.success("JSON copied to clipboard! Paste it into src/data/portfolio.json"))
+                .catch(() => toast.error("Failed to copy JSON"));
+        } else {
+            try {
+                const textArea = document.createElement("textarea");
+                textArea.value = jsonString;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                textArea.style.top = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                if (successful) {
+                    toast.success("JSON copied to clipboard! Paste it into src/data/portfolio.json");
+                } else {
+                    toast.error("Failed to copy JSON automatically. Please check console.");
+                }
+            } catch (err) {
+                toast.error("Failed to copy JSON automatically.");
+            }
+        }
     };
 
     const handleChange = (section: string, field: string, value: any) => {
@@ -82,6 +107,17 @@ export default function AdminPage() {
                                             onChange={(e) => handleChange("hero", key, e.target.value)}
                                             className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all h-32"
                                         />
+                                    ) : key === 'avatar' ? (
+                                        <div className="flex gap-4 items-center">
+                                            {value && <img src={value as string} alt="Avatar" className="w-12 h-12 rounded-full object-cover border border-primary-200" />}
+                                            <input
+                                                type="text"
+                                                value={value as string}
+                                                onChange={(e) => handleChange("hero", key, e.target.value)}
+                                                className="flex-1 p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                                                placeholder="Profile Image URL"
+                                            />
+                                        </div>
                                     ) : (
                                         <input
                                             type="text"
@@ -163,7 +199,7 @@ export default function AdminPage() {
                             <button
                                 onClick={() => setData(prev => ({
                                     ...prev,
-                                    projects: [...prev.projects, { title: "New Project", description: "", tech: [""], link: "" }]
+                                    projects: [...prev.projects, { title: "New Project", description: "", tech: [""], link: "", image: "" }]
                                 }))}
                                 className="text-sm flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1.5 rounded-lg"
                             >
@@ -205,6 +241,18 @@ export default function AdminPage() {
                                                 onChange={(e) => handleArrayChange("projects", index, "link", e.target.value)}
                                                 className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
                                             />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-medium mb-1">Image URL</label>
+                                            <div className="flex gap-4 items-center">
+                                                {project.image && <img src={project.image} alt="Preview" className="w-16 h-12 object-cover rounded border border-primary-200" />}
+                                                <input
+                                                    type="text" value={project.image || ''}
+                                                    onChange={(e) => handleArrayChange("projects", index, "image", e.target.value)}
+                                                    className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
+                                                    placeholder="Project Image URL..."
+                                                />
+                                            </div>
                                         </div>
                                         <div>
                                             <label className="block text-xs font-medium mb-1">Tech Stack (comma separated)</label>

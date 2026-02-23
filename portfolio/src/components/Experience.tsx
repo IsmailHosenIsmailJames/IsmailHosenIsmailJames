@@ -54,10 +54,12 @@ export function Experience() {
 
                     {/* Achievements Column */}
                     <motion.div
+                        id="achievements"
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.5, delay: 0.2 }}
+                        className="scroll-mt-24"
                     >
                         <div className="flex items-center gap-3 mb-10">
                             <Award className="text-primary-500" size={32} />
@@ -68,11 +70,19 @@ export function Experience() {
                             <ul className="space-y-6">
                                 {achievements.map((achievement, index) => (
                                     <li key={index} className="flex gap-4">
-                                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
-                                            <Award size={20} />
-                                        </div>
+                                        {achievement.image ? (
+                                            <img
+                                                src={achievement.image}
+                                                alt={achievement.title}
+                                                className="flex-shrink-0 w-12 h-12 rounded-full object-cover border-2 border-primary-500/20 shadow-sm"
+                                            />
+                                        ) : (
+                                            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                                <Award size={20} />
+                                            </div>
+                                        )}
                                         <p className="pt-2 text-foreground/80 leading-relaxed font-medium">
-                                            {achievement}
+                                            {achievement.title}
                                         </p>
                                     </li>
                                 ))}

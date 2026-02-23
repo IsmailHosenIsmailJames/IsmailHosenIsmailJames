@@ -23,6 +23,7 @@ export function Navbar() {
     const navLinks = [
         { name: "About", href: "#about" },
         { name: "Experience", href: "#experience" },
+        { name: "Achievements", href: "#achievements" },
         { name: "Projects", href: "#projects" },
     ];
 
@@ -41,8 +42,8 @@ export function Navbar() {
     return (
         <header
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
-                    ? "bg-background/80 backdrop-blur-md shadow-sm border-b border-primary-100/20 dark:border-primary-900/20"
-                    : "bg-transparent"
+                ? "bg-background/80 backdrop-blur-md shadow-sm border-b border-primary-100/20 dark:border-primary-900/20"
+                : "bg-transparent"
                 }`}
         >
             <div className="container mx-auto px-6 py-4 flex items-center justify-between">
