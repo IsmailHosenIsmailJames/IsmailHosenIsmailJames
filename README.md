@@ -68,6 +68,22 @@ The content is stored in `src/data/portfolio.json`. You can edit this file direc
 4.  Paste the copied JSON into `src/data/portfolio.json` in your code editor.
 5.  Commit and push the changes to update the live site.
 
+## ❓ Troubleshooting
+
+If you encounter issues like `Module not found: Can't resolve 'framer-motion'`, try the following:
+
+1.  **Reinstall dependencies**:
+    ```bash
+    rm -rf node_modules package-lock.json
+    npm install
+    ```
+
+2.  **Check Node Version**:
+    Ensure you are running Node.js v18 or later.
+    ```bash
+    node -v
+    ```
+
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
