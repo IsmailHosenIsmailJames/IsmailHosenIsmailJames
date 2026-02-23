@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { Save, Plus, Trash2, ArrowLeft } from "lucide-react";
+import { Save, Plus, Trash2, ArrowLeft, ArrowUp, ArrowDown } from "lucide-react";
 import Link from "next/link";
 import initialData from "@/data/portfolio.json";
 
@@ -69,6 +69,28 @@ export default function AdminPage() {
             const newNestedArray = [...newArray[itemIndex][arrayField]];
             newNestedArray[detailIndex] = value;
             newArray[itemIndex] = { ...newArray[itemIndex], [arrayField]: newNestedArray };
+            return { ...prev, [section]: newArray };
+        });
+    };
+
+    const handleMoveUp = (section: string, index: number) => {
+        if (index === 0) return;
+        setData((prev: any) => {
+            const newArray = [...prev[section]];
+            const temp = newArray[index - 1];
+            newArray[index - 1] = newArray[index];
+            newArray[index] = temp;
+            return { ...prev, [section]: newArray };
+        });
+    };
+
+    const handleMoveDown = (section: string, index: number) => {
+        setData((prev: any) => {
+            if (index === prev[section].length - 1) return prev;
+            const newArray = [...prev[section]];
+            const temp = newArray[index + 1];
+            newArray[index + 1] = newArray[index];
+            newArray[index] = temp;
             return { ...prev, [section]: newArray };
         });
     };
@@ -173,18 +195,34 @@ export default function AdminPage() {
                             </div>
                             <div className="flex flex-wrap gap-3">
                                 {data.skills.map((skill, index) => (
-                                    <div key={index} className="flex items-center relative group">
+                                    <div key={index} className="flex items-center group bg-background border border-primary-200 dark:border-primary-800 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary-500 transition-all">
+                                        <div className="flex flex-col bg-primary-50 dark:bg-primary-900/20 border-r border-primary-200 dark:border-primary-800">
+                                            <button
+                                                onClick={() => handleMoveUp("skills", index)}
+                                                disabled={index === 0}
+                                                className={`p-1 text-primary-600 ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors'}`}
+                                            >
+                                                <ArrowUp size={12} />
+                                            </button>
+                                            <button
+                                                onClick={() => handleMoveDown("skills", index)}
+                                                disabled={index === data.skills.length - 1}
+                                                className={`p-1 text-primary-600 ${index === data.skills.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors'}`}
+                                            >
+                                                <ArrowDown size={12} />
+                                            </button>
+                                        </div>
                                         <input
                                             type="text"
                                             value={skill}
                                             onChange={(e) => handleArrayChange("skills", index, null, e.target.value)}
-                                            className="w-32 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all text-sm"
+                                            className="w-32 p-2 bg-transparent outline-none text-sm"
                                         />
                                         <button
                                             onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== index) }))}
-                                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            className="bg-red-500/10 text-red-500 p-2 hover:bg-red-500 hover:text-white transition-colors"
                                         >
-                                            <Trash2 size={12} />
+                                            <Trash2 size={14} />
                                         </button>
                                     </div>
                                 ))}
@@ -209,13 +247,30 @@ export default function AdminPage() {
 
                         <div className="space-y-8">
                             {data.projects.map((project, index) => (
-                                <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative">
-                                    <button
-                                        onClick={() => setData(prev => ({ ...prev, projects: prev.projects.filter((_, i) => i !== index) }))}
-                                        className="absolute top-4 right-4 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                    >
-                                        <Trash2 size={18} />
-                                    </button>
+                                <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
+
+                                    <div className="absolute top-4 right-4 flex items-center gap-2">
+                                        <button
+                                            onClick={() => handleMoveUp("projects", index)}
+                                            disabled={index === 0}
+                                            className={`p-2 rounded-lg transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
+                                        >
+                                            <ArrowUp size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleMoveDown("projects", index)}
+                                            disabled={index === data.projects.length - 1}
+                                            className={`p-2 rounded-lg transition-colors ${index === data.projects.length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
+                                        >
+                                            <ArrowDown size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => setData(prev => ({ ...prev, projects: prev.projects.filter((_, i) => i !== index) }))}
+                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
 
                                     <div className="grid gap-4 w-[90%]">
                                         <div>
@@ -290,13 +345,29 @@ export default function AdminPage() {
 
                         <div className="space-y-6">
                             {data.experience.map((exp, expIdx) => (
-                                <div key={expIdx} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative">
-                                    <button
-                                        onClick={() => setData(prev => ({ ...prev, experience: prev.experience.filter((_, i) => i !== expIdx) }))}
-                                        className="absolute top-4 right-4 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                    >
-                                        <Trash2 size={18} />
-                                    </button>
+                                <div key={expIdx} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
+                                    <div className="absolute top-4 right-4 flex items-center gap-2">
+                                        <button
+                                            onClick={() => handleMoveUp("experience", expIdx)}
+                                            disabled={expIdx === 0}
+                                            className={`p-2 rounded-lg transition-colors ${expIdx === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
+                                        >
+                                            <ArrowUp size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleMoveDown("experience", expIdx)}
+                                            disabled={expIdx === data.experience.length - 1}
+                                            className={`p-2 rounded-lg transition-colors ${expIdx === data.experience.length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
+                                        >
+                                            <ArrowDown size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => setData(prev => ({ ...prev, experience: prev.experience.filter((_, i) => i !== expIdx) }))}
+                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
                                     <div className="grid gap-4 w-[90%]">
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
@@ -366,8 +437,76 @@ export default function AdminPage() {
                         </div>
                     </section>
 
+                    {/* Achievements */}
+                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
+                            <button
+                                onClick={() => setData((prev: any) => ({
+                                    ...prev,
+                                    achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
+                                }))}
+                                className="text-sm flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1.5 rounded-lg"
+                            >
+                                <Plus size={16} /> Add Achievement
+                            </button>
+                        </div>
+
+                        <div className="space-y-6">
+                            {data.achievements?.map((achievement: any, index: number) => (
+                                <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
+                                    <div className="absolute top-4 right-4 flex items-center gap-2">
+                                        <button
+                                            onClick={() => handleMoveUp("achievements", index)}
+                                            disabled={index === 0}
+                                            className={`p-2 rounded-lg transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
+                                        >
+                                            <ArrowUp size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleMoveDown("achievements", index)}
+                                            disabled={index === data.achievements.length - 1}
+                                            className={`p-2 rounded-lg transition-colors ${index === data.achievements.length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
+                                        >
+                                            <ArrowDown size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
+                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
+
+                                    <div className="grid gap-4 w-[90%]">
+                                        <div>
+                                            <label className="block text-xs font-medium mb-1">Title</label>
+                                            <input
+                                                type="text" value={achievement.title}
+                                                onChange={(e) => handleArrayChange("achievements", index, "title", e.target.value)}
+                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-medium mb-1">Image URL</label>
+                                            <div className="flex gap-4 items-center">
+                                                {achievement.image && <img src={achievement.image} alt="Preview" className="w-12 h-12 object-cover rounded-full border border-primary-200" />}
+                                                <input
+                                                    type="text" value={achievement.image || ''}
+                                                    onChange={(e) => handleArrayChange("achievements", index, "image", e.target.value)}
+                                                    className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
+                                                    placeholder="Achievement Image URL..."
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
