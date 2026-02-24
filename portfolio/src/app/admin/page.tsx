@@ -5,9 +5,10 @@ import { toast } from "react-hot-toast";
 import { Save, Plus, Trash2, ArrowLeft, ArrowUp, ArrowDown } from "lucide-react";
 import Link from "next/link";
 import initialData from "@/data/portfolio.json";
+import { PortfolioData } from "@/types";
 
 export default function AdminPage() {
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState<PortfolioData>(initialData);
 
     const handleCopyJson = () => {
         const jsonString = JSON.stringify(data, null, 2);
@@ -453,7 +454,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {data.achievements?.map((achievement: any, index: number) => (
+                            {data.achievements?.map((achievement, index) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
                                         <button
