@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Linkedin, Github, Download } from "lucide-react";
+import { Mail, Linkedin, Github } from "lucide-react";
+import Image from "next/image";
 import data from "@/data/portfolio.json";
 
 export function Hero() {
@@ -24,7 +25,7 @@ export function Hero() {
                             transition={{ delay: 0.2, duration: 0.5 }}
                             className="text-lg md:text-xl text-primary-500 font-medium mb-4"
                         >
-                            Hi there, I'm
+                            Hi there, I&apos;m
                         </motion.h2>
 
                         <motion.h1
@@ -101,10 +102,12 @@ export function Hero() {
                         className="flex-shrink-0 relative"
                     >
                         <div className="w-64 h-64 md:w-80 md:h-80 relative rounded-full overflow-hidden border-4 border-primary-500/20 shadow-2xl z-10">
-                            <img
+                            <Image
                                 src={hero.avatar}
                                 alt={hero.name}
-                                className="object-cover w-full h-full"
+                                fill
+                                className="object-cover"
+                                unoptimized
                             />
                         </div>
 
