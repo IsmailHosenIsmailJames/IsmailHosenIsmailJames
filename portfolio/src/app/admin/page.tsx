@@ -5,9 +5,10 @@ import { toast } from "react-hot-toast";
 import { Save, Plus, Trash2, ArrowLeft, ArrowUp, ArrowDown } from "lucide-react";
 import Link from "next/link";
 import initialData from "@/data/portfolio.json";
+import { PortfolioData, Project, Experience, Achievement } from "@/types";
 
 export default function AdminPage() {
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState<PortfolioData>(initialData as PortfolioData);
 
     const handleCopyJson = () => {
         const jsonString = JSON.stringify(data, null, 2);
@@ -41,57 +42,68 @@ export default function AdminPage() {
         }
     };
 
-    const handleChange = (section: string, field: string, value: any) => {
-        setData((prev: any) => ({
+    const handleChange = (section: keyof PortfolioData, field: string, value: string) => {
+        setData((prev) => ({
             ...prev,
             [section]: {
-                ...prev[section],
+                ...(prev[section] as object),
                 [field]: value
             }
         }));
     };
 
-    const handleArrayChange = (section: string, index: number, field: string | null, value: string) => {
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+    const handleArrayChange = (section: keyof PortfolioData, index: number, field: string | null, value: string | string[]) => {
+        setData((prev) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const newArray = [...(prev[section] as any[])];
             if (field) {
                 newArray[index] = { ...newArray[index], [field]: value };
             } else {
                 newArray[index] = value;
             }
-            return { ...prev, [section]: newArray };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return { ...prev, [section]: newArray } as any;
         });
     };
 
-    const handleNestedArrayChange = (section: string, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            const newNestedArray = [...newArray[itemIndex][arrayField]];
+    const handleNestedArrayChange = (section: 'experience', itemIndex: number, arrayField: 'details', detailIndex: number, value: string) => {
+        setData((prev) => {
+            const newArray = [...prev.experience];
+            const newNestedArray = [...newArray[itemIndex].details];
             newNestedArray[detailIndex] = value;
-            newArray[itemIndex] = { ...newArray[itemIndex], [arrayField]: newNestedArray };
-            return { ...prev, [section]: newArray };
+            newArray[itemIndex] = { ...newArray[itemIndex], details: newNestedArray };
+            return { ...prev, experience: newArray };
         });
     };
 
-    const handleMoveUp = (section: string, index: number) => {
+    const handleMoveUp = (section: keyof PortfolioData, index: number) => {
         if (index === 0) return;
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+        setData((prev) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const sectionData = prev[section] as any[];
+            if (!Array.isArray(sectionData)) return prev;
+
+            const newArray = [...sectionData];
             const temp = newArray[index - 1];
             newArray[index - 1] = newArray[index];
             newArray[index] = temp;
-            return { ...prev, [section]: newArray };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return { ...prev, [section]: newArray } as any;
         });
     };
 
-    const handleMoveDown = (section: string, index: number) => {
-        setData((prev: any) => {
-            if (index === prev[section].length - 1) return prev;
-            const newArray = [...prev[section]];
+    const handleMoveDown = (section: keyof PortfolioData, index: number) => {
+        setData((prev) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const sectionData = prev[section] as any[];
+            if (!Array.isArray(sectionData) || index === sectionData.length - 1) return prev;
+
+            const newArray = [...sectionData];
             const temp = newArray[index + 1];
             newArray[index + 1] = newArray[index];
             newArray[index] = temp;
-            return { ...prev, [section]: newArray };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return { ...prev, [section]: newArray } as any;
         });
     };
 
@@ -328,7 +340,7 @@ export default function AdminPage() {
                         </div>
                     </section>
 
-                    {/* Experience is similar, skipped full detail input for brevity, keeping simple textareas or arrays if necessary but we will provide basic editable fields */}
+                    {/* Experience */}
                     <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-primary-500">Experience</h2>
@@ -442,7 +454,7 @@ export default function AdminPage() {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
                             <button
-                                onClick={() => setData((prev: any) => ({
+                                onClick={() => setData((prev) => ({
                                     ...prev,
                                     achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
                                 }))}
@@ -453,7 +465,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {data.achievements?.map((achievement: any, index: number) => (
+                            {data.achievements?.map((achievement, index) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
                                         <button
@@ -471,7 +483,7 @@ export default function AdminPage() {
                                             <ArrowDown size={18} />
                                         </button>
                                         <button
-                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
+                                            onClick={() => setData((prev) => ({ ...prev, achievements: prev.achievements.filter((_, i) => i !== index) }))}
                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
                                         >
                                             <Trash2 size={18} />
