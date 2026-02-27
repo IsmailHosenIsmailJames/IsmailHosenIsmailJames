@@ -12,7 +12,13 @@ export function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
+        const timer = setTimeout(() => {
+            setMounted(true);
+        }, 0);
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 10);
         };
@@ -25,6 +31,7 @@ export function Navbar() {
         { name: "Experience", href: "#experience" },
         { name: "Achievements", href: "#achievements" },
         { name: "Projects", href: "#projects" },
+        { name: "Education", href: "#education" },
     ];
 
     const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
