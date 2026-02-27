@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Linkedin, Github, Download } from "lucide-react";
+import { Mail, Phone, Linkedin, Github } from "lucide-react";
 import data from "@/data/portfolio.json";
 
 export function Hero() {
@@ -24,7 +24,7 @@ export function Hero() {
                             transition={{ delay: 0.2, duration: 0.5 }}
                             className="text-lg md:text-xl text-primary-500 font-medium mb-4"
                         >
-                            Hi there, I'm
+                            Hi there, I&apos;m
                         </motion.h2>
 
                         <motion.h1
@@ -82,6 +82,16 @@ export function Hero() {
                             >
                                 <Mail size={24} />
                             </a>
+
+                            {contact.phone && (
+                                <a
+                                    href={`tel:${contact.phone}`}
+                                    className="p-3 bg-secondary rounded-full hover:bg-primary-500 hover:text-white transition-all transform hover:scale-110 shadow-sm"
+                                    title={contact.phone}
+                                >
+                                    <Phone size={24} />
+                                </a>
+                            )}
 
                             {/* Optional Resume Button */}
                             <a

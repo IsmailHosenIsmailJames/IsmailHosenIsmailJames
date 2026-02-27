@@ -10,7 +10,11 @@ export function ThemeProvider({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    // Adding a small delay or waiting for next tick to avoid synchronous update warning
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   if (!mounted) {
