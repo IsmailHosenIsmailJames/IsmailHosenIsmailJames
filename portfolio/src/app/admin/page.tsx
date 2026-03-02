@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Save, Plus, Trash2, ArrowLeft, ArrowUp, ArrowDown } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import initialData from "@/data/portfolio.json";
 
 export default function AdminPage() {
@@ -35,63 +36,94 @@ export default function AdminPage() {
                 } else {
                     toast.error("Failed to copy JSON automatically. Please check console.");
                 }
-            } catch (err) {
+            } catch {
                 toast.error("Failed to copy JSON automatically.");
             }
         }
     };
 
-    const handleChange = (section: string, field: string, value: any) => {
-        setData((prev: any) => ({
-            ...prev,
-            [section]: {
-                ...prev[section],
-                [field]: value
+    type PortfolioData = typeof initialData;
+
+    const handleChange = (section: string, field: string, value: string) => {
+        setData((prev) => {
+            const currentSection = prev[section as keyof PortfolioData];
+            if (typeof currentSection === 'object' && !Array.isArray(currentSection) && currentSection !== null) {
+                return {
+                    ...prev,
+                    [section]: {
+                        ...currentSection,
+                        [field]: value
+                    }
+                };
             }
-        }));
+            return prev;
+        });
     };
 
     const handleArrayChange = (section: string, index: number, field: string | null, value: string) => {
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            if (field) {
-                newArray[index] = { ...newArray[index], [field]: value };
-            } else {
-                newArray[index] = value;
+        setData((prev) => {
+            const currentArray = prev[section as keyof PortfolioData];
+            if (Array.isArray(currentArray)) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const newArray = [...currentArray] as any[];
+                if (field && typeof newArray[index] === 'object') {
+                    newArray[index] = { ...newArray[index], [field]: value };
+                } else if (!field) {
+                    newArray[index] = value;
+                }
+                return { ...prev, [section]: newArray };
             }
-            return { ...prev, [section]: newArray };
+            return prev;
         });
     };
 
     const handleNestedArrayChange = (section: string, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            const newNestedArray = [...newArray[itemIndex][arrayField]];
-            newNestedArray[detailIndex] = value;
-            newArray[itemIndex] = { ...newArray[itemIndex], [arrayField]: newNestedArray };
-            return { ...prev, [section]: newArray };
+        setData((prev) => {
+            const currentArray = prev[section as keyof PortfolioData];
+            if (Array.isArray(currentArray)) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const newArray = [...currentArray] as any[];
+                const item = newArray[itemIndex];
+                if (item && typeof item === 'object' && Array.isArray(item[arrayField])) {
+                    const newNestedArray = [...item[arrayField]];
+                    newNestedArray[detailIndex] = value;
+                    newArray[itemIndex] = { ...item, [arrayField]: newNestedArray };
+                    return { ...prev, [section]: newArray };
+                }
+            }
+            return prev;
         });
     };
 
     const handleMoveUp = (section: string, index: number) => {
         if (index === 0) return;
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            const temp = newArray[index - 1];
-            newArray[index - 1] = newArray[index];
-            newArray[index] = temp;
-            return { ...prev, [section]: newArray };
+        setData((prev) => {
+            const currentArray = prev[section as keyof PortfolioData];
+            if (Array.isArray(currentArray)) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const newArray = [...currentArray] as any[];
+                const temp = newArray[index - 1];
+                newArray[index - 1] = newArray[index];
+                newArray[index] = temp;
+                return { ...prev, [section]: newArray };
+            }
+            return prev;
         });
     };
 
     const handleMoveDown = (section: string, index: number) => {
-        setData((prev: any) => {
-            if (index === prev[section].length - 1) return prev;
-            const newArray = [...prev[section]];
-            const temp = newArray[index + 1];
-            newArray[index + 1] = newArray[index];
-            newArray[index] = temp;
-            return { ...prev, [section]: newArray };
+        setData((prev) => {
+            const currentArray = prev[section as keyof PortfolioData];
+            if (Array.isArray(currentArray)) {
+                if (index === currentArray.length - 1) return prev;
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const newArray = [...currentArray] as any[];
+                const temp = newArray[index + 1];
+                newArray[index + 1] = newArray[index];
+                newArray[index] = temp;
+                return { ...prev, [section]: newArray };
+            }
+            return prev;
         });
     };
 
@@ -131,7 +163,7 @@ export default function AdminPage() {
                                         />
                                     ) : key === 'avatar' ? (
                                         <div className="flex gap-4 items-center">
-                                            {value && <img src={value as string} alt="Avatar" className="w-12 h-12 rounded-full object-cover border border-primary-200" />}
+                                            {value && <Image width={48} height={48} src={value as string} alt="Avatar" className="w-12 h-12 rounded-full object-cover border border-primary-200" />}
                                             <input
                                                 type="text"
                                                 value={value as string}
@@ -300,7 +332,7 @@ export default function AdminPage() {
                                         <div>
                                             <label className="block text-xs font-medium mb-1">Image URL</label>
                                             <div className="flex gap-4 items-center">
-                                                {project.image && <img src={project.image} alt="Preview" className="w-16 h-12 object-cover rounded border border-primary-200" />}
+                                                {project.image && <Image width={64} height={48} src={project.image} alt="Preview" className="w-16 h-12 object-cover rounded border border-primary-200" />}
                                                 <input
                                                     type="text" value={project.image || ''}
                                                     onChange={(e) => handleArrayChange("projects", index, "image", e.target.value)}
@@ -442,7 +474,7 @@ export default function AdminPage() {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
                             <button
-                                onClick={() => setData((prev: any) => ({
+                                onClick={() => setData((prev) => ({
                                     ...prev,
                                     achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
                                 }))}
@@ -453,7 +485,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {data.achievements?.map((achievement: any, index: number) => (
+                            {data.achievements?.map((achievement: { title: string, image: string }, index: number) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
                                         <button
@@ -471,7 +503,7 @@ export default function AdminPage() {
                                             <ArrowDown size={18} />
                                         </button>
                                         <button
-                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
+                                            onClick={() => setData((prev) => ({ ...prev, achievements: prev.achievements.filter((_, i) => i !== index) }))}
                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
                                         >
                                             <Trash2 size={18} />
@@ -490,7 +522,7 @@ export default function AdminPage() {
                                         <div>
                                             <label className="block text-xs font-medium mb-1">Image URL</label>
                                             <div className="flex gap-4 items-center">
-                                                {achievement.image && <img src={achievement.image} alt="Preview" className="w-12 h-12 object-cover rounded-full border border-primary-200" />}
+                                                {achievement.image && <Image width={48} height={48} src={achievement.image} alt="Preview" className="w-12 h-12 object-cover rounded-full border border-primary-200" />}
                                                 <input
                                                     type="text" value={achievement.image || ''}
                                                     onChange={(e) => handleArrayChange("achievements", index, "image", e.target.value)}
