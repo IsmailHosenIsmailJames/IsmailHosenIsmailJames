@@ -45,6 +45,7 @@ export function Projects() {
                         >
                             {project.image && (
                                 <div className="w-full h-48 mb-6 overflow-hidden rounded-xl bg-primary-50/50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-900/30">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
                                         src={project.image}
                                         alt={project.title}
