@@ -35,13 +35,15 @@ export default function AdminPage() {
                 } else {
                     toast.error("Failed to copy JSON automatically. Please check console.");
                 }
-            } catch (err) {
+            } catch {
                 toast.error("Failed to copy JSON automatically.");
             }
         }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleChange = (section: string, field: string, value: any) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData((prev: any) => ({
             ...prev,
             [section]: {
@@ -51,7 +53,9 @@ export default function AdminPage() {
         }));
     };
 
+
     const handleArrayChange = (section: string, index: number, field: string | null, value: string) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData((prev: any) => {
             const newArray = [...prev[section]];
             if (field) {
@@ -63,7 +67,9 @@ export default function AdminPage() {
         });
     };
 
+
     const handleNestedArrayChange = (section: string, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData((prev: any) => {
             const newArray = [...prev[section]];
             const newNestedArray = [...newArray[itemIndex][arrayField]];
@@ -75,6 +81,7 @@ export default function AdminPage() {
 
     const handleMoveUp = (section: string, index: number) => {
         if (index === 0) return;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData((prev: any) => {
             const newArray = [...prev[section]];
             const temp = newArray[index - 1];
@@ -85,6 +92,7 @@ export default function AdminPage() {
     };
 
     const handleMoveDown = (section: string, index: number) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData((prev: any) => {
             if (index === prev[section].length - 1) return prev;
             const newArray = [...prev[section]];
@@ -131,6 +139,7 @@ export default function AdminPage() {
                                         />
                                     ) : key === 'avatar' ? (
                                         <div className="flex gap-4 items-center">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
                                             {value && <img src={value as string} alt="Avatar" className="w-12 h-12 rounded-full object-cover border border-primary-200" />}
                                             <input
                                                 type="text"
@@ -300,6 +309,7 @@ export default function AdminPage() {
                                         <div>
                                             <label className="block text-xs font-medium mb-1">Image URL</label>
                                             <div className="flex gap-4 items-center">
+                                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                                 {project.image && <img src={project.image} alt="Preview" className="w-16 h-12 object-cover rounded border border-primary-200" />}
                                                 <input
                                                     type="text" value={project.image || ''}
@@ -442,6 +452,7 @@ export default function AdminPage() {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
                             <button
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 onClick={() => setData((prev: any) => ({
                                     ...prev,
                                     achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
@@ -453,6 +464,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
+                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                             {data.achievements?.map((achievement: any, index: number) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
@@ -471,6 +483,7 @@ export default function AdminPage() {
                                             <ArrowDown size={18} />
                                         </button>
                                         <button
+                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                             onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
                                         >
@@ -490,6 +503,7 @@ export default function AdminPage() {
                                         <div>
                                             <label className="block text-xs font-medium mb-1">Image URL</label>
                                             <div className="flex gap-4 items-center">
+                                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                                 {achievement.image && <img src={achievement.image} alt="Preview" className="w-12 h-12 object-cover rounded-full border border-primary-200" />}
                                                 <input
                                                     type="text" value={achievement.image || ''}

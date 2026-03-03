@@ -71,6 +71,7 @@ export function Experience() {
                                 {achievements.map((achievement, index) => (
                                     <li key={index} className="flex gap-4">
                                         {achievement.image ? (
+                                            /* eslint-disable-next-line @next/next/no-img-element */
                                             <img
                                                 src={achievement.image}
                                                 alt={achievement.title}
