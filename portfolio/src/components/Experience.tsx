@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Briefcase, Award } from "lucide-react";
+import Image from "next/image";
 import data from "@/data/portfolio.json";
 
 export function Experience() {
@@ -71,9 +72,11 @@ export function Experience() {
                                 {achievements.map((achievement, index) => (
                                     <li key={index} className="flex gap-4">
                                         {achievement.image ? (
-                                            <img
+                                            <Image
                                                 src={achievement.image}
                                                 alt={achievement.title}
+                                                width={48}
+                                                height={48}
                                                 className="flex-shrink-0 w-12 h-12 rounded-full object-cover border-2 border-primary-500/20 shadow-sm"
                                             />
                                         ) : (
