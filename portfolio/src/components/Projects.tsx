@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { FolderGit2, ExternalLink } from "lucide-react";
 import data from "@/data/portfolio.json";
+import Image from "next/image";
 
 export function Projects() {
     const { projects } = data;
@@ -44,11 +45,12 @@ export function Projects() {
                             className="group bg-background rounded-2xl p-8 border border-primary-100 dark:border-primary-900/30 hover:border-primary-500/50 hover:shadow-xl hover:shadow-primary-500/5 transition-all duration-300 relative flex flex-col h-full"
                         >
                             {project.image && (
-                                <div className="w-full h-48 mb-6 overflow-hidden rounded-xl bg-primary-50/50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-900/30">
-                                    <img
+                                <div className="w-full h-48 mb-6 overflow-hidden rounded-xl bg-primary-50/50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-900/30 relative">
+                                    <Image
                                         src={project.image}
                                         alt={project.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                 </div>
                             )}
