@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FolderGit2, ExternalLink } from "lucide-react";
+import Image from "next/image";
 import data from "@/data/portfolio.json";
 
 export function Projects() {
@@ -45,9 +46,12 @@ export function Projects() {
                         >
                             {project.image && (
                                 <div className="w-full h-48 mb-6 overflow-hidden rounded-xl bg-primary-50/50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-900/30">
-                                    <img
+                                    <Image
                                         src={project.image}
                                         alt={project.title}
+                                        width={500}
+                                        height={192}
+                                        unoptimized
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                 </div>
