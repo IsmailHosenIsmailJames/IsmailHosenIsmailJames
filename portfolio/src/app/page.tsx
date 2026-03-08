@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Experience } from "@/components/Experience";
 import { Projects } from "@/components/Projects";
+import { Achievements } from "@/components/Achievements";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
         <About />
         <Experience />
         <Projects />
+        <Achievements />
       </main>
 
       <footer className="py-8 text-center text-foreground/50 text-sm border-t border-primary-100 dark:border-primary-900/20">
