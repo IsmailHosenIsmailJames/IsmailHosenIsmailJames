@@ -42,8 +42,11 @@ export default function AdminPage() {
         }
     };
 
+
+    type PortfolioData = typeof initialData;
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleChange = (section: string, field: string, value: any) => {
+    const handleChange = (section: string, field: string, value: string) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData((prev: any) => ({
             ...prev,
@@ -54,6 +57,7 @@ export default function AdminPage() {
         }));
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleArrayChange = (section: string, index: number, field: string | null, value: string) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData((prev: any) => {
@@ -67,6 +71,7 @@ export default function AdminPage() {
         });
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleNestedArrayChange = (section: string, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData((prev: any) => {
@@ -78,6 +83,7 @@ export default function AdminPage() {
         });
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleMoveUp = (section: string, index: number) => {
         if (index === 0) return;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -90,6 +96,7 @@ export default function AdminPage() {
         });
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleMoveDown = (section: string, index: number) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setData((prev: any) => {
@@ -449,8 +456,8 @@ export default function AdminPage() {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
                             <button
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                onClick={() => setData((prev: any) => ({
+
+                                onClick={() => setData((prev: PortfolioData) => ({
                                     ...prev,
                                     achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
                                 }))}
@@ -461,8 +468,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {data.achievements?.map((achievement: any, index: number) => (
+                            {data.achievements?.map((achievement: { title: string; image: string }, index: number) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
                                         <button
@@ -480,8 +486,8 @@ export default function AdminPage() {
                                             <ArrowDown size={18} />
                                         </button>
                                         <button
-                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
+
+                                            onClick={() => setData((prev: PortfolioData) => ({ ...prev, achievements: prev.achievements.filter((_: unknown, i: number) => i !== index) }))}
                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
                                         >
                                             <Trash2 size={18} />
