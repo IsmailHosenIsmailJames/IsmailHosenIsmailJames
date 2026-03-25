@@ -42,10 +42,14 @@ export default function AdminPage() {
         }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleChange = (section: string, field: string, value: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => ({
+    type PortfolioData = typeof initialData;
+
+    const handleChange = <K extends keyof PortfolioData>(
+        section: K,
+        field: keyof PortfolioData[K],
+        value: string
+    ) => {
+        setData((prev) => ({
             ...prev,
             [section]: {
                 ...prev[section],
@@ -54,10 +58,15 @@ export default function AdminPage() {
         }));
     };
 
-    const handleArrayChange = (section: string, index: number, field: string | null, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+    const handleArrayChange = <K extends keyof PortfolioData>(
+        section: K,
+        index: number,
+        field: string | null,
+        value: string
+    ) => {
+        setData((prev) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const newArray = [...(prev[section] as any)];
             if (field) {
                 newArray[index] = { ...newArray[index], [field]: value };
             } else {
@@ -67,10 +76,16 @@ export default function AdminPage() {
         });
     };
 
-    const handleNestedArrayChange = (section: string, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+    const handleNestedArrayChange = <K extends keyof PortfolioData>(
+        section: K,
+        itemIndex: number,
+        arrayField: string,
+        detailIndex: number,
+        value: string
+    ) => {
+        setData((prev) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const newArray = [...(prev[section] as any)];
             const newNestedArray = [...newArray[itemIndex][arrayField]];
             newNestedArray[detailIndex] = value;
             newArray[itemIndex] = { ...newArray[itemIndex], [arrayField]: newNestedArray };
@@ -78,11 +93,11 @@ export default function AdminPage() {
         });
     };
 
-    const handleMoveUp = (section: string, index: number) => {
+    const handleMoveUp = <K extends keyof PortfolioData>(section: K, index: number) => {
         if (index === 0) return;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+        setData((prev) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const newArray = [...(prev[section] as any)];
             const temp = newArray[index - 1];
             newArray[index - 1] = newArray[index];
             newArray[index] = temp;
@@ -90,11 +105,12 @@ export default function AdminPage() {
         });
     };
 
-    const handleMoveDown = (section: string, index: number) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            if (index === prev[section].length - 1) return prev;
-            const newArray = [...prev[section]];
+    const handleMoveDown = <K extends keyof PortfolioData>(section: K, index: number) => {
+        setData((prev) => {
+            const currentArray = prev[section];
+            if (!Array.isArray(currentArray) || index === currentArray.length - 1) return prev;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const newArray = [...(currentArray as any)];
             const temp = newArray[index + 1];
             newArray[index + 1] = newArray[index];
             newArray[index] = temp;
@@ -133,7 +149,7 @@ export default function AdminPage() {
                                     {key === 'description' ? (
                                         <textarea
                                             value={value as string}
-                                            onChange={(e) => handleChange("hero", key, e.target.value)}
+                                            onChange={(e) => handleChange("hero", key as keyof typeof data.hero, e.target.value)}
                                             className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all h-32"
                                         />
                                     ) : key === 'avatar' ? (
@@ -142,7 +158,7 @@ export default function AdminPage() {
                                             <input
                                                 type="text"
                                                 value={value as string}
-                                                onChange={(e) => handleChange("hero", key, e.target.value)}
+                                                onChange={(e) => handleChange("hero", key as keyof typeof data.hero, e.target.value)}
                                                 className="flex-1 p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
                                                 placeholder="Profile Image URL"
                                             />
@@ -151,7 +167,7 @@ export default function AdminPage() {
                                         <input
                                             type="text"
                                             value={value as string}
-                                            onChange={(e) => handleChange("hero", key, e.target.value)}
+                                            onChange={(e) => handleChange("hero", key as keyof typeof data.hero, e.target.value)}
                                             className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
                                         />
                                     )}
@@ -170,7 +186,7 @@ export default function AdminPage() {
                                     <input
                                         type="text"
                                         value={value as string}
-                                        onChange={(e) => handleChange("contact", key, e.target.value)}
+                                        onChange={(e) => handleChange("contact", key as keyof typeof data.contact, e.target.value)}
                                         className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
                                     />
                                 </div>
@@ -449,8 +465,7 @@ export default function AdminPage() {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
                             <button
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                onClick={() => setData((prev: any) => ({
+                                onClick={() => setData((prev) => ({
                                     ...prev,
                                     achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
                                 }))}
@@ -461,8 +476,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {data.achievements?.map((achievement: any, index: number) => (
+                            {data.achievements?.map((achievement, index: number) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
                                         <button
@@ -480,8 +494,7 @@ export default function AdminPage() {
                                             <ArrowDown size={18} />
                                         </button>
                                         <button
-                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
+                                            onClick={() => setData((prev) => ({ ...prev, achievements: prev.achievements.filter((_, i) => i !== index) }))}
                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
                                         >
                                             <Trash2 size={18} />
