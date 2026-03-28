@@ -7,6 +7,9 @@ import Link from "next/link";
 import Image from "next/image";
 import initialData from "@/data/portfolio.json";
 
+type PortfolioData = typeof initialData;
+
+
 export default function AdminPage() {
     const [data, setData] = useState(initialData);
 
@@ -42,22 +45,20 @@ export default function AdminPage() {
         }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleChange = (section: string, field: string, value: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => ({
+    const handleChange = <K extends keyof PortfolioData>(section: K, field: string, value: string) => {
+        setData((prev: PortfolioData) => ({
             ...prev,
             [section]: {
-                ...prev[section],
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ...(prev[section] as any),
                 [field]: value
             }
         }));
     };
 
-    const handleArrayChange = (section: string, index: number, field: string | null, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+    const handleArrayChange = <K extends "skills" | "projects" | "experience" | "achievements">(section: K, index: number, field: string | null, value: string) => {
+        setData((prev: PortfolioData) => {
+            const newArray = [...prev[section]] as any[];
             if (field) {
                 newArray[index] = { ...newArray[index], [field]: value };
             } else {
@@ -67,22 +68,20 @@ export default function AdminPage() {
         });
     };
 
-    const handleNestedArrayChange = (section: string, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            const newNestedArray = [...newArray[itemIndex][arrayField]];
+    const handleNestedArrayChange = <K extends "experience">(section: K, itemIndex: number, arrayField: "details", detailIndex: number, value: string) => {
+        setData((prev: PortfolioData) => {
+            const newArray = [...prev[section]] as any[];
+            const newNestedArray = [...newArray[itemIndex][arrayField]] as any[];
             newNestedArray[detailIndex] = value;
             newArray[itemIndex] = { ...newArray[itemIndex], [arrayField]: newNestedArray };
             return { ...prev, [section]: newArray };
         });
     };
 
-    const handleMoveUp = (section: string, index: number) => {
+    const handleMoveUp = <K extends "skills" | "projects" | "experience" | "achievements">(section: K, index: number) => {
         if (index === 0) return;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+        setData((prev: PortfolioData) => {
+            const newArray = [...prev[section]] as any[];
             const temp = newArray[index - 1];
             newArray[index - 1] = newArray[index];
             newArray[index] = temp;
@@ -90,11 +89,10 @@ export default function AdminPage() {
         });
     };
 
-    const handleMoveDown = (section: string, index: number) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
+    const handleMoveDown = <K extends "skills" | "projects" | "experience" | "achievements">(section: K, index: number) => {
+        setData((prev: PortfolioData) => {
             if (index === prev[section].length - 1) return prev;
-            const newArray = [...prev[section]];
+            const newArray = [...prev[section]] as any[];
             const temp = newArray[index + 1];
             newArray[index + 1] = newArray[index];
             newArray[index] = temp;
@@ -322,9 +320,11 @@ export default function AdminPage() {
                                                 type="text" value={project.tech.join(", ")}
                                                 onChange={(e) => {
                                                     const val = e.target.value.split(",").map(s => s.trim());
-                                                    const newArray = [...data.projects];
-                                                    newArray[index] = { ...newArray[index], tech: val };
-                                                    setData({ ...data, projects: newArray });
+                                                    setData((prev) => {
+                                                    const newProj = [...prev.projects];
+                                                    newProj[index] = { ...newProj[index], tech: val };
+                                                    return { ...prev, projects: newProj };
+                                                });
                                                 }}
                                                 className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
                                             />
@@ -407,9 +407,11 @@ export default function AdminPage() {
                                                 <label className="block text-xs font-medium">Details</label>
                                                 <button
                                                     onClick={() => {
-                                                        const newArray = [...data.experience];
-                                                        newArray[expIdx].details.push("");
-                                                        setData({ ...data, experience: newArray });
+                                                        setData((prev) => {
+                                                        const newExp = [...prev.experience];
+                                                        newExp[expIdx] = { ...newExp[expIdx], details: [...newExp[expIdx].details, ""] };
+                                                        return { ...prev, experience: newExp };
+                                                    });
                                                     }}
                                                     className="text-xs text-primary-500 font-medium"
                                                 >
@@ -426,9 +428,11 @@ export default function AdminPage() {
                                                         />
                                                         <button
                                                             onClick={() => {
-                                                                const newArray = [...data.experience];
-                                                                newArray[expIdx].details = newArray[expIdx].details.filter((_, i) => i !== dIdx);
-                                                                setData({ ...data, experience: newArray });
+                                                                setData((prev) => {
+                                                                const newExp = [...prev.experience];
+                                                                newExp[expIdx] = { ...newExp[expIdx], details: newExp[expIdx].details.filter((_, i) => i !== dIdx) };
+                                                                return { ...prev, experience: newExp };
+                                                            });
                                                             }}
                                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
                                                         >
@@ -449,8 +453,7 @@ export default function AdminPage() {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
                             <button
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                onClick={() => setData((prev: any) => ({
+                                onClick={() => setData((prev: PortfolioData) => ({
                                     ...prev,
                                     achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
                                 }))}
@@ -461,8 +464,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {data.achievements?.map((achievement: any, index: number) => (
+                            {data.achievements?.map((achievement, index: number) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
                                         <button
@@ -480,8 +482,7 @@ export default function AdminPage() {
                                             <ArrowDown size={18} />
                                         </button>
                                         <button
-                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
+                                            onClick={() => setData((prev: PortfolioData) => ({ ...prev, achievements: prev.achievements.filter((_, i: number) => i !== index) }))}
                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
                                         >
                                             <Trash2 size={18} />
