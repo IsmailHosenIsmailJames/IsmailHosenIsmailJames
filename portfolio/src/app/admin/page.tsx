@@ -7,8 +7,57 @@ import Link from "next/link";
 import Image from "next/image";
 import initialData from "@/data/portfolio.json";
 
+interface HeroData {
+    name: string;
+    title: string;
+    avatar: string;
+    description: string;
+}
+
+interface ContactData {
+    email: string;
+    phone: string;
+    location: string;
+    linkedin: string;
+    github: string;
+}
+
+interface AboutData {
+    summary: string;
+}
+
+interface ExperienceData {
+    role: string;
+    company: string;
+    duration: string;
+    details: string[];
+}
+
+interface ProjectData {
+    title: string;
+    description: string;
+    tech: string[];
+    link: string;
+    image: string;
+}
+
+interface AchievementData {
+    title: string;
+    image: string;
+}
+
+interface PortfolioData {
+    hero: HeroData;
+    contact: ContactData;
+    about: AboutData;
+    skills: string[];
+    experience: ExperienceData[];
+    projects: ProjectData[];
+    achievements: AchievementData[];
+}
+
 export default function AdminPage() {
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState<PortfolioData>(initialData);
 
     const handleCopyJson = () => {
         const jsonString = JSON.stringify(data, null, 2);
@@ -461,8 +510,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {data.achievements?.map((achievement: any, index: number) => (
+                            {data.achievements?.map((achievement: AchievementData, index: number) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
                                         <button
