@@ -408,7 +408,7 @@ export default function AdminPage() {
                                                 <button
                                                     onClick={() => {
                                                         const newArray = [...data.experience];
-                                                        newArray[expIdx].details.push("");
+                                                        newArray[expIdx].details = [...newArray[expIdx].details, ""];
                                                         setData({ ...data, experience: newArray });
                                                     }}
                                                     className="text-xs text-primary-500 font-medium"
