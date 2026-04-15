@@ -1,122 +1,75 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react";
 import Image from "next/image";
-import data from "@/data/portfolio.json";
+import { HeroData, ContactData } from "@/types/portfolio";
 
-export function Hero() {
-    const { hero, contact } = data;
-
+export function Hero({ data, contact }: { data: HeroData, contact: ContactData }) {
     return (
-        <section className="min-h-[90vh] flex flex-col justify-center pt-20 pb-10">
-            <div className="container mx-auto px-6">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+        <section id="hero" className="min-h-screen flex items-center justify-center pt-20">
+            <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+                <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="flex-1 text-center md:text-left space-y-6"
+                >
+                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+                        Hi, I&apos;m <span className="text-emerald-500">{data.name}</span>
+                    </h1>
+                    <h2 className="text-2xl md:text-3xl text-zinc-600 dark:text-zinc-400 font-medium">
+                        {data.title}
+                    </h2>
+                    <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto md:mx-0">
+                        {data.description}
+                    </p>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="flex-1 text-center md:text-left"
-                    >
-                        <motion.h2
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2, duration: 0.5 }}
-                            className="text-lg md:text-xl text-primary-500 font-medium mb-4"
+                    <div className="flex flex-wrap justify-center md:justify-start gap-4 pt-4">
+                        <a
+                            href={`mailto:${contact.email}`}
+                            className="flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full font-medium transition-transform hover:scale-105 shadow-md"
                         >
-                            Hi there, I&apos;m
-                        </motion.h2>
-
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3, duration: 0.5 }}
-                            className="text-5xl md:text-7xl font-bold mb-6 text-foreground tracking-tight"
-                        >
-                            {hero.name}.
-                        </motion.h1>
-
-                        <motion.h3
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4, duration: 0.5 }}
-                            className="text-2xl md:text-4xl font-bold text-foreground/70 mb-6"
-                        >
-                            {hero.title}.
-                        </motion.h3>
-
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5, duration: 0.5 }}
-                            className="text-lg text-foreground/70 mb-8 max-w-2xl leading-relaxed"
-                        >
-                            {hero.description}
-                        </motion.p>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6, duration: 0.5 }}
-                            className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-10"
-                        >
-                            <a
-                                href={contact.github}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="p-3 bg-secondary rounded-full hover:bg-primary-500 hover:text-white transition-all transform hover:scale-110 shadow-sm"
-                            >
-                                <Github size={24} />
+                            <Mail size={18} /> Contact Me
+                        </a>
+                        <div className="flex gap-4 items-center">
+                            <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 bg-zinc-200 dark:bg-zinc-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 text-zinc-700 dark:text-zinc-300 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-full transition-all hover:scale-110">
+                                <Linkedin size={20} />
                             </a>
-                            <a
-                                href={contact.linkedin}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="p-3 bg-secondary rounded-full hover:bg-primary-500 hover:text-white transition-all transform hover:scale-110 shadow-sm"
-                            >
-                                <Linkedin size={24} />
+                            <a href={contact.github} target="_blank" rel="noopener noreferrer" className="p-3 bg-zinc-200 dark:bg-zinc-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 text-zinc-700 dark:text-zinc-300 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-full transition-all hover:scale-110">
+                                <Github size={20} />
                             </a>
-                            <a
-                                href={`mailto:${contact.email}`}
-                                className="p-3 bg-secondary rounded-full hover:bg-primary-500 hover:text-white transition-all transform hover:scale-110 shadow-sm"
-                            >
-                                <Mail size={24} />
-                            </a>
-
-                            {/* Optional Resume Button */}
-                            <a
-                                href="#projects"
-                                className="ml-4 px-6 py-3 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 hover:-translate-y-1 transition-all shadow-lg hover:shadow-primary-500/30 flex items-center gap-2"
-                            >
-                                View My Work
-                            </a>
-                        </motion.div>
-                    </motion.div>
-
-                    {/* Avatar / Visuals */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
-                        className="flex-shrink-0 relative"
-                    >
-                        <div className="w-64 h-64 md:w-80 md:h-80 relative rounded-full overflow-hidden border-4 border-primary-500/20 shadow-2xl z-10">
-                            <Image
-                                src={hero.avatar}
-                                alt={hero.name}
-                                width={320}
-                                height={320}
-                                unoptimized
-                                className="object-cover w-full h-full"
-                            />
                         </div>
+                    </div>
 
-                        {/* Background decoration */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-primary-500/20 to-transparent rounded-full blur-3xl -z-10 animate-pulse-slow"></div>
-                    </motion.div>
+                    <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-zinc-500 dark:text-zinc-400 pt-4">
+                        <div className="flex items-center gap-1"><MapPin size={16} /> {contact.location}</div>
+                        <div className="flex items-center gap-1"><Phone size={16} /> {contact.phone}</div>
+                    </div>
+                </motion.div>
 
-                </div>
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                    className="flex-1 flex justify-center"
+                >
+                    <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-emerald-500 shadow-xl">
+                        {data.avatar ? (
+                            <Image
+                                src={data.avatar}
+                                alt={data.name}
+                                fill
+                                className="object-cover"
+                                unoptimized
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center text-zinc-400">
+                                No Avatar
+                            </div>
+                        )}
+                    </div>
+                </motion.div>
             </div>
         </section>
     );

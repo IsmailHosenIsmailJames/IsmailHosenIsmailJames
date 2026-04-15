@@ -43,18 +43,18 @@ export function Navbar() {
     return (
         <header
             className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
-                ? "bg-background/80 backdrop-blur-md shadow-sm border-b border-primary-100/20 dark:border-primary-900/20"
+                ? "bg-zinc-100/80 dark:bg-zinc-950/80 backdrop-blur-md shadow-sm border-b border-emerald-500/20"
                 : "bg-transparent"
                 }`}
         >
-            <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+            <div className="container mx-auto px-6 py-4 flex items-center justify-between max-w-6xl">
                 <a
                     href="#"
                     onClick={(e) => {
                         e.preventDefault();
                         window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                    className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-600 dark:from-primary-400 dark:to-primary-500"
+                    className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 to-emerald-600 dark:from-emerald-400 dark:to-emerald-500"
                 >
                     Ismail.
                 </a>
@@ -66,7 +66,7 @@ export function Navbar() {
                             key={link.name}
                             href={link.href}
                             onClick={(e) => handleScrollTo(e, link.href)}
-                            className="text-sm font-medium hover:text-primary-500 transition-colors"
+                            className="text-sm font-medium hover:text-emerald-500 transition-colors"
                         >
                             {link.name}
                         </a>
@@ -75,7 +75,7 @@ export function Navbar() {
                     {mounted && (
                         <button
                             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                            className="p-2 rounded-full hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-colors"
+                            className="p-2 rounded-full hover:bg-emerald-500/10 transition-colors text-emerald-600 dark:text-emerald-500"
                             aria-label="Toggle Dark Mode"
                         >
                             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
@@ -88,14 +88,14 @@ export function Navbar() {
                     {mounted && (
                         <button
                             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                            className="p-2 rounded-full hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-colors"
+                            className="p-2 rounded-full hover:bg-emerald-500/10 transition-colors text-emerald-600 dark:text-emerald-500"
                         >
                             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
                         </button>
                     )}
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="p-2 -mr-2 text-foreground"
+                        className="p-2 -mr-2"
                     >
                         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
@@ -109,7 +109,7 @@ export function Navbar() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-background/95 backdrop-blur-md border-b border-primary-100/20 dark:border-primary-900/20"
+                        className="md:hidden bg-zinc-100/95 dark:bg-zinc-950/95 backdrop-blur-md border-b border-emerald-500/20"
                     >
                         <div className="flex flex-col px-6 py-4 space-y-4">
                             {navLinks.map((link) => (
@@ -117,7 +117,7 @@ export function Navbar() {
                                     key={link.name}
                                     href={link.href}
                                     onClick={(e) => handleScrollTo(e, link.href)}
-                                    className="text-lg font-medium hover:text-primary-500 transition-colors"
+                                    className="text-lg font-medium hover:text-emerald-500 transition-colors"
                                 >
                                     {link.name}
                                 </a>
