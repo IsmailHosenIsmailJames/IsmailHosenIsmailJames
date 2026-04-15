@@ -1,100 +1,85 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FolderGit2, ExternalLink } from "lucide-react";
+import { ProjectData } from "@/types/portfolio";
+import { ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
-import data from "@/data/portfolio.json";
 
-export function Projects() {
-    const { projects } = data;
-
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
-        }
-    };
-
-    const item = {
-        hidden: { opacity: 0, y: 20 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-    };
-
+export function Projects({ data }: { data: ProjectData[] }) {
     return (
-        <section id="projects" className="py-20 bg-primary-50/50 dark:bg-primary-900/5">
-            <div className="container mx-auto px-6">
-                <div className="flex items-center gap-4 mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold">Featured Projects</h2>
-                    <div className="flex-1 h-px bg-primary-500/20"></div>
-                </div>
+        <section id="projects" className="py-20 scroll-mt-20">
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6 }}
+            >
+                <h2 className="text-3xl font-bold mb-12 text-center md:text-left text-zinc-900 dark:text-zinc-100">
+                    <span className="text-emerald-500">04.</span> Featured Projects
+                </h2>
 
-                <motion.div
-                    className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                    variants={container}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true, margin: "-100px" }}
-                >
-                    {projects.map((project, index) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {data.map((project, index) => (
                         <motion.div
                             key={index}
-                            variants={item}
-                            className="group bg-background rounded-2xl p-8 border border-primary-100 dark:border-primary-900/30 hover:border-primary-500/50 hover:shadow-xl hover:shadow-primary-500/5 transition-all duration-300 relative flex flex-col h-full"
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            whileHover={{ y: -5 }}
+                            className="bg-zinc-100 dark:bg-zinc-900/50 rounded-2xl overflow-hidden border border-emerald-500/10 shadow-sm flex flex-col group"
                         >
-                            {project.image && (
-                                <div className="w-full h-48 mb-6 overflow-hidden rounded-xl bg-primary-50/50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-900/30">
+                            <div className="relative h-48 w-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
+                                {project.image ? (
                                     <Image
                                         src={project.image}
                                         alt={project.title}
-                                        width={500}
-                                        height={192}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-110"
                                         unoptimized
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
-                                </div>
-                            )}
-
-                            <div className="flex justify-between items-start mb-6">
-                                <div className="p-3 bg-primary-50 dark:bg-primary-900/20 rounded-xl text-primary-500 group-hover:bg-primary-500 group-hover:text-white transition-colors duration-300">
-                                    <FolderGit2 size={32} />
-                                </div>
-                                {project.link && (
-                                    <a
-                                        href={project.link}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="p-2 text-foreground/50 hover:text-primary-500 transition-colors"
-                                    >
-                                        <ExternalLink size={24} />
-                                    </a>
+                                ) : (
+                                    <div className="absolute inset-0 flex items-center justify-center text-zinc-400 font-medium">
+                                        {project.title}
+                                    </div>
                                 )}
+                                <div className="absolute inset-0 bg-emerald-500/10 group-hover:bg-transparent transition-colors duration-300" />
                             </div>
 
-                            <h3 className="text-2xl font-bold mb-4 group-hover:text-primary-500 transition-colors">
-                                {project.title}
-                            </h3>
+                            <div className="p-6 flex-1 flex flex-col">
+                                <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2 group-hover:text-emerald-500 transition-colors">
+                                    {project.title}
+                                </h3>
+                                <p className="text-zinc-600 dark:text-zinc-400 text-sm mb-6 flex-1">
+                                    {project.description}
+                                </p>
 
-                            <p className="text-foreground/70 leading-relaxed mb-8 flex-1">
-                                {project.description}
-                            </p>
+                                <div className="flex flex-wrap gap-2 mb-6">
+                                    {project.tech.map((tech, i) => (
+                                        <span key={i} className="text-xs font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded">
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
 
-                            <div className="flex flex-wrap gap-2 mt-auto">
-                                {project.tech.map((t, idx) => (
-                                    <span
-                                        key={idx}
-                                        className="text-xs font-mono font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 px-3 py-1 rounded-full"
-                                    >
-                                        {t}
-                                    </span>
-                                ))}
+                                <div className="flex items-center gap-4 mt-auto">
+                                    {project.link && (
+                                        <a
+                                            href={project.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+                                        >
+                                            {project.link.includes('github') ? <Github size={18} /> : <ExternalLink size={18} />}
+                                            {project.link.includes('github') ? 'View Code' : 'Live Demo'}
+                                        </a>
+                                    )}
+                                </div>
                             </div>
                         </motion.div>
                     ))}
-                </motion.div>
-            </div>
+                </div>
+            </motion.div>
         </section>
     );
 }

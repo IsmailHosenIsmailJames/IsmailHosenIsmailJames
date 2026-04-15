@@ -1,101 +1,66 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Briefcase, Award } from "lucide-react";
-import Image from "next/image";
-import data from "@/data/portfolio.json";
+import { ExperienceData } from "@/types/portfolio";
+import { Briefcase } from "lucide-react";
 
-export function Experience() {
-    const { experience, achievements } = data;
-
+export function Experience({ data }: { data: ExperienceData[] }) {
     return (
-        <section id="experience" className="py-20">
-            <div className="container mx-auto px-6">
+        <section id="experience" className="py-20 scroll-mt-20">
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6 }}
+            >
+                <h2 className="text-3xl font-bold mb-12 text-center md:text-left text-zinc-900 dark:text-zinc-100">
+                    <span className="text-emerald-500">02.</span> Experience
+                </h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div className="space-y-8">
+                    {data.map((job, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            className="relative pl-8 md:pl-0"
+                        >
+                            <div className="md:grid md:grid-cols-[1fr_3fr] gap-8 bg-zinc-100 dark:bg-zinc-900/50 p-6 md:p-8 rounded-2xl border border-emerald-500/10 shadow-sm hover:border-emerald-500/30 transition-colors">
 
-                    {/* Experience Column */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <div className="flex items-center gap-3 mb-10">
-                            <Briefcase className="text-primary-500" size={32} />
-                            <h2 className="text-3xl md:text-4xl font-bold">Experience</h2>
-                        </div>
+                                {/* Timeline line for mobile */}
+                                <div className="absolute left-0 top-0 bottom-0 w-px bg-emerald-500/20 md:hidden" />
+                                <div className="absolute left-[-4px] top-10 w-2 h-2 rounded-full bg-emerald-500 md:hidden" />
 
-                        <div className="space-y-12">
-                            {experience.map((exp, index) => (
-                                <div key={index} className="relative pl-8 border-l-2 border-primary-500/20 group hover:border-primary-500 transition-colors">
-                                    <div className="absolute top-0 -left-[9px] w-4 h-4 bg-background border-2 border-primary-500 rounded-full group-hover:bg-primary-500 transition-colors shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-
-                                    <div className="mb-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                                        <h3 className="text-xl font-bold text-foreground">{exp.role}</h3>
-                                        <span className="text-sm font-medium text-primary-500 bg-primary-500/10 px-3 py-1 rounded-full whitespace-nowrap self-start sm:self-auto">
-                                            {exp.duration}
-                                        </span>
+                                <div className="mb-4 md:mb-0">
+                                    <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-mono text-sm mb-2">
+                                        <Briefcase size={16} />
+                                        <span>{job.duration}</span>
                                     </div>
+                                </div>
 
-                                    <h4 className="text-lg font-medium text-foreground/80 mb-4">{exp.company}</h4>
-
-                                    <ul className="space-y-3">
-                                        {exp.details.map((detail, idx) => (
-                                            <li key={idx} className="flex gap-2 text-foreground/70">
-                                                <span className="mt-1.5 w-1.5 h-1.5 bg-primary-500/50 rounded-full flex-shrink-0"></span>
-                                                <span className="leading-relaxed">{detail}</span>
+                                <div>
+                                    <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+                                        {job.role}
+                                    </h3>
+                                    <p className="text-emerald-600 dark:text-emerald-500 font-medium mb-4">
+                                        {job.company}
+                                    </p>
+                                    <ul className="space-y-2 text-zinc-600 dark:text-zinc-400 text-sm">
+                                        {job.details.map((detail, dIndex) => (
+                                            <li key={dIndex} className="flex gap-2">
+                                                <span className="text-emerald-500 mt-1">▹</span>
+                                                <span>{detail}</span>
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    {/* Achievements Column */}
-                    <motion.div
-                        id="achievements"
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="scroll-mt-24"
-                    >
-                        <div className="flex items-center gap-3 mb-10">
-                            <Award className="text-primary-500" size={32} />
-                            <h2 className="text-3xl md:text-4xl font-bold">Achievements</h2>
-                        </div>
-
-                        <div className="bg-primary-50/50 dark:bg-primary-900/5 rounded-2xl p-8 border border-primary-100 dark:border-primary-900/30">
-                            <ul className="space-y-6">
-                                {achievements.map((achievement, index) => (
-                                    <li key={index} className="flex gap-4">
-                                        {achievement.image ? (
-                                            <Image
-                                                src={achievement.image}
-                                                alt={achievement.title}
-                                                width={48}
-                                                height={48}
-                                                unoptimized
-                                                className="flex-shrink-0 w-12 h-12 rounded-full object-cover border-2 border-primary-500/20 shadow-sm"
-                                            />
-                                        ) : (
-                                            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-primary-600 dark:text-primary-400">
-                                                <Award size={20} />
-                                            </div>
-                                        )}
-                                        <p className="pt-2 text-foreground/80 leading-relaxed font-medium">
-                                            {achievement.title}
-                                        </p>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </motion.div>
-
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 }

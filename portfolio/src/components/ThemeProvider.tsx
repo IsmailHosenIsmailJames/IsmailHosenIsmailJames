@@ -3,10 +3,11 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { useEffect, useState } from "react";
 
-export function ThemeProvider({
+export default function ThemeProvider({
   children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
+}: {
+  children: React.ReactNode;
+}) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,5 +19,9 @@ export function ThemeProvider({
     return <>{children}</>;
   }
 
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+  return (
+    <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
+      {children}
+    </NextThemesProvider>
+  );
 }
