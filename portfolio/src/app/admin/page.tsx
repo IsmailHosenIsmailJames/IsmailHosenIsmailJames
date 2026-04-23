@@ -1,522 +1,559 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "react-hot-toast";
-import { Save, Plus, Trash2, ArrowLeft, ArrowUp, ArrowDown } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 import initialData from "@/data/portfolio.json";
+import { toast } from "react-hot-toast";
+import { motion } from "framer-motion";
+import { Copy, Plus, Trash2 } from "lucide-react";
+
+interface Hero {
+  name: string;
+  title: string;
+  avatar: string;
+  description: string;
+}
+
+interface Contact {
+  email: string;
+  phone: string;
+  location: string;
+  linkedin: string;
+  github: string;
+}
+
+interface About {
+  summary: string;
+}
+
+interface Experience {
+  role: string;
+  company: string;
+  duration: string;
+  details: string[];
+}
+
+interface Project {
+  title: string;
+  description: string;
+  tech: string[];
+  link: string;
+  image: string;
+}
+
+interface Achievement {
+  title: string;
+  image: string;
+}
+
+interface PortfolioData {
+  hero: Hero;
+  contact: Contact;
+  about: About;
+  skills: string[];
+  experience: Experience[];
+  projects: Project[];
+  achievements: Achievement[];
+}
 
 export default function AdminPage() {
-    const [data, setData] = useState(initialData);
+  const [data, setData] = useState<PortfolioData>(initialData);
 
-    const handleCopyJson = () => {
-        const jsonString = JSON.stringify(data, null, 2);
-
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(jsonString)
-                .then(() => toast.success("JSON copied to clipboard! Paste it into src/data/portfolio.json"))
-                .catch(() => toast.error("Failed to copy JSON"));
-        } else {
-            try {
-                const textArea = document.createElement("textarea");
-                textArea.value = jsonString;
-                textArea.style.position = "fixed";
-                textArea.style.left = "-999999px";
-                textArea.style.top = "-999999px";
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-
-                const successful = document.execCommand('copy');
-                document.body.removeChild(textArea);
-
-                if (successful) {
-                    toast.success("JSON copied to clipboard! Paste it into src/data/portfolio.json");
-                } else {
-                    toast.error("Failed to copy JSON automatically. Please check console.");
-                }
-            } catch {
-                toast.error("Failed to copy JSON automatically.");
-            }
+  const handleCopy = async () => {
+    const jsonString = JSON.stringify(data, null, 2);
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(jsonString);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = jsonString;
+        textArea.style.position = "absolute";
+        textArea.style.left = "-999999px";
+        document.body.prepend(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+        } catch (error) {
+          console.error(error);
+          toast.error("Failed to copy using fallback.");
+          textArea.remove();
+          return;
         }
-    };
+        textArea.remove();
+      }
+      toast.success("JSON copied to clipboard!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to copy JSON.");
+    }
+  };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleChange = (section: string, field: string, value: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => ({
-            ...prev,
-            [section]: {
-                ...prev[section],
-                [field]: value
-            }
-        }));
-    };
+  const handleHeroChange = (field: keyof Hero, value: string) => {
+    setData((prev) => ({
+      ...prev,
+      hero: { ...prev.hero, [field]: value },
+    }));
+  };
 
-    const handleArrayChange = (section: string, index: number, field: string | null, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            if (field) {
-                newArray[index] = { ...newArray[index], [field]: value };
-            } else {
-                newArray[index] = value;
-            }
-            return { ...prev, [section]: newArray };
-        });
-    };
+  const handleContactChange = (field: keyof Contact, value: string) => {
+    setData((prev) => ({
+      ...prev,
+      contact: { ...prev.contact, [field]: value },
+    }));
+  };
 
-    const handleNestedArrayChange = (section: string, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            const newNestedArray = [...newArray[itemIndex][arrayField]];
-            newNestedArray[detailIndex] = value;
-            newArray[itemIndex] = { ...newArray[itemIndex], [arrayField]: newNestedArray };
-            return { ...prev, [section]: newArray };
-        });
-    };
+  const handleAboutChange = (field: keyof About, value: string) => {
+    setData((prev) => ({
+      ...prev,
+      about: { ...prev.about, [field]: value },
+    }));
+  };
 
-    const handleMoveUp = (section: string, index: number) => {
-        if (index === 0) return;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            const temp = newArray[index - 1];
-            newArray[index - 1] = newArray[index];
-            newArray[index] = temp;
-            return { ...prev, [section]: newArray };
-        });
-    };
+  const updateSkill = (index: number, value: string) => {
+    setData((prev) => {
+      const newSkills = [...prev.skills];
+      newSkills[index] = value;
+      return { ...prev, skills: newSkills };
+    });
+  };
 
-    const handleMoveDown = (section: string, index: number) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            if (index === prev[section].length - 1) return prev;
-            const newArray = [...prev[section]];
-            const temp = newArray[index + 1];
-            newArray[index + 1] = newArray[index];
-            newArray[index] = temp;
-            return { ...prev, [section]: newArray };
-        });
-    };
+  const addSkill = () => {
+    setData((prev) => ({ ...prev, skills: [...prev.skills, ""] }));
+  };
 
-    return (
-        <div className="min-h-screen bg-background py-10 px-6">
-            <div className="max-w-4xl mx-auto">
-                <div className="flex items-center justify-between mb-8 pb-6 border-b border-primary-100 dark:border-primary-900/30">
-                    <div className="flex items-center gap-4">
-                        <Link href="/" className="p-2 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-full transition-colors">
-                            <ArrowLeft size={24} />
-                        </Link>
-                        <h1 className="text-3xl font-bold">Portfolio Admin</h1>
+  const removeSkill = (index: number) => {
+    setData((prev) => ({
+      ...prev,
+      skills: prev.skills.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateExperience = (index: number, field: keyof Experience, value: string) => {
+    setData((prev) => {
+      const newExp = [...prev.experience];
+      newExp[index] = { ...newExp[index], [field]: value };
+      return { ...prev, experience: newExp };
+    });
+  };
+
+  const updateExperienceDetail = (expIndex: number, detailIndex: number, value: string) => {
+    setData((prev) => {
+      const newExp = [...prev.experience];
+      const newDetails = [...newExp[expIndex].details];
+      newDetails[detailIndex] = value;
+      newExp[expIndex] = { ...newExp[expIndex], details: newDetails };
+      return { ...prev, experience: newExp };
+    });
+  };
+
+  const addExperienceDetail = (expIndex: number) => {
+    setData((prev) => {
+      const newExp = [...prev.experience];
+      newExp[expIndex].details = [...newExp[expIndex].details, ""];
+      return { ...prev, experience: newExp };
+    });
+  };
+
+  const removeExperienceDetail = (expIndex: number, detailIndex: number) => {
+    setData((prev) => {
+      const newExp = [...prev.experience];
+      newExp[expIndex].details = newExp[expIndex].details.filter((_, i) => i !== detailIndex);
+      return { ...prev, experience: newExp };
+    });
+  };
+
+  const addExperience = () => {
+    setData((prev) => ({
+      ...prev,
+      experience: [...prev.experience, { role: "", company: "", duration: "", details: [] }],
+    }));
+  };
+
+  const removeExperience = (index: number) => {
+    setData((prev) => ({
+      ...prev,
+      experience: prev.experience.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateProject = (index: number, field: keyof Project, value: string | string[]) => {
+    setData((prev) => {
+      const newProj = [...prev.projects];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      newProj[index] = { ...newProj[index], [field]: value } as any;
+      return { ...prev, projects: newProj };
+    });
+  };
+
+  const updateProjectTech = (projIndex: number, techIndex: number, value: string) => {
+    setData((prev) => {
+      const newProj = [...prev.projects];
+      const newTech = [...newProj[projIndex].tech];
+      newTech[techIndex] = value;
+      newProj[projIndex] = { ...newProj[projIndex], tech: newTech };
+      return { ...prev, projects: newProj };
+    });
+  };
+
+  const addProjectTech = (projIndex: number) => {
+    setData((prev) => {
+      const newProj = [...prev.projects];
+      newProj[projIndex].tech = [...newProj[projIndex].tech, ""];
+      return { ...prev, projects: newProj };
+    });
+  };
+
+  const removeProjectTech = (projIndex: number, techIndex: number) => {
+    setData((prev) => {
+      const newProj = [...prev.projects];
+      newProj[projIndex].tech = newProj[projIndex].tech.filter((_, i) => i !== techIndex);
+      return { ...prev, projects: newProj };
+    });
+  };
+
+  const addProject = () => {
+    setData((prev) => ({
+      ...prev,
+      projects: [...prev.projects, { title: "", description: "", tech: [], link: "", image: "" }],
+    }));
+  };
+
+  const removeProject = (index: number) => {
+    setData((prev) => ({
+      ...prev,
+      projects: prev.projects.filter((_, i) => i !== index),
+    }));
+  };
+
+  const updateAchievement = (index: number, field: keyof Achievement, value: string) => {
+    setData((prev) => {
+      const newAch = [...prev.achievements];
+      newAch[index] = { ...newAch[index], [field]: value };
+      return { ...prev, achievements: newAch };
+    });
+  };
+
+  const addAchievement = () => {
+    setData((prev) => ({
+      ...prev,
+      achievements: [...prev.achievements, { title: "", image: "" }],
+    }));
+  };
+
+  const removeAchievement = (index: number) => {
+    setData((prev) => ({
+      ...prev,
+      achievements: prev.achievements.filter((_, i) => i !== index),
+    }));
+  };
+
+  return (
+    <div className="min-h-screen bg-background text-foreground pb-20 p-6 md:p-12 font-sans">
+      <div className="max-w-5xl mx-auto">
+        <header className="flex flex-col md:flex-row justify-between items-center mb-10 pb-6 border-b border-border">
+          <div>
+            <h1 className="text-3xl font-bold text-primary-600 dark:text-primary-500">Portfolio Admin</h1>
+            <p className="text-muted-foreground mt-2">Edit your local portfolio data and copy the JSON string.</p>
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleCopy}
+            className="mt-4 md:mt-0 flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium shadow-md transition-colors"
+          >
+            <Copy size={20} />
+            Copy Updated JSON
+          </motion.button>
+        </header>
+
+        <div className="space-y-10">
+          {/* Hero Section */}
+          <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
+            <h2 className="text-xl font-semibold mb-4 border-b border-border pb-2">Hero Info</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {Object.keys(data.hero).map((key) => (
+                <div key={key} className={key === "description" ? "md:col-span-2" : ""}>
+                  <label className="block text-sm font-medium text-muted-foreground mb-1 capitalize">{key}</label>
+                  {key === "description" ? (
+                    <textarea
+                      value={data.hero[key as keyof Hero]}
+                      onChange={(e) => handleHeroChange(key as keyof Hero, e.target.value)}
+                      className="w-full px-4 py-2 rounded-md bg-background border border-input focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all h-24"
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      value={data.hero[key as keyof Hero]}
+                      onChange={(e) => handleHeroChange(key as keyof Hero, e.target.value)}
+                      className="w-full px-4 py-2 rounded-md bg-background border border-input focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Contact Section */}
+          <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
+            <h2 className="text-xl font-semibold mb-4 border-b border-border pb-2">Contact Info</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {Object.keys(data.contact).map((key) => (
+                <div key={key}>
+                  <label className="block text-sm font-medium text-muted-foreground mb-1 capitalize">{key}</label>
+                  <input
+                    type="text"
+                    value={data.contact[key as keyof Contact]}
+                    onChange={(e) => handleContactChange(key as keyof Contact, e.target.value)}
+                    className="w-full px-4 py-2 rounded-md bg-background border border-input focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all"
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* About Section */}
+          <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
+            <h2 className="text-xl font-semibold mb-4 border-b border-border pb-2">About</h2>
+            <div>
+              <label className="block text-sm font-medium text-muted-foreground mb-1">Summary</label>
+              <textarea
+                value={data.about.summary}
+                onChange={(e) => handleAboutChange("summary", e.target.value)}
+                className="w-full px-4 py-2 rounded-md bg-background border border-input focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all h-32"
+              />
+            </div>
+          </section>
+
+          {/* Skills Section */}
+          <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
+            <div className="flex justify-between items-center mb-4 border-b border-border pb-2">
+              <h2 className="text-xl font-semibold">Skills</h2>
+              <button onClick={addSkill} className="text-emerald-500 hover:text-emerald-600 flex items-center gap-1 text-sm font-medium">
+                <Plus size={16} /> Add Skill
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {data.skills.map((skill, index) => (
+                <div key={index} className="flex items-center gap-2 bg-background border border-input rounded-full pl-4 pr-1 py-1 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all">
+                  <input
+                    type="text"
+                    value={skill}
+                    onChange={(e) => updateSkill(index, e.target.value)}
+                    className="bg-transparent outline-none w-24 sm:w-32 text-sm"
+                  />
+                  <button onClick={() => removeSkill(index)} className="text-muted-foreground hover:text-red-500 p-1 rounded-full transition-colors">
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Experience Section */}
+          <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
+            <div className="flex justify-between items-center mb-4 border-b border-border pb-2">
+              <h2 className="text-xl font-semibold">Experience</h2>
+              <button onClick={addExperience} className="text-emerald-500 hover:text-emerald-600 flex items-center gap-1 text-sm font-medium">
+                <Plus size={16} /> Add Experience
+              </button>
+            </div>
+            <div className="space-y-6">
+              {data.experience.map((exp, index) => (
+                <div key={index} className="p-4 border border-border rounded-lg bg-background relative">
+                  <button onClick={() => removeExperience(index)} className="absolute top-4 right-4 text-muted-foreground hover:text-red-500 transition-colors">
+                    <Trash2 size={18} />
+                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 pr-8">
+                    <div>
+                      <label className="block text-xs text-muted-foreground mb-1">Role</label>
+                      <input
+                        type="text"
+                        value={exp.role}
+                        onChange={(e) => updateExperience(index, "role", e.target.value)}
+                        className="w-full px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm"
+                      />
                     </div>
-                    <button
-                        onClick={handleCopyJson}
-                        className="flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg transition-all hover:-translate-y-1"
-                    >
-                        <Save size={20} />
-                        Copy Updated JSON
-                    </button>
+                    <div>
+                      <label className="block text-xs text-muted-foreground mb-1">Company</label>
+                      <input
+                        type="text"
+                        value={exp.company}
+                        onChange={(e) => updateExperience(index, "company", e.target.value)}
+                        className="w-full px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-muted-foreground mb-1">Duration</label>
+                      <input
+                        type="text"
+                        value={exp.duration}
+                        onChange={(e) => updateExperience(index, "duration", e.target.value)}
+                        className="w-full px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <label className="block text-xs text-muted-foreground">Details / Responsibilities</label>
+                      <button onClick={() => addExperienceDetail(index)} className="text-emerald-500 hover:text-emerald-600 text-xs flex items-center gap-1">
+                        <Plus size={12} /> Add Detail
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      {exp.details.map((detail, dIndex) => (
+                        <div key={dIndex} className="flex items-start gap-2">
+                          <textarea
+                            value={detail}
+                            onChange={(e) => updateExperienceDetail(index, dIndex, e.target.value)}
+                            className="flex-1 px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm h-16"
+                          />
+                          <button onClick={() => removeExperienceDetail(index, dIndex)} className="text-muted-foreground hover:text-red-500 mt-2">
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
+              ))}
+            </div>
+          </section>
 
-                <div className="space-y-12">
+          {/* Projects Section */}
+          <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
+            <div className="flex justify-between items-center mb-4 border-b border-border pb-2">
+              <h2 className="text-xl font-semibold">Projects</h2>
+              <button onClick={addProject} className="text-emerald-500 hover:text-emerald-600 flex items-center gap-1 text-sm font-medium">
+                <Plus size={16} /> Add Project
+              </button>
+            </div>
+            <div className="space-y-6">
+              {data.projects.map((proj, index) => (
+                <div key={index} className="p-4 border border-border rounded-lg bg-background relative">
+                  <button onClick={() => removeProject(index)} className="absolute top-4 right-4 text-muted-foreground hover:text-red-500 transition-colors">
+                    <Trash2 size={18} />
+                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 pr-8">
+                    <div>
+                      <label className="block text-xs text-muted-foreground mb-1">Title</label>
+                      <input
+                        type="text"
+                        value={proj.title}
+                        onChange={(e) => updateProject(index, "title", e.target.value)}
+                        className="w-full px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-muted-foreground mb-1">Link</label>
+                      <input
+                        type="text"
+                        value={proj.link}
+                        onChange={(e) => updateProject(index, "link", e.target.value)}
+                        className="w-full px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs text-muted-foreground mb-1">Image URL</label>
+                      <input
+                        type="text"
+                        value={proj.image}
+                        onChange={(e) => updateProject(index, "image", e.target.value)}
+                        className="w-full px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs text-muted-foreground mb-1">Description</label>
+                      <textarea
+                        value={proj.description}
+                        onChange={(e) => updateProject(index, "description", e.target.value)}
+                        className="w-full px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm h-20"
+                      />
+                    </div>
+                  </div>
 
-                    {/* Hero Section */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <h2 className="text-xl font-bold mb-6 text-primary-500">Hero Section</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {Object.entries(data.hero).map(([key, value]) => (
-                                <div className={key === 'description' ? "md:col-span-2" : ""} key={key}>
-                                    <label className="block text-sm font-medium mb-2 capitalize">{key}</label>
-                                    {key === 'description' ? (
-                                        <textarea
-                                            value={value as string}
-                                            onChange={(e) => handleChange("hero", key, e.target.value)}
-                                            className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all h-32"
-                                        />
-                                    ) : key === 'avatar' ? (
-                                        <div className="flex gap-4 items-center">
-                                            {value && <Image src={value as string} alt="Avatar" width={48} height={48} unoptimized className="w-12 h-12 rounded-full object-cover border border-primary-200" />}
-                                            <input
-                                                type="text"
-                                                value={value as string}
-                                                onChange={(e) => handleChange("hero", key, e.target.value)}
-                                                className="flex-1 p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
-                                                placeholder="Profile Image URL"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <input
-                                            type="text"
-                                            value={value as string}
-                                            onChange={(e) => handleChange("hero", key, e.target.value)}
-                                            className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
-                                        />
-                                    )}
-                                </div>
-                            ))}
+                  <div>
+                    <div className="flex justify-between items-center mb-2">
+                      <label className="block text-xs text-muted-foreground">Technologies Used</label>
+                      <button onClick={() => addProjectTech(index)} className="text-emerald-500 hover:text-emerald-600 text-xs flex items-center gap-1">
+                        <Plus size={12} /> Add Tech
+                      </button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {proj.tech.map((t, tIndex) => (
+                        <div key={tIndex} className="flex items-center gap-1 bg-card border border-input rounded-full pl-3 pr-1 py-1">
+                          <input
+                            type="text"
+                            value={t}
+                            onChange={(e) => updateProjectTech(index, tIndex, e.target.value)}
+                            className="bg-transparent outline-none w-20 text-xs"
+                          />
+                          <button onClick={() => removeProjectTech(index, tIndex)} className="text-muted-foreground hover:text-red-500 p-0.5 rounded-full">
+                            <Trash2 size={12} />
+                          </button>
                         </div>
-                    </section>
-
-                    {/* Contact Section */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <h2 className="text-xl font-bold mb-6 text-primary-500">Contact</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {Object.entries(data.contact).map(([key, value]) => (
-                                <div key={key}>
-                                    <label className="block text-sm font-medium mb-2 capitalize">{key}</label>
-                                    <input
-                                        type="text"
-                                        value={value as string}
-                                        onChange={(e) => handleChange("contact", key, e.target.value)}
-                                        className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* About Section */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <h2 className="text-xl font-bold mb-6 text-primary-500">About</h2>
-                        <div>
-                            <label className="block text-sm font-medium mb-2">Summary</label>
-                            <textarea
-                                value={data.about.summary}
-                                onChange={(e) => handleChange("about", "summary", e.target.value)}
-                                className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all h-40"
-                            />
-                        </div>
-
-                        <div className="mt-8">
-                            <div className="flex items-center justify-between mb-4">
-                                <label className="block text-sm font-medium">Skills</label>
-                                <button
-                                    onClick={() => setData(prev => ({ ...prev, skills: [...prev.skills, "New Skill"] }))}
-                                    className="text-xs flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium"
-                                >
-                                    <Plus size={14} /> Add Skill
-                                </button>
-                            </div>
-                            <div className="flex flex-wrap gap-3">
-                                {data.skills.map((skill, index) => (
-                                    <div key={index} className="flex items-center group bg-background border border-primary-200 dark:border-primary-800 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary-500 transition-all">
-                                        <div className="flex flex-col bg-primary-50 dark:bg-primary-900/20 border-r border-primary-200 dark:border-primary-800">
-                                            <button
-                                                onClick={() => handleMoveUp("skills", index)}
-                                                disabled={index === 0}
-                                                className={`p-1 text-primary-600 ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors'}`}
-                                            >
-                                                <ArrowUp size={12} />
-                                            </button>
-                                            <button
-                                                onClick={() => handleMoveDown("skills", index)}
-                                                disabled={index === data.skills.length - 1}
-                                                className={`p-1 text-primary-600 ${index === data.skills.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors'}`}
-                                            >
-                                                <ArrowDown size={12} />
-                                            </button>
-                                        </div>
-                                        <input
-                                            type="text"
-                                            value={skill}
-                                            onChange={(e) => handleArrayChange("skills", index, null, e.target.value)}
-                                            className="w-32 p-2 bg-transparent outline-none text-sm"
-                                        />
-                                        <button
-                                            onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== index) }))}
-                                            className="bg-red-500/10 text-red-500 p-2 hover:bg-red-500 hover:text-white transition-colors"
-                                        >
-                                            <Trash2 size={14} />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Projects */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-primary-500">Projects</h2>
-                            <button
-                                onClick={() => setData(prev => ({
-                                    ...prev,
-                                    projects: [...prev.projects, { title: "New Project", description: "", tech: [""], link: "", image: "" }]
-                                }))}
-                                className="text-sm flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1.5 rounded-lg"
-                            >
-                                <Plus size={16} /> Add Project
-                            </button>
-                        </div>
-
-                        <div className="space-y-8">
-                            {data.projects.map((project, index) => (
-                                <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
-
-                                    <div className="absolute top-4 right-4 flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleMoveUp("projects", index)}
-                                            disabled={index === 0}
-                                            className={`p-2 rounded-lg transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowUp size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleMoveDown("projects", index)}
-                                            disabled={index === data.projects.length - 1}
-                                            className={`p-2 rounded-lg transition-colors ${index === data.projects.length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowDown size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => setData(prev => ({ ...prev, projects: prev.projects.filter((_, i) => i !== index) }))}
-                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
-
-                                    <div className="grid gap-4 w-[90%]">
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Title</label>
-                                            <input
-                                                type="text" value={project.title}
-                                                onChange={(e) => handleArrayChange("projects", index, "title", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Description</label>
-                                            <textarea
-                                                value={project.description}
-                                                onChange={(e) => handleArrayChange("projects", index, "description", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm h-20"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Link URL</label>
-                                            <input
-                                                type="text" value={project.link}
-                                                onChange={(e) => handleArrayChange("projects", index, "link", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Image URL</label>
-                                            <div className="flex gap-4 items-center">
-                                                {project.image && <Image src={project.image} alt="Preview" width={64} height={48} unoptimized className="w-16 h-12 object-cover rounded border border-primary-200" />}
-                                                <input
-                                                    type="text" value={project.image || ''}
-                                                    onChange={(e) => handleArrayChange("projects", index, "image", e.target.value)}
-                                                    className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                                    placeholder="Project Image URL..."
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Tech Stack (comma separated)</label>
-                                            <input
-                                                type="text" value={project.tech.join(", ")}
-                                                onChange={(e) => {
-                                                    const val = e.target.value.split(",").map(s => s.trim());
-                                                    const newArray = [...data.projects];
-                                                    newArray[index] = { ...newArray[index], tech: val };
-                                                    setData({ ...data, projects: newArray });
-                                                }}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Experience is similar, skipped full detail input for brevity, keeping simple textareas or arrays if necessary but we will provide basic editable fields */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-primary-500">Experience</h2>
-                            <button
-                                onClick={() => setData(prev => ({
-                                    ...prev,
-                                    experience: [...prev.experience, { role: "New Role", company: "Company", duration: "Date - Date", details: [""] }]
-                                }))}
-                                className="text-sm flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1.5 rounded-lg"
-                            >
-                                <Plus size={16} /> Add Experience
-                            </button>
-                        </div>
-
-                        <div className="space-y-6">
-                            {data.experience.map((exp, expIdx) => (
-                                <div key={expIdx} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
-                                    <div className="absolute top-4 right-4 flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleMoveUp("experience", expIdx)}
-                                            disabled={expIdx === 0}
-                                            className={`p-2 rounded-lg transition-colors ${expIdx === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowUp size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleMoveDown("experience", expIdx)}
-                                            disabled={expIdx === data.experience.length - 1}
-                                            className={`p-2 rounded-lg transition-colors ${expIdx === data.experience.length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowDown size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => setData(prev => ({ ...prev, experience: prev.experience.filter((_, i) => i !== expIdx) }))}
-                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
-                                    <div className="grid gap-4 w-[90%]">
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="block text-xs font-medium mb-1">Role</label>
-                                                <input
-                                                    type="text" value={exp.role}
-                                                    onChange={(e) => handleArrayChange("experience", expIdx, "role", e.target.value)}
-                                                    className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="block text-xs font-medium mb-1">Duration</label>
-                                                <input
-                                                    type="text" value={exp.duration}
-                                                    onChange={(e) => handleArrayChange("experience", expIdx, "duration", e.target.value)}
-                                                    className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Company</label>
-                                            <input
-                                                type="text" value={exp.company}
-                                                onChange={(e) => handleArrayChange("experience", expIdx, "company", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                        <div>
-                                            <div className="flex justify-between items-center mb-1">
-                                                <label className="block text-xs font-medium">Details</label>
-                                                <button
-                                                    onClick={() => {
-                                                        const newArray = [...data.experience];
-                                                        newArray[expIdx].details.push("");
-                                                        setData({ ...data, experience: newArray });
-                                                    }}
-                                                    className="text-xs text-primary-500 font-medium"
-                                                >
-                                                    + Add Bullet point
-                                                </button>
-                                            </div>
-                                            <div className="space-y-2">
-                                                {exp.details.map((detail, dIdx) => (
-                                                    <div key={dIdx} className="flex items-center gap-2">
-                                                        <textarea
-                                                            value={detail}
-                                                            onChange={(e) => handleNestedArrayChange("experience", expIdx, "details", dIdx, e.target.value)}
-                                                            className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm h-16"
-                                                        />
-                                                        <button
-                                                            onClick={() => {
-                                                                const newArray = [...data.experience];
-                                                                newArray[expIdx].details = newArray[expIdx].details.filter((_, i) => i !== dIdx);
-                                                                setData({ ...data, experience: newArray });
-                                                            }}
-                                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                                        >
-                                                            <Trash2 size={16} />
-                                                        </button>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Achievements */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
-                            <button
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                onClick={() => setData((prev: any) => ({
-                                    ...prev,
-                                    achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
-                                }))}
-                                className="text-sm flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1.5 rounded-lg"
-                            >
-                                <Plus size={16} /> Add Achievement
-                            </button>
-                        </div>
-
-                        <div className="space-y-6">
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {data.achievements?.map((achievement: any, index: number) => (
-                                <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
-                                    <div className="absolute top-4 right-4 flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleMoveUp("achievements", index)}
-                                            disabled={index === 0}
-                                            className={`p-2 rounded-lg transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowUp size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleMoveDown("achievements", index)}
-                                            disabled={index === data.achievements.length - 1}
-                                            className={`p-2 rounded-lg transition-colors ${index === data.achievements.length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowDown size={18} />
-                                        </button>
-                                        <button
-                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
-                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
-
-                                    <div className="grid gap-4 w-[90%]">
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Title</label>
-                                            <input
-                                                type="text" value={achievement.title}
-                                                onChange={(e) => handleArrayChange("achievements", index, "title", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Image URL</label>
-                                            <div className="flex gap-4 items-center">
-                                                {achievement.image && <Image src={achievement.image} alt="Preview" width={48} height={48} unoptimized className="w-12 h-12 object-cover rounded-full border border-primary-200" />}
-                                                <input
-                                                    type="text" value={achievement.image || ''}
-                                                    onChange={(e) => handleArrayChange("achievements", index, "image", e.target.value)}
-                                                    className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                                    placeholder="Achievement Image URL..."
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
+                      ))}
+                    </div>
+                  </div>
                 </div>
-            </div >
-        </div >
-    );
+              ))}
+            </div>
+          </section>
+
+          {/* Achievements Section */}
+          <section className="bg-card p-6 rounded-xl border border-border shadow-sm">
+            <div className="flex justify-between items-center mb-4 border-b border-border pb-2">
+              <h2 className="text-xl font-semibold">Achievements</h2>
+              <button onClick={addAchievement} className="text-emerald-500 hover:text-emerald-600 flex items-center gap-1 text-sm font-medium">
+                <Plus size={16} /> Add Achievement
+              </button>
+            </div>
+            <div className="space-y-4">
+              {data.achievements.map((ach, index) => (
+                <div key={index} className="flex items-start gap-4 p-4 border border-border rounded-lg bg-background relative">
+                  <button onClick={() => removeAchievement(index)} className="absolute top-4 right-4 text-muted-foreground hover:text-red-500 transition-colors">
+                    <Trash2 size={18} />
+                  </button>
+                  <div className="flex-1 grid grid-cols-1 gap-4 pr-8">
+                    <div>
+                      <label className="block text-xs text-muted-foreground mb-1">Title</label>
+                      <input
+                        type="text"
+                        value={ach.title}
+                        onChange={(e) => updateAchievement(index, "title", e.target.value)}
+                        className="w-full px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-muted-foreground mb-1">Image URL</label>
+                      <input
+                        type="text"
+                        value={ach.image}
+                        onChange={(e) => updateAchievement(index, "image", e.target.value)}
+                        className="w-full px-3 py-1.5 rounded bg-card border border-input focus:border-emerald-500 outline-none text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+        </div>
+
+        {/* Bottom Copy Button for convenience */}
+        <div className="mt-10 flex justify-center">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleCopy}
+            className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold shadow-lg transition-colors text-lg"
+          >
+            <Copy size={24} />
+            Copy Updated JSON
+          </motion.button>
+        </div>
+
+      </div>
+    </div>
+  );
 }
