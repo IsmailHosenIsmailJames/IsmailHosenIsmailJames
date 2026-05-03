@@ -1,522 +1,400 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "react-hot-toast";
-import { Save, Plus, Trash2, ArrowLeft, ArrowUp, ArrowDown } from "lucide-react";
+import portfolioDataRaw from "@/data/portfolio.json";
+import { PortfolioData } from "@/types/portfolio";
 import Link from "next/link";
-import Image from "next/image";
-import initialData from "@/data/portfolio.json";
+import { ArrowLeft, Save, Plus, Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function AdminPage() {
-    const [data, setData] = useState(initialData);
+  const [data, setData] = useState<PortfolioData>(portfolioDataRaw as PortfolioData);
 
-    const handleCopyJson = () => {
-        const jsonString = JSON.stringify(data, null, 2);
+  const handleNestedChange = (section: keyof PortfolioData, field: string, value: string) => {
+    setData((prev) => ({
+      ...prev,
+      [section]: {
+        ...(prev[section] as unknown as Record<string, unknown>),
+        [field]: value,
+      },
+    }));
+  };
 
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(jsonString)
-                .then(() => toast.success("JSON copied to clipboard! Paste it into src/data/portfolio.json"))
-                .catch(() => toast.error("Failed to copy JSON"));
-        } else {
-            try {
-                const textArea = document.createElement("textarea");
-                textArea.value = jsonString;
-                textArea.style.position = "fixed";
-                textArea.style.left = "-999999px";
-                textArea.style.top = "-999999px";
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
+  const handleSkillsChange = (value: string) => {
+    setData((prev) => ({ ...prev, skills: value.split(",").map(s => s.trim()) }));
+  };
 
-                const successful = document.execCommand('copy');
-                document.body.removeChild(textArea);
+  const handleArrayChange = (section: 'experience' | 'projects' | 'achievements', index: number, field: string, value: string) => {
+    setData((prev) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const newArray = [...prev[section]] as any[];
+      newArray[index] = { ...newArray[index], [field]: value };
+      return { ...prev, [section]: newArray };
+    });
+  };
 
-                if (successful) {
-                    toast.success("JSON copied to clipboard! Paste it into src/data/portfolio.json");
-                } else {
-                    toast.error("Failed to copy JSON automatically. Please check console.");
-                }
-            } catch {
-                toast.error("Failed to copy JSON automatically.");
-            }
+  const addArrayItem = (section: 'experience' | 'projects' | 'achievements') => {
+    setData((prev) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const newArray = [...prev[section]] as any[];
+      let newItem = {};
+      if (section === 'experience') {
+        newItem = { role: "", company: "", duration: "", details: [] };
+      } else if (section === 'projects') {
+        newItem = { title: "", link: "", image: "", description: "", tech: [] };
+      } else if (section === 'achievements') {
+        newItem = { title: "", image: "" };
+      }
+      return { ...prev, [section]: [...newArray, newItem] };
+    });
+  };
+
+  const removeArrayItem = (section: 'experience' | 'projects' | 'achievements', index: number) => {
+    setData((prev) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const newArray = [...prev[section]] as any[];
+      newArray.splice(index, 1);
+      return { ...prev, [section]: newArray };
+    });
+  };
+
+  const handleArrayDetailsChange = (section: 'experience', index: number, value: string) => {
+     setData((prev) => {
+      const newArray = [...prev[section]];
+      newArray[index] = { ...newArray[index], details: value.split("\n").map(s => s.trim()).filter(Boolean) };
+      return { ...prev, [section]: newArray };
+    });
+  }
+
+  const handleTechChange = (section: 'projects', index: number, value: string) => {
+     setData((prev) => {
+      const newArray = [...prev[section]];
+      newArray[index] = { ...newArray[index], tech: value.split(",").map(s => s.trim()).filter(Boolean) };
+      return { ...prev, [section]: newArray };
+    });
+  }
+
+  const handleCopy = async () => {
+    const jsonString = JSON.stringify(data, null, 2);
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(jsonString);
+        toast.success("JSON copied to clipboard!");
+      } else {
+        // Fallback for non-secure contexts
+        const textArea = document.createElement("textarea");
+        textArea.value = jsonString;
+        textArea.style.position = "fixed";  // Avoid scrolling to bottom
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            toast.success("JSON copied to clipboard!");
+          } else {
+            toast.error("Failed to copy using fallback.");
+          }
+        } catch {
+          toast.error("Failed to copy JSON.");
         }
-    };
+        document.body.removeChild(textArea);
+      }
+    } catch {
+      toast.error("Failed to copy JSON.");
+    }
+  };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleChange = (section: string, field: string, value: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => ({
-            ...prev,
-            [section]: {
-                ...prev[section],
-                [field]: value
-            }
-        }));
-    };
+  return (
+    <div className="min-h-screen bg-background p-4 md:p-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+          <div>
+            <Link href="/" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-emerald-600 mb-2 transition-colors">
+              <ArrowLeft className="w-4 h-4 mr-1" /> Back to Portfolio
+            </Link>
+            <h1 className="text-3xl font-bold text-emerald-600 dark:text-emerald-500">Admin Panel</h1>
+          </div>
+          <button
+            onClick={handleCopy}
+            className="inline-flex items-center justify-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md font-medium transition-colors shadow-sm"
+          >
+            <Save className="w-4 h-4 mr-2" /> Copy Updated JSON
+          </button>
+        </div>
 
-    const handleArrayChange = (section: string, index: number, field: string | null, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            if (field) {
-                newArray[index] = { ...newArray[index], [field]: value };
-            } else {
-                newArray[index] = value;
-            }
-            return { ...prev, [section]: newArray };
-        });
-    };
+        <div className="space-y-8">
+          {/* Hero Section */}
+          <section className="bg-card rounded-xl p-6 border border-border shadow-sm">
+            <h2 className="text-xl font-semibold mb-4 border-b pb-2">Hero Section</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">Name</label>
+                <input
+                  type="text"
+                  value={data.hero.name}
+                  onChange={(e) => handleNestedChange("hero", "name", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">Title</label>
+                <input
+                  type="text"
+                  value={data.hero.title}
+                  onChange={(e) => handleNestedChange("hero", "title", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">Avatar URL</label>
+                <input
+                  type="text"
+                  value={data.hero.avatar}
+                  onChange={(e) => handleNestedChange("hero", "avatar", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">Description</label>
+                <textarea
+                  value={data.hero.description}
+                  onChange={(e) => handleNestedChange("hero", "description", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 h-24"
+                />
+              </div>
+            </div>
+          </section>
 
-    const handleNestedArrayChange = (section: string, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            const newNestedArray = [...newArray[itemIndex][arrayField]];
-            newNestedArray[detailIndex] = value;
-            newArray[itemIndex] = { ...newArray[itemIndex], [arrayField]: newNestedArray };
-            return { ...prev, [section]: newArray };
-        });
-    };
+          {/* About & Skills */}
+          <section className="bg-card rounded-xl p-6 border border-border shadow-sm">
+            <h2 className="text-xl font-semibold mb-4 border-b pb-2">About & Skills</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">Summary</label>
+                <textarea
+                  value={data.about.summary}
+                  onChange={(e) => handleNestedChange("about", "summary", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 h-32"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">Skills (comma separated)</label>
+                <input
+                  type="text"
+                  value={data.skills.join(", ")}
+                  onChange={(e) => handleSkillsChange(e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+            </div>
+          </section>
 
-    const handleMoveUp = (section: string, index: number) => {
-        if (index === 0) return;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
-            const temp = newArray[index - 1];
-            newArray[index - 1] = newArray[index];
-            newArray[index] = temp;
-            return { ...prev, [section]: newArray };
-        });
-    };
+          {/* Contact Section */}
+          <section className="bg-card rounded-xl p-6 border border-border shadow-sm">
+            <h2 className="text-xl font-semibold mb-4 border-b pb-2">Contact Info</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">Email</label>
+                <input
+                  type="email"
+                  value={data.contact.email}
+                  onChange={(e) => handleNestedChange("contact", "email", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">Phone</label>
+                <input
+                  type="text"
+                  value={data.contact.phone}
+                  onChange={(e) => handleNestedChange("contact", "phone", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">Location</label>
+                <input
+                  type="text"
+                  value={data.contact.location}
+                  onChange={(e) => handleNestedChange("contact", "location", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">LinkedIn URL</label>
+                <input
+                  type="text"
+                  value={data.contact.linkedin}
+                  onChange={(e) => handleNestedChange("contact", "linkedin", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1 text-muted-foreground">GitHub URL</label>
+                <input
+                  type="text"
+                  value={data.contact.github}
+                  onChange={(e) => handleNestedChange("contact", "github", e.target.value)}
+                  className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+            </div>
+          </section>
 
-    const handleMoveDown = (section: string, index: number) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            if (index === prev[section].length - 1) return prev;
-            const newArray = [...prev[section]];
-            const temp = newArray[index + 1];
-            newArray[index + 1] = newArray[index];
-            newArray[index] = temp;
-            return { ...prev, [section]: newArray };
-        });
-    };
-
-    return (
-        <div className="min-h-screen bg-background py-10 px-6">
-            <div className="max-w-4xl mx-auto">
-                <div className="flex items-center justify-between mb-8 pb-6 border-b border-primary-100 dark:border-primary-900/30">
-                    <div className="flex items-center gap-4">
-                        <Link href="/" className="p-2 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-full transition-colors">
-                            <ArrowLeft size={24} />
-                        </Link>
-                        <h1 className="text-3xl font-bold">Portfolio Admin</h1>
+          {/* Experience Section */}
+          <section className="bg-card rounded-xl p-6 border border-border shadow-sm">
+            <div className="flex justify-between items-center mb-4 border-b pb-2">
+              <h2 className="text-xl font-semibold">Experience</h2>
+              <button onClick={() => addArrayItem("experience")} className="inline-flex items-center text-xs text-emerald-600 hover:text-emerald-700 bg-emerald-100 hover:bg-emerald-200 px-2 py-1 rounded">
+                <Plus className="w-3 h-3 mr-1" /> Add
+              </button>
+            </div>
+            <div className="space-y-6">
+              {data.experience.map((exp, index) => (
+                <div key={index} className="relative p-4 border border-border rounded-lg bg-background/50">
+                  <button onClick={() => removeArrayItem("experience", index)} className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-1 bg-background rounded-full shadow-sm" aria-label="Remove item">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Role</label>
+                      <input
+                        type="text"
+                        value={exp.role}
+                        onChange={(e) => handleArrayChange("experience", index, "role", e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      />
                     </div>
-                    <button
-                        onClick={handleCopyJson}
-                        className="flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg transition-all hover:-translate-y-1"
-                    >
-                        <Save size={20} />
-                        Copy Updated JSON
-                    </button>
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Company</label>
+                      <input
+                        type="text"
+                        value={exp.company}
+                        onChange={(e) => handleArrayChange("experience", index, "company", e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Duration</label>
+                      <input
+                        type="text"
+                        value={exp.duration}
+                        onChange={(e) => handleArrayChange("experience", index, "duration", e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Details (one per line)</label>
+                      <textarea
+                        value={exp.details.join("\n")}
+                        onChange={(e) => handleArrayDetailsChange("experience", index, e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500 h-24"
+                      />
+                    </div>
+                  </div>
                 </div>
+              ))}
+            </div>
+          </section>
 
-                <div className="space-y-12">
-
-                    {/* Hero Section */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <h2 className="text-xl font-bold mb-6 text-primary-500">Hero Section</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {Object.entries(data.hero).map(([key, value]) => (
-                                <div className={key === 'description' ? "md:col-span-2" : ""} key={key}>
-                                    <label className="block text-sm font-medium mb-2 capitalize">{key}</label>
-                                    {key === 'description' ? (
-                                        <textarea
-                                            value={value as string}
-                                            onChange={(e) => handleChange("hero", key, e.target.value)}
-                                            className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all h-32"
-                                        />
-                                    ) : key === 'avatar' ? (
-                                        <div className="flex gap-4 items-center">
-                                            {value && <Image src={value as string} alt="Avatar" width={48} height={48} unoptimized className="w-12 h-12 rounded-full object-cover border border-primary-200" />}
-                                            <input
-                                                type="text"
-                                                value={value as string}
-                                                onChange={(e) => handleChange("hero", key, e.target.value)}
-                                                className="flex-1 p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
-                                                placeholder="Profile Image URL"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <input
-                                            type="text"
-                                            value={value as string}
-                                            onChange={(e) => handleChange("hero", key, e.target.value)}
-                                            className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
-                                        />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Contact Section */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <h2 className="text-xl font-bold mb-6 text-primary-500">Contact</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {Object.entries(data.contact).map(([key, value]) => (
-                                <div key={key}>
-                                    <label className="block text-sm font-medium mb-2 capitalize">{key}</label>
-                                    <input
-                                        type="text"
-                                        value={value as string}
-                                        onChange={(e) => handleChange("contact", key, e.target.value)}
-                                        className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* About Section */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <h2 className="text-xl font-bold mb-6 text-primary-500">About</h2>
-                        <div>
-                            <label className="block text-sm font-medium mb-2">Summary</label>
-                            <textarea
-                                value={data.about.summary}
-                                onChange={(e) => handleChange("about", "summary", e.target.value)}
-                                className="w-full p-3 bg-background border border-primary-200 dark:border-primary-800 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none transition-all h-40"
-                            />
-                        </div>
-
-                        <div className="mt-8">
-                            <div className="flex items-center justify-between mb-4">
-                                <label className="block text-sm font-medium">Skills</label>
-                                <button
-                                    onClick={() => setData(prev => ({ ...prev, skills: [...prev.skills, "New Skill"] }))}
-                                    className="text-xs flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium"
-                                >
-                                    <Plus size={14} /> Add Skill
-                                </button>
-                            </div>
-                            <div className="flex flex-wrap gap-3">
-                                {data.skills.map((skill, index) => (
-                                    <div key={index} className="flex items-center group bg-background border border-primary-200 dark:border-primary-800 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary-500 transition-all">
-                                        <div className="flex flex-col bg-primary-50 dark:bg-primary-900/20 border-r border-primary-200 dark:border-primary-800">
-                                            <button
-                                                onClick={() => handleMoveUp("skills", index)}
-                                                disabled={index === 0}
-                                                className={`p-1 text-primary-600 ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors'}`}
-                                            >
-                                                <ArrowUp size={12} />
-                                            </button>
-                                            <button
-                                                onClick={() => handleMoveDown("skills", index)}
-                                                disabled={index === data.skills.length - 1}
-                                                className={`p-1 text-primary-600 ${index === data.skills.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors'}`}
-                                            >
-                                                <ArrowDown size={12} />
-                                            </button>
-                                        </div>
-                                        <input
-                                            type="text"
-                                            value={skill}
-                                            onChange={(e) => handleArrayChange("skills", index, null, e.target.value)}
-                                            className="w-32 p-2 bg-transparent outline-none text-sm"
-                                        />
-                                        <button
-                                            onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter((_, i) => i !== index) }))}
-                                            className="bg-red-500/10 text-red-500 p-2 hover:bg-red-500 hover:text-white transition-colors"
-                                        >
-                                            <Trash2 size={14} />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Projects */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-primary-500">Projects</h2>
-                            <button
-                                onClick={() => setData(prev => ({
-                                    ...prev,
-                                    projects: [...prev.projects, { title: "New Project", description: "", tech: [""], link: "", image: "" }]
-                                }))}
-                                className="text-sm flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1.5 rounded-lg"
-                            >
-                                <Plus size={16} /> Add Project
-                            </button>
-                        </div>
-
-                        <div className="space-y-8">
-                            {data.projects.map((project, index) => (
-                                <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
-
-                                    <div className="absolute top-4 right-4 flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleMoveUp("projects", index)}
-                                            disabled={index === 0}
-                                            className={`p-2 rounded-lg transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowUp size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleMoveDown("projects", index)}
-                                            disabled={index === data.projects.length - 1}
-                                            className={`p-2 rounded-lg transition-colors ${index === data.projects.length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowDown size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => setData(prev => ({ ...prev, projects: prev.projects.filter((_, i) => i !== index) }))}
-                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
-
-                                    <div className="grid gap-4 w-[90%]">
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Title</label>
-                                            <input
-                                                type="text" value={project.title}
-                                                onChange={(e) => handleArrayChange("projects", index, "title", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Description</label>
-                                            <textarea
-                                                value={project.description}
-                                                onChange={(e) => handleArrayChange("projects", index, "description", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm h-20"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Link URL</label>
-                                            <input
-                                                type="text" value={project.link}
-                                                onChange={(e) => handleArrayChange("projects", index, "link", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Image URL</label>
-                                            <div className="flex gap-4 items-center">
-                                                {project.image && <Image src={project.image} alt="Preview" width={64} height={48} unoptimized className="w-16 h-12 object-cover rounded border border-primary-200" />}
-                                                <input
-                                                    type="text" value={project.image || ''}
-                                                    onChange={(e) => handleArrayChange("projects", index, "image", e.target.value)}
-                                                    className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                                    placeholder="Project Image URL..."
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Tech Stack (comma separated)</label>
-                                            <input
-                                                type="text" value={project.tech.join(", ")}
-                                                onChange={(e) => {
-                                                    const val = e.target.value.split(",").map(s => s.trim());
-                                                    const newArray = [...data.projects];
-                                                    newArray[index] = { ...newArray[index], tech: val };
-                                                    setData({ ...data, projects: newArray });
-                                                }}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Experience is similar, skipped full detail input for brevity, keeping simple textareas or arrays if necessary but we will provide basic editable fields */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-primary-500">Experience</h2>
-                            <button
-                                onClick={() => setData(prev => ({
-                                    ...prev,
-                                    experience: [...prev.experience, { role: "New Role", company: "Company", duration: "Date - Date", details: [""] }]
-                                }))}
-                                className="text-sm flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1.5 rounded-lg"
-                            >
-                                <Plus size={16} /> Add Experience
-                            </button>
-                        </div>
-
-                        <div className="space-y-6">
-                            {data.experience.map((exp, expIdx) => (
-                                <div key={expIdx} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
-                                    <div className="absolute top-4 right-4 flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleMoveUp("experience", expIdx)}
-                                            disabled={expIdx === 0}
-                                            className={`p-2 rounded-lg transition-colors ${expIdx === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowUp size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleMoveDown("experience", expIdx)}
-                                            disabled={expIdx === data.experience.length - 1}
-                                            className={`p-2 rounded-lg transition-colors ${expIdx === data.experience.length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowDown size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => setData(prev => ({ ...prev, experience: prev.experience.filter((_, i) => i !== expIdx) }))}
-                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
-                                    <div className="grid gap-4 w-[90%]">
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="block text-xs font-medium mb-1">Role</label>
-                                                <input
-                                                    type="text" value={exp.role}
-                                                    onChange={(e) => handleArrayChange("experience", expIdx, "role", e.target.value)}
-                                                    className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="block text-xs font-medium mb-1">Duration</label>
-                                                <input
-                                                    type="text" value={exp.duration}
-                                                    onChange={(e) => handleArrayChange("experience", expIdx, "duration", e.target.value)}
-                                                    className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Company</label>
-                                            <input
-                                                type="text" value={exp.company}
-                                                onChange={(e) => handleArrayChange("experience", expIdx, "company", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                        <div>
-                                            <div className="flex justify-between items-center mb-1">
-                                                <label className="block text-xs font-medium">Details</label>
-                                                <button
-                                                    onClick={() => {
-                                                        const newArray = [...data.experience];
-                                                        newArray[expIdx].details.push("");
-                                                        setData({ ...data, experience: newArray });
-                                                    }}
-                                                    className="text-xs text-primary-500 font-medium"
-                                                >
-                                                    + Add Bullet point
-                                                </button>
-                                            </div>
-                                            <div className="space-y-2">
-                                                {exp.details.map((detail, dIdx) => (
-                                                    <div key={dIdx} className="flex items-center gap-2">
-                                                        <textarea
-                                                            value={detail}
-                                                            onChange={(e) => handleNestedArrayChange("experience", expIdx, "details", dIdx, e.target.value)}
-                                                            className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm h-16"
-                                                        />
-                                                        <button
-                                                            onClick={() => {
-                                                                const newArray = [...data.experience];
-                                                                newArray[expIdx].details = newArray[expIdx].details.filter((_, i) => i !== dIdx);
-                                                                setData({ ...data, experience: newArray });
-                                                            }}
-                                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                                        >
-                                                            <Trash2 size={16} />
-                                                        </button>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Achievements */}
-                    <section className="bg-primary-50/30 dark:bg-primary-900/5 p-6 rounded-2xl border border-primary-100/50 dark:border-primary-900/20">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
-                            <button
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                onClick={() => setData((prev: any) => ({
-                                    ...prev,
-                                    achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
-                                }))}
-                                className="text-sm flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1.5 rounded-lg"
-                            >
-                                <Plus size={16} /> Add Achievement
-                            </button>
-                        </div>
-
-                        <div className="space-y-6">
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {data.achievements?.map((achievement: any, index: number) => (
-                                <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
-                                    <div className="absolute top-4 right-4 flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleMoveUp("achievements", index)}
-                                            disabled={index === 0}
-                                            className={`p-2 rounded-lg transition-colors ${index === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowUp size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleMoveDown("achievements", index)}
-                                            disabled={index === data.achievements.length - 1}
-                                            className={`p-2 rounded-lg transition-colors ${index === data.achievements.length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
-                                        >
-                                            <ArrowDown size={18} />
-                                        </button>
-                                        <button
-                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
-                                            className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
-
-                                    <div className="grid gap-4 w-[90%]">
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Title</label>
-                                            <input
-                                                type="text" value={achievement.title}
-                                                onChange={(e) => handleArrayChange("achievements", index, "title", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Image URL</label>
-                                            <div className="flex gap-4 items-center">
-                                                {achievement.image && <Image src={achievement.image} alt="Preview" width={48} height={48} unoptimized className="w-12 h-12 object-cover rounded-full border border-primary-200" />}
-                                                <input
-                                                    type="text" value={achievement.image || ''}
-                                                    onChange={(e) => handleArrayChange("achievements", index, "image", e.target.value)}
-                                                    className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                                    placeholder="Achievement Image URL..."
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
+           {/* Projects Section */}
+           <section className="bg-card rounded-xl p-6 border border-border shadow-sm">
+            <div className="flex justify-between items-center mb-4 border-b pb-2">
+              <h2 className="text-xl font-semibold">Projects</h2>
+              <button onClick={() => addArrayItem("projects")} className="inline-flex items-center text-xs text-emerald-600 hover:text-emerald-700 bg-emerald-100 hover:bg-emerald-200 px-2 py-1 rounded">
+                <Plus className="w-3 h-3 mr-1" /> Add
+              </button>
+            </div>
+            <div className="space-y-6">
+              {data.projects.map((proj, index) => (
+                <div key={index} className="relative p-4 border border-border rounded-lg bg-background/50">
+                  <button onClick={() => removeArrayItem("projects", index)} className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-1 bg-background rounded-full shadow-sm" aria-label="Remove item">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 mt-4">
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Title</label>
+                      <input
+                        type="text"
+                        value={proj.title}
+                        onChange={(e) => handleArrayChange("projects", index, "title", e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Link</label>
+                      <input
+                        type="text"
+                        value={proj.link}
+                        onChange={(e) => handleArrayChange("projects", index, "link", e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Image URL</label>
+                      <input
+                        type="text"
+                        value={proj.image}
+                        onChange={(e) => handleArrayChange("projects", index, "image", e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Description</label>
+                      <textarea
+                        value={proj.description}
+                        onChange={(e) => handleArrayChange("projects", index, "description", e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500 h-20"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Tech (comma separated)</label>
+                      <input
+                        type="text"
+                        value={proj.tech.join(", ")}
+                        onChange={(e) => handleTechChange("projects", index, e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      />
+                    </div>
+                  </div>
                 </div>
-            </div >
-        </div >
-    );
+              ))}
+            </div>
+          </section>
+
+          {/* Achievements Section */}
+          <section className="bg-card rounded-xl p-6 border border-border shadow-sm">
+            <div className="flex justify-between items-center mb-4 border-b pb-2">
+              <h2 className="text-xl font-semibold">Achievements</h2>
+              <button onClick={() => addArrayItem("achievements")} className="inline-flex items-center text-xs text-emerald-600 hover:text-emerald-700 bg-emerald-100 hover:bg-emerald-200 px-2 py-1 rounded">
+                <Plus className="w-3 h-3 mr-1" /> Add
+              </button>
+            </div>
+            <div className="space-y-4">
+              {data.achievements.map((achieve, index) => (
+                <div key={index} className="relative p-4 border border-border rounded-lg bg-background/50">
+                  <button onClick={() => removeArrayItem("achievements", index)} className="absolute top-2 right-2 text-red-500 hover:text-red-700 p-1 bg-background rounded-full shadow-sm" aria-label="Remove item">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                  <div className="grid grid-cols-1 gap-4 mt-4">
+                    <div>
+                      <label className="block text-xs font-medium mb-1 text-muted-foreground">Title</label>
+                      <input
+                        type="text"
+                        value={achieve.title}
+                        onChange={(e) => handleArrayChange("achievements", index, "title", e.target.value)}
+                        className="w-full px-2 py-1 bg-background border border-input rounded focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  );
 }
