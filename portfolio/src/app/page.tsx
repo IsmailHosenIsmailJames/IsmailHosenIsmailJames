@@ -1,24 +1,27 @@
 import { Navbar } from "@/components/Navbar";
-import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
-import { Experience } from "@/components/Experience";
-import { Projects } from "@/components/Projects";
+import { HeroSection } from "@/components/HeroSection";
+import { AboutSection } from "@/components/AboutSection";
+import { ExperienceSection } from "@/components/ExperienceSection";
+import { ProjectsSection } from "@/components/ProjectsSection";
+import { AchievementsSection } from "@/components/AchievementsSection";
+import { Footer } from "@/components/Footer";
+import portfolioDataRaw from "@/data/portfolio.json";
+import { PortfolioData } from "@/types/portfolio";
+
+const portfolioData = portfolioDataRaw as PortfolioData;
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Projects />
+      <main className="flex-grow">
+        <HeroSection hero={portfolioData.hero} />
+        <AboutSection about={portfolioData.about} skills={portfolioData.skills} />
+        <ExperienceSection experience={portfolioData.experience} />
+        <ProjectsSection projects={portfolioData.projects} />
+        <AchievementsSection achievements={portfolioData.achievements} />
       </main>
-
-      <footer className="py-8 text-center text-foreground/50 text-sm border-t border-primary-100 dark:border-primary-900/20">
-        <p>© {new Date().getFullYear()} Ismail Hossain. Built with Next.js & Tailwind CSS.</p>
-      </footer>
+      <Footer contact={portfolioData.contact} />
     </div>
   );
 }
