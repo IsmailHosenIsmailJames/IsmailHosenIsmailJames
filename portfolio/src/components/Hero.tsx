@@ -102,14 +102,16 @@ export function Hero() {
                         className="flex-shrink-0 relative"
                     >
                         <div className="w-64 h-64 md:w-80 md:h-80 relative rounded-full overflow-hidden border-4 border-primary-500/20 shadow-2xl z-10">
-                            <Image
-                                src={hero.avatar}
-                                alt={hero.name}
-                                width={320}
-                                height={320}
-                                unoptimized
-                                className="object-cover w-full h-full"
-                            />
+                            {hero.avatar && (
+                                <Image
+                                    src={hero.avatar}
+                                    alt={hero.name}
+                                    width={320}
+                                    height={320}
+                                    unoptimized
+                                    className="object-cover w-full h-full"
+                                />
+                            )}
                         </div>
 
                         {/* Background decoration */}
