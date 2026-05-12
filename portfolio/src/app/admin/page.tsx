@@ -6,9 +6,10 @@ import { Save, Plus, Trash2, ArrowLeft, ArrowUp, ArrowDown } from "lucide-react"
 import Link from "next/link";
 import Image from "next/image";
 import initialData from "@/data/portfolio.json";
+import { PortfolioData } from "@/types/portfolio";
 
 export default function AdminPage() {
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState<PortfolioData>(initialData);
 
     const handleCopyJson = () => {
         const jsonString = JSON.stringify(data, null, 2);
@@ -42,24 +43,22 @@ export default function AdminPage() {
         }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleChange = (section: string, field: string, value: any) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => ({
+    const handleChange = <T extends keyof PortfolioData>(section: T, field: string, value: string) => {
+        setData((prev) => ({
             ...prev,
             [section]: {
-                ...prev[section],
+                ...(prev[section] as object),
                 [field]: value
             }
         }));
     };
 
-    const handleArrayChange = (section: string, index: number, field: string | null, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+    const handleArrayChange = <T extends keyof PortfolioData>(section: T, index: number, field: string | null, value: string) => {
+        setData((prev) => {
+            const arr = prev[section] as unknown as Array<unknown>;
+            const newArray = [...arr];
             if (field) {
-                newArray[index] = { ...newArray[index], [field]: value };
+                newArray[index] = { ...(newArray[index] as object), [field]: value };
             } else {
                 newArray[index] = value;
             }
@@ -67,10 +66,10 @@ export default function AdminPage() {
         });
     };
 
-    const handleNestedArrayChange = (section: string, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+    const handleNestedArrayChange = <T extends keyof PortfolioData>(section: T, itemIndex: number, arrayField: string, detailIndex: number, value: string) => {
+        setData((prev) => {
+            const arr = prev[section] as unknown as Array<Record<string, unknown[]>>;
+            const newArray = [...arr];
             const newNestedArray = [...newArray[itemIndex][arrayField]];
             newNestedArray[detailIndex] = value;
             newArray[itemIndex] = { ...newArray[itemIndex], [arrayField]: newNestedArray };
@@ -78,11 +77,11 @@ export default function AdminPage() {
         });
     };
 
-    const handleMoveUp = (section: string, index: number) => {
+    const handleMoveUp = <T extends keyof PortfolioData>(section: T, index: number) => {
         if (index === 0) return;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            const newArray = [...prev[section]];
+        setData((prev) => {
+            const arr = prev[section] as unknown as Array<unknown>;
+            const newArray = [...arr];
             const temp = newArray[index - 1];
             newArray[index - 1] = newArray[index];
             newArray[index] = temp;
@@ -90,11 +89,11 @@ export default function AdminPage() {
         });
     };
 
-    const handleMoveDown = (section: string, index: number) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setData((prev: any) => {
-            if (index === prev[section].length - 1) return prev;
-            const newArray = [...prev[section]];
+    const handleMoveDown = <T extends keyof PortfolioData>(section: T, index: number) => {
+        setData((prev) => {
+            const arr = prev[section] as unknown as Array<unknown>;
+            if (index === arr.length - 1) return prev;
+            const newArray = [...arr];
             const temp = newArray[index + 1];
             newArray[index + 1] = newArray[index];
             newArray[index] = temp;
@@ -408,7 +407,10 @@ export default function AdminPage() {
                                                 <button
                                                     onClick={() => {
                                                         const newArray = [...data.experience];
-                                                        newArray[expIdx].details.push("");
+                                                        newArray[expIdx] = {
+                                                            ...newArray[expIdx],
+                                                            details: [...newArray[expIdx].details, ""]
+                                                        };
                                                         setData({ ...data, experience: newArray });
                                                     }}
                                                     className="text-xs text-primary-500 font-medium"
@@ -449,8 +451,7 @@ export default function AdminPage() {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
                             <button
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                onClick={() => setData((prev: any) => ({
+                                onClick={() => setData((prev) => ({
                                     ...prev,
                                     achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
                                 }))}
@@ -461,8 +462,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {data.achievements?.map((achievement: any, index: number) => (
+                            {data.achievements?.map((achievement, index: number) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
                                         <button
@@ -480,8 +480,7 @@ export default function AdminPage() {
                                             <ArrowDown size={18} />
                                         </button>
                                         <button
-                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
+                                            onClick={() => setData((prev) => ({ ...prev, achievements: prev.achievements.filter((_, i) => i !== index) }))}
                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
                                         >
                                             <Trash2 size={18} />
