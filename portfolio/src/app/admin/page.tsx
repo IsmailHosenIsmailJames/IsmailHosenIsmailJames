@@ -7,8 +7,45 @@ import Link from "next/link";
 import Image from "next/image";
 import initialData from "@/data/portfolio.json";
 
+export interface PortfolioData {
+    hero: {
+        name: string;
+        title: string;
+        avatar: string;
+        description: string;
+    };
+    contact: {
+        email: string;
+        phone: string;
+        location: string;
+        linkedin: string;
+        github: string;
+    };
+    about: {
+        summary: string;
+    };
+    skills: string[];
+    experience: {
+        role: string;
+        company: string;
+        duration: string;
+        details: string[];
+    }[];
+    projects: {
+        title: string;
+        description: string;
+        tech: string[];
+        link: string;
+        image: string;
+    }[];
+    achievements: {
+        title: string;
+        image: string;
+    }[];
+}
+
 export default function AdminPage() {
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState<PortfolioData>(initialData);
 
     const handleCopyJson = () => {
         const jsonString = JSON.stringify(data, null, 2);
@@ -449,8 +486,7 @@ export default function AdminPage() {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold text-primary-500">Achievements</h2>
                             <button
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                onClick={() => setData((prev: any) => ({
+                                onClick={() => setData((prev) => ({
                                     ...prev,
                                     achievements: [...prev.achievements, { title: "New Achievement", image: "" }]
                                 }))}
@@ -461,8 +497,7 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-6">
-                            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                            {data.achievements?.map((achievement: any, index: number) => (
+                            {data.achievements?.map((achievement, index) => (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
                                         <button
@@ -480,8 +515,7 @@ export default function AdminPage() {
                                             <ArrowDown size={18} />
                                         </button>
                                         <button
-                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                            onClick={() => setData((prev: any) => ({ ...prev, achievements: prev.achievements.filter((_: any, i: number) => i !== index) }))}
+                                            onClick={() => setData((prev) => ({ ...prev, achievements: prev.achievements.filter((_, i) => i !== index) }))}
                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
                                         >
                                             <Trash2 size={18} />
