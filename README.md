@@ -56,14 +56,14 @@ I am a passionate **Mobile Application Developer** based in **Tangail, Banglades
 ### 📱 [Al Quran Tafsir & Audio](https://github.com/IsmailHosenIsmailJames/al_quran_v3)
 > A comprehensive Islamic app serving thousands of users.
 - **Downloads:** 115k+ on Google Play Store.
-- **Rating:** 4.9/5 ⭐
+- **Rating:** 4.6/5 ⭐
 - **Features:** 69 Language Translations, Tafsir in 6 languages, 40+ Reciters, Prayer Times.
 - **Tech:** Flutter, Dart.
 
 ### 🦀 [Rust Book App](https://play.google.com/store/apps/details?id=com.rust_book.example)
 > An educational app for learning the Rust programming language.
 - **Downloads:** 12k+ on Google Play Store.
-- **Rating:** 4.5/5 ⭐
+- **Rating:** 4.7/5 ⭐
 - **Features:** Rust Book translation in 18 languages, Offline access.
 - **Tech:** Kotlin, Jetpack Compose.
 
