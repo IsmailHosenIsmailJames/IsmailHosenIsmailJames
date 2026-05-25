@@ -408,7 +408,7 @@ export default function AdminPage() {
                                                 <button
                                                     onClick={() => {
                                                         const newArray = [...data.experience];
-                                                        newArray[expIdx].details.push("");
+                                                        newArray[expIdx] = { ...newArray[expIdx], details: [...newArray[expIdx].details, ""] };
                                                         setData({ ...data, experience: newArray });
                                                     }}
                                                     className="text-xs text-primary-500 font-medium"
@@ -427,7 +427,7 @@ export default function AdminPage() {
                                                         <button
                                                             onClick={() => {
                                                                 const newArray = [...data.experience];
-                                                                newArray[expIdx].details = newArray[expIdx].details.filter((_, i) => i !== dIdx);
+                                                                newArray[expIdx] = { ...newArray[expIdx], details: newArray[expIdx].details.filter((_, i) => i !== dIdx) };
                                                                 setData({ ...data, experience: newArray });
                                                             }}
                                                             className="text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors"
