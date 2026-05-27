@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { Save, Plus, Trash2, ArrowLeft, ArrowUp, ArrowDown } from "lucide-react";
+import { Save, Plus, Trash2, ArrowLeft, ArrowUp, ArrowDown, Monitor, Smartphone, Play, ChevronDown, Link2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import initialData from "@/data/portfolio.json";
+import { LinkPreviewAdmin } from "@/components/LinkPreview";
 
 export default function AdminPage() {
     const [data, setData] = useState(initialData);
@@ -244,7 +245,8 @@ export default function AdminPage() {
                             <button
                                 onClick={() => setData(prev => ({
                                     ...prev,
-                                    projects: [...prev.projects, { title: "New Project", description: "", tech: [""], link: "", image: "" }]
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                    projects: [...prev.projects, { title: "New Project", shortDescription: "", description: "", tech: [""], link: "", image: "", logo: "", media: [], links: [] } as any]
                                 }))}
                                 className="text-sm flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-3 py-1.5 rounded-lg"
                             >
@@ -253,7 +255,10 @@ export default function AdminPage() {
                         </div>
 
                         <div className="space-y-8">
-                            {data.projects.map((project, index) => (
+                            {data.projects.map((project, index) => {
+                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                const p = project as any;
+                                return (
                                 <div key={index} className="p-6 bg-background rounded-xl border border-primary-100 dark:border-primary-900/20 relative group">
 
                                     <div className="absolute top-4 right-4 flex items-center gap-2">
@@ -279,43 +284,92 @@ export default function AdminPage() {
                                         </button>
                                     </div>
 
-                                    <div className="grid gap-4 w-[90%]">
+                                    <div className="grid gap-5 w-[90%]">
+
+                                        {/* Logo + Title row */}
+                                        <div className="flex items-start gap-4">
+                                            {/* Project Logo */}
+                                            <div className="flex-shrink-0">
+                                                <label className="block text-xs font-medium mb-1 text-foreground/60">Logo</label>
+                                                <div className="relative group/logo">
+                                                    {p.logo ? (
+                                                        <div className="w-16 h-16 rounded-xl overflow-hidden border-2 border-primary-200 dark:border-primary-800 bg-white dark:bg-primary-900/20 p-1">
+                                                            <Image src={p.logo} alt="Logo" width={64} height={64} unoptimized className="w-full h-full object-contain rounded-lg" />
+                                                        </div>
+                                                    ) : (
+                                                        <div className="w-16 h-16 rounded-xl border-2 border-dashed border-primary-300 dark:border-primary-700 flex items-center justify-center text-primary-400">
+                                                            <Plus size={20} />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="flex-1 space-y-2">
+                                                <div>
+                                                    <label className="block text-xs font-medium mb-1">Title</label>
+                                                    <input
+                                                        type="text" value={project.title}
+                                                        onChange={(e) => handleArrayChange("projects", index, "title", e.target.value)}
+                                                        className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-medium mb-1">Logo URL</label>
+                                                    <input
+                                                        type="text" value={p.logo || ''}
+                                                        onChange={(e) => handleArrayChange("projects", index, "logo", e.target.value)}
+                                                        className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
+                                                        placeholder="https://example.com/logo.png"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Short Description */}
                                         <div>
-                                            <label className="block text-xs font-medium mb-1">Title</label>
+                                            <label className="block text-xs font-medium mb-1">Short Description <span className="text-foreground/40 font-normal">(shown on project card)</span></label>
                                             <input
-                                                type="text" value={project.title}
-                                                onChange={(e) => handleArrayChange("projects", index, "title", e.target.value)}
+                                                type="text" value={p.shortDescription || ''}
+                                                onChange={(e) => handleArrayChange("projects", index, "shortDescription", e.target.value)}
                                                 className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
+                                                placeholder="Brief one-liner about the project..."
                                             />
                                         </div>
+
+                                        {/* Full Description */}
                                         <div>
-                                            <label className="block text-xs font-medium mb-1">Description</label>
+                                            <label className="block text-xs font-medium mb-1">Full Description <span className="text-foreground/40 font-normal">(shown on detail page)</span></label>
                                             <textarea
                                                 value={project.description}
                                                 onChange={(e) => handleArrayChange("projects", index, "description", e.target.value)}
                                                 className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm h-20"
                                             />
                                         </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Link URL</label>
-                                            <input
-                                                type="text" value={project.link}
-                                                onChange={(e) => handleArrayChange("projects", index, "link", e.target.value)}
-                                                className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium mb-1">Image URL</label>
-                                            <div className="flex gap-4 items-center">
-                                                {project.image && <Image src={project.image} alt="Preview" width={64} height={48} unoptimized className="w-16 h-12 object-cover rounded border border-primary-200" />}
+
+                                        {/* Primary Link + Image */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <label className="block text-xs font-medium mb-1">Primary Link URL</label>
                                                 <input
-                                                    type="text" value={project.image || ''}
-                                                    onChange={(e) => handleArrayChange("projects", index, "image", e.target.value)}
-                                                    className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
-                                                    placeholder="Project Image URL..."
+                                                    type="text" value={project.link}
+                                                    onChange={(e) => handleArrayChange("projects", index, "link", e.target.value)}
+                                                    className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
                                                 />
                                             </div>
+                                            <div>
+                                                <label className="block text-xs font-medium mb-1">Cover Image URL</label>
+                                                <div className="flex gap-3 items-center">
+                                                    {project.image && <Image src={project.image} alt="Preview" width={48} height={36} unoptimized className="w-12 h-9 object-cover rounded border border-primary-200" />}
+                                                    <input
+                                                        type="text" value={project.image || ''}
+                                                        onChange={(e) => handleArrayChange("projects", index, "image", e.target.value)}
+                                                        className="flex-1 p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
+                                                        placeholder="Cover image URL..."
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        {/* Tech Stack */}
                                         <div>
                                             <label className="block text-xs font-medium mb-1">Tech Stack (comma separated)</label>
                                             <input
@@ -323,15 +377,285 @@ export default function AdminPage() {
                                                 onChange={(e) => {
                                                     const val = e.target.value.split(",").map(s => s.trim());
                                                     const newArray = [...data.projects];
-                                                    newArray[index] = { ...newArray[index], tech: val };
+                                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                    newArray[index] = { ...newArray[index], tech: val } as any;
                                                     setData({ ...data, projects: newArray });
                                                 }}
                                                 className="w-full p-2 bg-background border border-primary-200 dark:border-primary-800 rounded-lg text-sm"
                                             />
                                         </div>
+
+                                        {/* ═══════ Media Gallery ═══════ */}
+                                        <div className="border-t border-primary-100 dark:border-primary-900/20 pt-5">
+                                            <div className="flex justify-between items-center mb-3">
+                                                <label className="text-xs font-semibold uppercase tracking-wider text-primary-500 flex items-center gap-1.5">
+                                                    <Monitor size={14} />
+                                                    Media Gallery
+                                                </label>
+                                                <div className="relative group/add-media">
+                                                    <button className="text-xs flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-2.5 py-1.5 rounded-lg">
+                                                        <Plus size={13} /> Add Media <ChevronDown size={12} />
+                                                    </button>
+                                                    <div className="absolute right-0 top-full mt-1 bg-background border border-primary-200 dark:border-primary-800 rounded-lg shadow-xl py-1 z-20 min-w-[180px] hidden group-hover/add-media:block">
+                                                        <button
+                                                            onClick={() => {
+                                                                const newProjects = [...data.projects];
+                                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                const proj = newProjects[index] as any;
+                                                                proj.media = [...(proj.media || []), { type: "screenshot", url: "", caption: "" }];
+                                                                setData({ ...data, projects: newProjects });
+                                                            }}
+                                                            className="w-full flex items-center gap-2 px-3 py-2 text-xs hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                                                        >
+                                                            <Monitor size={14} className="text-blue-500" /> Screenshot
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                const newProjects = [...data.projects];
+                                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                const proj = newProjects[index] as any;
+                                                                proj.media = [...(proj.media || []), { type: "mobile_screenshot", url: "", caption: "" }];
+                                                                setData({ ...data, projects: newProjects });
+                                                            }}
+                                                            className="w-full flex items-center gap-2 px-3 py-2 text-xs hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                                                        >
+                                                            <Smartphone size={14} className="text-purple-500" /> Mobile Screenshot
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                const newProjects = [...data.projects];
+                                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                const proj = newProjects[index] as any;
+                                                                proj.media = [...(proj.media || []), { type: "video", url: "", caption: "" }];
+                                                                setData({ ...data, projects: newProjects });
+                                                            }}
+                                                            className="w-full flex items-center gap-2 px-3 py-2 text-xs hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                                                        >
+                                                            <Play size={14} className="text-red-500" /> Video
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Media Items */}
+                                            {(p.media || []).length === 0 ? (
+                                                <div className="text-xs text-foreground/30 italic py-3 text-center border border-dashed border-primary-200 dark:border-primary-800 rounded-lg">
+                                                    No media added yet. Click &quot;Add Media&quot; to add screenshots, mobile screenshots, or videos.
+                                                </div>
+                                            ) : (
+                                                <div className="space-y-3">
+                                                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                                    {(p.media || []).map((media: any, mIdx: number) => {
+                                                        const typeConfig: Record<string, { icon: typeof Monitor; color: string; label: string }> = {
+                                                            screenshot: { icon: Monitor, color: "bg-blue-500", label: "Screenshot" },
+                                                            mobile_screenshot: { icon: Smartphone, color: "bg-purple-500", label: "Mobile Screenshot" },
+                                                            video: { icon: Play, color: "bg-red-500", label: "Video" },
+                                                        };
+                                                        const tc = typeConfig[media.type] || typeConfig.screenshot;
+                                                        const TypeIcon = tc.icon;
+
+                                                        return (
+                                                            <div key={mIdx} className="flex gap-3 items-start p-3 bg-primary-50/20 dark:bg-primary-900/5 border border-primary-100/50 dark:border-primary-800/30 rounded-lg">
+                                                                {/* Thumbnail preview */}
+                                                                <div className="flex-shrink-0">
+                                                                    {media.url ? (
+                                                                        media.type === "mobile_screenshot" ? (
+                                                                            <div className="w-10 h-[72px] bg-gray-900 rounded-lg p-0.5 flex items-center justify-center">
+                                                                                <Image src={media.url} alt="" width={36} height={64} unoptimized className="w-full h-full object-cover rounded-md" />
+                                                                            </div>
+                                                                        ) : media.type === "video" ? (
+                                                                            <div className="w-16 h-12 bg-black rounded-lg overflow-hidden relative">
+                                                                                <video src={media.url} muted className="w-full h-full object-cover" />
+                                                                                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                                                                    <Play size={14} className="text-white" />
+                                                                                </div>
+                                                                            </div>
+                                                                        ) : (
+                                                                            <Image src={media.url} alt="" width={64} height={48} unoptimized className="w-16 h-12 object-cover rounded-lg border border-primary-200" />
+                                                                        )
+                                                                    ) : (
+                                                                        <div className={`w-16 h-12 rounded-lg flex items-center justify-center ${tc.color}/10 border border-dashed border-primary-300 dark:border-primary-700`}>
+                                                                            <TypeIcon size={16} className="text-foreground/30" />
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+
+                                                                {/* Fields */}
+                                                                <div className="flex-1 space-y-2">
+                                                                    <div className="flex items-center gap-2">
+                                                                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold text-white ${tc.color}`}>
+                                                                            <TypeIcon size={10} />
+                                                                            {tc.label}
+                                                                        </span>
+                                                                    </div>
+                                                                    <input
+                                                                        type="text"
+                                                                        value={media.url}
+                                                                        onChange={(e) => {
+                                                                            const newProjects = [...data.projects];
+                                                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                            const proj = newProjects[index] as any;
+                                                                            proj.media[mIdx] = { ...proj.media[mIdx], url: e.target.value };
+                                                                            setData({ ...data, projects: newProjects });
+                                                                        }}
+                                                                        className="w-full p-1.5 bg-background border border-primary-200 dark:border-primary-800 rounded text-xs"
+                                                                        placeholder={media.type === "video" ? "Video URL..." : "Image URL..."}
+                                                                    />
+                                                                    <input
+                                                                        type="text"
+                                                                        value={media.caption}
+                                                                        onChange={(e) => {
+                                                                            const newProjects = [...data.projects];
+                                                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                            const proj = newProjects[index] as any;
+                                                                            proj.media[mIdx] = { ...proj.media[mIdx], caption: e.target.value };
+                                                                            setData({ ...data, projects: newProjects });
+                                                                        }}
+                                                                        className="w-full p-1.5 bg-background border border-primary-200 dark:border-primary-800 rounded text-xs"
+                                                                        placeholder="Caption (optional)..."
+                                                                    />
+                                                                </div>
+
+                                                                {/* Actions */}
+                                                                <div className="flex flex-col gap-1 flex-shrink-0">
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            if (mIdx === 0) return;
+                                                                            const newProjects = [...data.projects];
+                                                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                            const proj = newProjects[index] as any;
+                                                                            const arr = [...proj.media];
+                                                                            [arr[mIdx - 1], arr[mIdx]] = [arr[mIdx], arr[mIdx - 1]];
+                                                                            proj.media = arr;
+                                                                            setData({ ...data, projects: newProjects });
+                                                                        }}
+                                                                        disabled={mIdx === 0}
+                                                                        className={`p-1 rounded text-xs ${mIdx === 0 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
+                                                                    >
+                                                                        <ArrowUp size={12} />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            if (mIdx === (p.media || []).length - 1) return;
+                                                                            const newProjects = [...data.projects];
+                                                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                            const proj = newProjects[index] as any;
+                                                                            const arr = [...proj.media];
+                                                                            [arr[mIdx + 1], arr[mIdx]] = [arr[mIdx], arr[mIdx + 1]];
+                                                                            proj.media = arr;
+                                                                            setData({ ...data, projects: newProjects });
+                                                                        }}
+                                                                        disabled={mIdx === (p.media || []).length - 1}
+                                                                        className={`p-1 rounded text-xs ${mIdx === (p.media || []).length - 1 ? 'opacity-30 cursor-not-allowed' : 'text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20'}`}
+                                                                    >
+                                                                        <ArrowDown size={12} />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => {
+                                                                            const newProjects = [...data.projects];
+                                                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                            const proj = newProjects[index] as any;
+                                                                            proj.media = proj.media.filter((_: unknown, i: number) => i !== mIdx);
+                                                                            setData({ ...data, projects: newProjects });
+                                                                        }}
+                                                                        className="p-1 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                                                                    >
+                                                                        <Trash2 size={12} />
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* ═══════ Project Links ═══════ */}
+                                        <div className="border-t border-primary-100 dark:border-primary-900/20 pt-5">
+                                            <div className="flex justify-between items-center mb-3">
+                                                <label className="text-xs font-semibold uppercase tracking-wider text-primary-500 flex items-center gap-1.5">
+                                                    <Link2 size={14} />
+                                                    Project Links
+                                                </label>
+                                                <button
+                                                    onClick={() => {
+                                                        const newProjects = [...data.projects];
+                                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                        const proj = newProjects[index] as any;
+                                                        proj.links = [...(proj.links || []), { url: "", label: "" }];
+                                                        setData({ ...data, projects: newProjects });
+                                                    }}
+                                                    className="text-xs flex items-center gap-1 text-primary-500 hover:text-primary-600 font-medium bg-primary-50 dark:bg-primary-900/20 px-2.5 py-1.5 rounded-lg"
+                                                >
+                                                    <Plus size={13} /> Add Link
+                                                </button>
+                                            </div>
+
+                                            {(p.links || []).length === 0 ? (
+                                                <div className="text-xs text-foreground/30 italic py-3 text-center border border-dashed border-primary-200 dark:border-primary-800 rounded-lg">
+                                                    No links added yet. Add links to show previews (e.g. Play Store, GitHub, Website).
+                                                </div>
+                                            ) : (
+                                                <div className="space-y-3">
+                                                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                                                    {(p.links || []).map((link: any, lIdx: number) => (
+                                                        <div key={lIdx} className="flex gap-3 items-start p-3 bg-primary-50/20 dark:bg-primary-900/5 border border-primary-100/50 dark:border-primary-800/30 rounded-lg">
+                                                            <div className="flex-1 space-y-2">
+                                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                                                    <input
+                                                                        type="text"
+                                                                        value={link.url}
+                                                                        onChange={(e) => {
+                                                                            const newProjects = [...data.projects];
+                                                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                            const proj = newProjects[index] as any;
+                                                                            proj.links[lIdx] = { ...proj.links[lIdx], url: e.target.value };
+                                                                            setData({ ...data, projects: newProjects });
+                                                                        }}
+                                                                        className="w-full p-1.5 bg-background border border-primary-200 dark:border-primary-800 rounded text-xs"
+                                                                        placeholder="https://..."
+                                                                    />
+                                                                    <input
+                                                                        type="text"
+                                                                        value={link.label}
+                                                                        onChange={(e) => {
+                                                                            const newProjects = [...data.projects];
+                                                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                            const proj = newProjects[index] as any;
+                                                                            proj.links[lIdx] = { ...proj.links[lIdx], label: e.target.value };
+                                                                            setData({ ...data, projects: newProjects });
+                                                                        }}
+                                                                        className="w-full p-1.5 bg-background border border-primary-200 dark:border-primary-800 rounded text-xs"
+                                                                        placeholder="Label (e.g. Google Play, GitHub)..."
+                                                                    />
+                                                                </div>
+                                                                {/* Live Preview */}
+                                                                {link.url && (
+                                                                    <LinkPreviewAdmin url={link.url} label={link.label} />
+                                                                )}
+                                                            </div>
+                                                            <button
+                                                                onClick={() => {
+                                                                    const newProjects = [...data.projects];
+                                                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                                    const proj = newProjects[index] as any;
+                                                                    proj.links = proj.links.filter((_: unknown, i: number) => i !== lIdx);
+                                                                    setData({ ...data, projects: newProjects });
+                                                                }}
+                                                                className="p-1.5 rounded text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex-shrink-0"
+                                                            >
+                                                                <Trash2 size={14} />
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+
                                     </div>
                                 </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </section>
 
