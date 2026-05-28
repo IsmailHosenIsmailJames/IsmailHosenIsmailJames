@@ -25,7 +25,7 @@ export function Hero() {
                             transition={{ delay: 0.2, duration: 0.5 }}
                             className="text-lg md:text-xl text-primary-500 font-medium mb-4"
                         >
-                            Hi there, I&apos;m
+                            As-salamu alaykum, I&apos;m
                         </motion.h2>
 
                         <motion.h1
