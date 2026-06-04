@@ -30,9 +30,19 @@ export function Navbar() {
 
     const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault();
-        setIsMobileMenuOpen(false);
         const element = document.querySelector(href);
-        if (element) {
+        if (!element) return;
+
+        if (isMobileMenuOpen) {
+            setIsMobileMenuOpen(false);
+            // Wait for the mobile menu to close and layout to settle before scrolling
+            setTimeout(() => {
+                window.scrollTo({
+                    top: (element as HTMLElement).offsetTop - 80,
+                    behavior: "smooth",
+                });
+            }, 350);
+        } else {
             window.scrollTo({
                 top: element.getBoundingClientRect().top + window.scrollY - 80,
                 behavior: "smooth",
