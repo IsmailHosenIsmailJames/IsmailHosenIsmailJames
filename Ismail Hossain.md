@@ -8,7 +8,7 @@
       <h3 style="margin-top: 0; margin-bottom: 10px;"><span style="color: #FF7F50;">Flutter & Kotlin Developer</span></h3>
       <strong>Mail:</strong> <a href="mailto:md.ismailhosenismailjames@gmail.com">md.ismailhosenismailjames@gmail.com</a> &nbsp;|&nbsp; <strong>Mobile:</strong> +880174109533<br>
       <strong>Address:</strong> Tangail Sadar, Tangail, Bangladesh &nbsp;|&nbsp; <a href="https://www.linkedin.com/in/ismail-hossain-3756a4211/">LinkedIn</a><br>
-      <strong>GitHub:</strong> <a href="https://github.com/IsmailHosenIsmailJames">github.com/IsmailHosenIsmailJames</a>
+      <strong>GitHub:</strong> <a href="https://github.com/IsmailHosenIsmailJames">github.com/IsmailHosenIsmailJames</a> &nbsp;|&nbsp; <strong>Portfolio:</strong> <a href="https://ismail-hosen-ismail-james.vercel.app/">Portfolio</a>
     </td>
   </tr>
 </table>
