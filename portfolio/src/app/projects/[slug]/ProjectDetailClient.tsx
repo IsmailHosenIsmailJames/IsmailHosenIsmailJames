@@ -16,20 +16,6 @@ interface MediaItem {
     caption: string;
 }
 
-function MediaTypeBadge({ type }: { type: MediaItem["type"] }) {
-    const config = {
-        screenshot: { label: "Screenshot", icon: Monitor, color: "bg-blue-500" },
-        mobile_screenshot: { label: "Mobile", icon: Smartphone, color: "bg-purple-500" },
-        video: { label: "Video", icon: Play, color: "bg-red-500" },
-    };
-    const { label, icon: Icon, color } = config[type];
-    return (
-        <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold text-white ${color} shadow-sm`}>
-            <Icon size={12} />
-            {label}
-        </span>
-    );
-}
 
 
 
