@@ -16,7 +16,7 @@ interface MediaItem {
     caption: string;
 }
 
-function MediaTypeBadge({ type }: { type: MediaItem["type"] }) {
+export function MediaTypeBadge({ type }: { type: MediaItem["type"] }) {
     const config = {
         screenshot: { label: "Screenshot", icon: Monitor, color: "bg-blue-500" },
         mobile_screenshot: { label: "Mobile", icon: Smartphone, color: "bg-purple-500" },
