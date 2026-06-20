@@ -1,123 +1,68 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github } from "lucide-react";
-import Image from "next/image";
-import data from "@/data/portfolio.json";
+import { Github, Linkedin, Twitter } from "lucide-react";
+import type { HeroData } from "@/types/portfolio";
 
-export function Hero() {
-    const { hero, contact } = data;
+export function Hero({ data }: { data: HeroData }) {
+  return (
+    <section className="min-h-screen flex items-center justify-center pt-16" id="hero">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-4">
+            Hi, I&apos;m <span className="text-emerald-500">{data.name}</span>
+          </h1>
+          <h2 className="text-2xl sm:text-3xl text-gray-600 dark:text-gray-400 mb-6 font-medium">
+            {data.role}
+          </h2>
+          <p className="text-lg sm:text-xl text-gray-500 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+            {data.tagline}
+          </p>
 
-    return (
-        <section className="min-h-[90vh] flex flex-col justify-center pt-20 pb-10">
-            <div className="container mx-auto px-6">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="flex-1 text-center md:text-left"
-                    >
-                        <motion.h2
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2, duration: 0.5 }}
-                            className="text-lg md:text-xl text-primary-500 font-medium mb-4"
-                        >
-                            As-salamu alaykum, I&apos;m
-                        </motion.h2>
-
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3, duration: 0.5 }}
-                            className="text-5xl md:text-7xl font-bold mb-6 text-foreground tracking-tight"
-                        >
-                            {hero.name}.
-                        </motion.h1>
-
-                        <motion.h3
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4, duration: 0.5 }}
-                            className="text-2xl md:text-4xl font-bold text-foreground/70 mb-6"
-                        >
-                            {hero.title}.
-                        </motion.h3>
-
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5, duration: 0.5 }}
-                            className="text-lg text-foreground/70 mb-8 max-w-2xl leading-relaxed"
-                        >
-                            {hero.description}
-                        </motion.p>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6, duration: 0.5 }}
-                            className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-10"
-                        >
-                            <a
-                                href={contact.github}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="p-3 bg-secondary rounded-full hover:bg-primary-500 hover:text-white transition-all transform hover:scale-110 shadow-sm"
-                            >
-                                <Github size={24} />
-                            </a>
-                            <a
-                                href={contact.linkedin}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="p-3 bg-secondary rounded-full hover:bg-primary-500 hover:text-white transition-all transform hover:scale-110 shadow-sm"
-                            >
-                                <Linkedin size={24} />
-                            </a>
-                            <a
-                                href={`mailto:${contact.email}`}
-                                className="p-3 bg-secondary rounded-full hover:bg-primary-500 hover:text-white transition-all transform hover:scale-110 shadow-sm"
-                            >
-                                <Mail size={24} />
-                            </a>
-
-                            {/* Optional Resume Button */}
-                            <a
-                                href="#projects"
-                                className="ml-4 px-6 py-3 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 hover:-translate-y-1 transition-all shadow-lg hover:shadow-primary-500/30 flex items-center gap-2"
-                            >
-                                View My Work
-                            </a>
-                        </motion.div>
-                    </motion.div>
-
-                    {/* Avatar / Visuals */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
-                        className="flex-shrink-0 relative"
-                    >
-                        <div className="w-64 h-64 md:w-80 md:h-80 relative rounded-full overflow-hidden border-4 border-primary-500/20 shadow-2xl z-10">
-                            <Image
-                                src={hero.avatar}
-                                alt={hero.name}
-                                width={320}
-                                height={320}
-                                unoptimized
-                                className="object-cover w-full h-full"
-                            />
-                        </div>
-
-                        {/* Background decoration */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-primary-500/20 to-transparent rounded-full blur-3xl -z-10 animate-pulse-slow"></div>
-                    </motion.div>
-
-                </div>
-            </div>
-        </section>
-    );
+          <div className="flex justify-center space-x-6">
+            {data.social?.github && (
+              <motion.a
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                href={data.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-emerald-500 transition-colors"
+              >
+                <Github size={24} />
+              </motion.a>
+            )}
+            {data.social?.linkedin && (
+              <motion.a
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                href={data.social.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-emerald-500 transition-colors"
+              >
+                <Linkedin size={24} />
+              </motion.a>
+            )}
+            {data.social?.twitter && (
+              <motion.a
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                href={data.social.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-emerald-500 transition-colors"
+              >
+                <Twitter size={24} />
+              </motion.a>
+            )}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 }

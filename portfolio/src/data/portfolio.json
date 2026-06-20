@@ -1,457 +1,65 @@
 {
   "hero": {
-    "name": "Ismail Hossain",
-    "title": "Award-Winning Mobile Developer & Global Islamic Apps Builder",
-    "avatar": "https://avatars.githubusercontent.com/u/99122172?v=4",
-    "description": "Building beautiful, high-performance mobile applications using Flutter and Kotlin/Jetpack Compose to serve the global Ummah. Creator of Al Quran Tafsir & Mumin. These and my other applications serving over 50k+ active users worldwide with 150k+ downloads."
-  },
-  "contact": {
-    "email": "md.ismailhosenismailjames@gmail.com",
-    "phone": "+880174109533",
-    "location": "Tangail Sadar, Tangail, Bangladesh",
-    "linkedin": "https://www.linkedin.com/in/ismail-hossain-3756a4211/",
-    "github": "https://github.com/IsmailHosenIsmailJames"
+    "name": "Alex Developer",
+    "role": "Full Stack Engineer",
+    "tagline": "Building scalable and performant web applications.",
+    "social": {
+      "github": "https://github.com",
+      "linkedin": "https://linkedin.com",
+      "twitter": "https://twitter.com"
+    }
   },
   "about": {
-    "summary": "Results-driven Mobile Application Developer and National Skills Competition Winner with over 3 years of experience in Flutter, Kotlin, and Android development. Deeply passionate about leveraging modern mobile technology to serve the global Muslim community, having built and scaled production-grade Islamic applications like Al Quran Tafsir & Audio, Al Hadith, and Mumin. These and my others applications have to over 150k+ downloads. Committed to crafting high-fidelity, offline-first, and distraction-free digital experiences that bring value, barakah, and utility to users worldwide."
+    "description": "I am a passionate Full Stack Engineer with over 5 years of experience in building modern web applications. I specialize in Next.js, React, Node.js, and Cloud Infrastructure. I love creating performant, scalable, and user-friendly digital products."
   },
-  "skills": [
-    "Flutter",
-    "Kotlin",
-    "Android Studio",
-    "Jetpack Compose",
-    "Dart",
-    "Python",
-    "Firebase",
-    "C++",
-    "Arduino",
-    "Git"
+  "projects": [
+    {
+      "id": "1",
+      "title": "E-Commerce Platform",
+      "description": "A fully functional e-commerce platform built with Next.js, Stripe integration, and a custom CMS.",
+      "imageUrl": "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80",
+      "tags": ["Next.js", "Tailwind CSS", "Stripe", "Prisma"],
+      "githubUrl": "https://github.com",
+      "liveUrl": "https://example.com"
+    },
+    {
+      "id": "2",
+      "title": "Task Management App",
+      "description": "A drag-and-drop task management tool with real-time updates.",
+      "imageUrl": "https://images.unsplash.com/photo-1540350394557-8d14678e7f91?w=800&q=80",
+      "tags": ["React", "Firebase", "Framer Motion"],
+      "githubUrl": "https://github.com",
+      "liveUrl": "https://example.com"
+    }
   ],
   "experience": [
     {
-      "role": "Junior Flutter Developer",
-      "company": "Impala Intech Limited, Radiant Pharmaceuticals",
-      "duration": "March, 2024 - Present",
-      "details": [
-        "Developed & Maintaining ODMS (Outbound Delivery Management System) Android App using Flutter that is used by 3k+ Delivery Employees of Radiant.",
-        "Developed an Islamic app (Mumin) with Quran, Translation, Recitation, Qibla Compass, Jakat Calculator, Hadith & more.",
-        "Developed X Obese that helps you track fitness and join virtual and on-site marathons.",
-        "Developed RNL360 - A Productivity App for MIO of Radiant Pharmaceuticals Limited"
-      ]
+      "id": "1",
+      "role": "Senior Frontend Engineer",
+      "company": "Tech Corp",
+      "duration": "2021 - Present",
+      "description": "Led the frontend team in migrating legacy React app to Next.js. Improved performance scores by 40%."
     },
     {
-      "role": "Independent Mobile App Developer",
-      "company": "Self-employed",
-      "duration": "January 2023 – Present",
-      "details": [
-        "Developed & Actively Maintaining Quran's Tafsir, Audio & Prayer (115k+ Downloads on Google Play Store).",
-        "Developed Rust Book app with Kotlin and Jetpack Compose (14k+ downloads, supports 18 languages).",
-        "Developed Al Hadith - Multilingual app - Read, search & study authentic Hadith offline with multilingual support & sync"
-      ]
-    }
-  ],
-  "projects": [
-    {
-      "title": "Al Quran Tafsir & Audio",
-      "description": "Al Quran Tafsir, Audio & Salat: Your Complete Islamic Companion\n\nJoin tens of thousands of Muslims worldwide on a spiritual journey with Al Quran, your all-in-one, feature-rich companion for daily Islamic practice. Designed for a seamless and beautiful experience, this app is your accessible guide to the Holy Quran, prayer times, and deeper Islamic learning.\n\nKEY FEATURES\n\n📖 POWERFUL QURAN READER\n• Multiple Scripts: Read in Uthmani, Indopak, and QPC Hafs with Tajweed scripts. Switch easily to your preferred style.\n• Easy Navigation: Instantly jump to any Surah, Juz, Page, Hizb, or Ruku.\n• Offline Translations & Tafsirs: Access a huge library of resources. Download for offline reading and switch between them seamlessly.\n• Word-by-Word Analysis: Deepen your understanding with word-by-word meanings and audio. Tap any word to learn its translation and pronunciation.\n• Complete Offline Access: All your downloaded scripts, translations, and audio are available without an internet connection.\n\n🕌 ACCURATE PRAYER TIMES & QIBLA\n• Precise Timings: Get accurate prayer times for your location (using latitude/longitude) or any city worldwide.\n• Customizable Adhan Alerts: Never miss a prayer with beautiful, customizable Adhan notifications and reminders.\n• Qibla Compass: Find the Qibla direction instantly with our simple and accurate compass.\n\n🔊 IMMERSIVE AUDIO EXPERIENCE\n• Renowned Reciters: Listen to verse-by-verse recitations from a variety of famous Qaris.\n• Word-by-Word Audio: Perfect your Tajweed and pronunciation by listening to each word individually.\n• Background Play: Continue listening to the Quran even when the app is in the background. Downloaded audio is cached for offline playback.\n\n✍️ PERSONALIZE YOUR STUDY\n• Notes & Collections: Capture your reflections by taking notes on any Ayah. Organize them into personal collections.\n• Pin Your Favorites: Pin important Ayahs to custom collections by topic or theme for quick and easy access.\n• Customize Your View: Tailor the app with flexible themes, colors, font sizes, and line heights for a comfortable reading experience.\n\n🌐 SUPPORTED LANGUAGES\n\nApp Interface:\nArabic, Urdu, Bengali, Indonesian, Turkish, Persian, Punjabi, Pashto, Hausa, Malay, French, Yoruba, Kurdish, Somali, Russian, Swahili, Azerbaijani, Uyghur, Kazakh, English, Hindi, Spanish, Portuguese, Chinese, Japanese, German, Korean, Vietnamese, Tamil, Italian.\n\nQuran Translation:\nBulgarian, Persian, Macedonian, Kashmiri, Bosnian, Amharic, Bengali, English, Spanish, Divehi, Uighur, Somali, Italian, Serbian, Kazakh, Amazigh, Marathi, Telugu, Ukrainian, Hindi, Chinese, Maltese, Kurdish, Gujarati, Sindhi, Asante, Yoruba, Lithuanian, Portuguese, German, Bambara, Malayalam, French, Nepali, Ganda, Assamese, Chechen, Polish, Tajik, Kinyarwanda, Urdu, Central Khmer, Romanian, Swahili, Hausa, Japanese, Vietnamese, Tatar, Hebrew, Turkish, Yao, Russian, Czech, Thai, Azeri, Finnish, Kannada, Tagalog, Norwegian, Korean, Uzbek, Oromo, Pashto, Sinhala, Indonesian, Dutch, Albanian, Malay, Tamil, Swedish, Maranao.\n\nQuran Tafsir:\nArabic, Persian, Bengali, English, Spanish, Italian, Chinese, Kurdish, Malayalam, French, Assamese, Urdu, Japanese, Turkish, Russian, Tagalog, Indonesian, Vietnamese, Albanian, Central Khmer.\n\nWord By Word:\nPersian, Bengali, English, Hindi, Urdu, Turkish, Indonesian, Tamil.\n\nBuilt with Flutter, Al Quran offers a consistent, high-quality experience across all your devices.\n\nDownload Al Quran today to deepen your connection with the Holy Quran and enhance your daily worship. Join our growing community!",
-      "tech": [
-        "Flutter",
-        "Dart",
-        "Python"
-      ],
-      "link": "https://github.com/IsmailHosenIsmailJames/al_quran_v3",
-      "image": "",
-      "logo": "https://raw.githubusercontent.com/IsmailHosenIsmailJames/al_quran_v3/refs/heads/main/assets/img/Quran_Logo_v3.png",
-      "media": [
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/-Na7DW39nCc8jhoiCa2qAPK8SNqvc3s1qSt4Qi6faWKAblSPetJhXtVWcbMIqyafdHzq9uY5JnUIN0fZlTsHBQ=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/ROE3D3DyaoYf5DNIKh7mCYOixP6t8x1aA2jug_f6Xf6OF9KNxR0R1At8nydkcdEetHUdbfrMJdVF0eHxs2VsUQ=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/32d20xKnkyRBZKg3wZBvFxk-awvv8ZSdtkSI179RgJ4640ryKqun_EPYwZCkPbKKbcBmU_JeiOqgTCMOz9DzEw=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/atVkzC1Q_cRtuFKVihOOynaJVpPjS04U4xUl8SPUlvEyDLmY1EAylu0U0v2YW9Ero8QttHyMl5rn7BiOUKez=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/XGRrBWJr1ZmF38_rk2DcMHnEK7d_esOn0DSfFCk7B9Aal170DRD_iA8yhWzGl1qwxhG2U4B5crQfk6axhzXyOg=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/-wgK-UaI24w7qQsaPK6tiqgA5bp2be4I7yfmN2LWI6y14cz88aPoHSVxpn85C4oyutGn_hb3FSMDj_jeClm-=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/HAZA9frPFZl_ts_4MRM29yMkASNLwJWafPSp0sPHcu7riFvCNEOQjmuq-CyyOvNGap10_odEXTKo_B7SC7poyw=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/fj2cWsYSHNW1btV3iDnjVNh39rl9XK2aUQ-RCqbJeUt40gyUGvo_ehj5J5aHjl7FgxU3lqq7Xn3yOjg-xu3lAw=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/SqWMljF3ntNo459qUmqPWM_8_MrF9A8UweRgGyvpjg23z9AbN4AG5IaCJrKXr3xTWAJdPWc5F8KzwMmIilt5=w2560-h1440-rw",
-          "caption": ""
-        }
-      ],
-      "links": [
-        {
-          "url": "https://play.google.com/store/apps/details?id=com.ismail_hosen_james.al_bayan_quran",
-          "label": "Google Play"
-        }
-      ],
-      "shortDescription": "A comprehensive Islamic app serving thousands of users. Features 90+ Language Translations, Tafsir in 16+ languages, word by word in 6 languages, Prayer Time, Qibla, Quran Audio and so much more."
-    },
-    {
-      "title": "Al Hadith - Multilingual",
-      "description": "Seek knowledge and draw closer to the Sunnah of the Prophet Muhammad (ﷺ) with Al Hadith, a modern, feature-rich, and premium multilingual Hadith reader app designed for offline study, research, and daily reading.\n\nBuilt with an offline-first philosophy, Al Hadith provides access to authentic Hadith compilations complete with scholarly gradings, cross-lingual translations, advanced search, and secure cloud synchronization.\n\n🌟 KEY FEATURES:\n\n📖 COMPACT & OFFLINE-FIRST\nDownload only the books you need. Our ultra-optimized, isolated SQLite databases let you enjoy a complete, lightning-fast reading experience entirely offline without eating up your device storage.\n\n🌍 MULTILINGUAL SUPPORT\nRead and understand the Hadith in your native language. Al Hadith supports translations in multiple major languages, including:\n• Arabic (Original)\n• English\n• Bengali\n• Indonesian\n• Urdu\n• French\n• Russian\n• Turkish\n• Tamil\n... and more!\n\n🔍 SCHOLARLY GRADINGS\nStudy with confidence. Every Hadith includes detailed scholarly authentication gradings (such as Sahih, Hasan, Da'if, etc.) so you can verify the status and authenticity of what you read.\n\n⚡ POWERFUL OFFLINE SEARCH\nFind exactly what you are looking for instantly. Our robust built-in SQL search engine lets you perform fast, reliable keyword searches across your downloaded books without requiring an internet connection.\n\n📝 PERSONAL COLLECTIONS & NOTES\nCustomize your study and research workspace:\n• Bookmarks: Save your favorite Hadith for quick reference.\n• Pins: Pin high-priority Hadiths to your collection screen.\n• Custom Notes: Write down your reflections, lessons, or commentary directly alongside the texts.\n\n🔄 SECURE CLOUD BACKUP & AUTO-SYNC\nNever lose your progress or notes. Sign in securely with Google or Email to automatically backup your collections, bookmarks, notes, and reading history to our cloud database. Switch devices or restore your data seamlessly at any time!\n\n📊 READ PROGRESS TRACKING\nTrack your daily learning progress. The app automatically marks Hadiths as read as you progress through sections, giving you clear visual progress statistics.\n\n🎨 SLEEK, DARK & MODERN UI\nDesigned for maximum reading comfort. Enjoy a stunning dark interface, curated typography, and fluid micro-animations that make reading a peaceful and distraction-free experience.\n\n🛡️ 100% AD-FREE & PRIVACY-FOCUSED\nYour focus should be solely on the sacred texts. Al Hadith is completely ad-free, transparent, and respects your privacy.\n\nSpread the knowledge of the Sunnah. Download Al Hadith today and begin your journey of learning and reflection!",
-      "tech": [
-        "Flutter",
-        "Python",
-        "SQLite",
-        "Compression",
-        "AI"
-      ],
-      "link": "https://play.google.com/store/apps/details?id=com.ismail.al_hadith",
-      "image": "",
-      "logo": "https://play-lh.googleusercontent.com/lh3Iss50vaFq1j23irY7q8ga4xZ6FfFiodJU9z_aukc8B9nZu1ZkI888IxhIR4C9mxyiGsaf04d5U4LjOGsyVA=w240-h480-rw",
-      "media": [
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/0E1fGPrdPNpRSZZl-oUUoUlymna6DB5DVfT-i6fzt0MLeDsGpKp71Eeetydi-28WeHlrxqDTIWDKS8Equ5Mg=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/y_s670kWPIRDE-QWK2Vr_k1L4cA50Lxw1e1kWB6mY7U6pUjxpXLMfEEtygjUorAM-XUlVnCVo-Aa2c0iCXbw=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/2vtefhrWdLqMXlFnnOnvvaTJQS5nrwxD_mN2kVXKKUlVhMUAapqwErEqsaBEJG3Bh8p7SUODhK49F1JFH4n5CA=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/-VG-h9zMfLyGhRYvXWYsay9CgFkNc7b0oGrMjD3Y7YrHfsRaewzWcYi-vCsDalrgjHbHG22t1H56MTYHXKec-Gg=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/7yKp5vjUCgcvISVSAn52oD97_O4cpn3hvqPkE28rPoovvpiWQiEgqLfWreG8gM0hgCBSe916MSlAMV1a08ZBdw=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/yArlWRblNMmI89r3ob5T94XewoeqNxldBEQr2UR4-gNwQ3Rv8xmBUKgS7xM1IFaSwdaM4AfPtROYGbSBw3nJbg=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/xAwNpuC9oQlDE_eKYlKXpeoHvwizcnV6HkAuGNIE51aR3abOYHuDS2-otWgesSuct1SApCNPF7Zh7ugRReuIOiM=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/_2QBJH2ayxIXnfbSlHjqgolYP0gX99dZYyvl59foH8ubXNRFNNnldHY7obQvVf1nIq6KbuQqMRyY9wi1Hg9r=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "screenshot",
-          "url": "https://play-lh.googleusercontent.com/3dcK032w4k0kl1dVnYf7zw2EDPcU5Dh1U-_IWLupbU7KB2cTH6z1kTEIskx2RTGjAy22vZWiBZma_7BLekF9=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "screenshot",
-          "url": "https://play-lh.googleusercontent.com/BSkwR6u2gyLI-OB7VELEKkXD_DRzeDPR_hhoNgo5UaF_9LLdDNf1vPxnCfamd9eGZflRdzH6RzvlcLkRnA-s_w=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "screenshot",
-          "url": "https://play-lh.googleusercontent.com/Io6le9gTFj14wlczFjTdDHGklLzxKEGmYmZhbPtZLc8jBApF8l1uS1V5ffInKUrxaFPSK_gewiVVOBbkDn53_A=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "screenshot",
-          "url": "https://play-lh.googleusercontent.com/jC0jYwYS35GTZi1obD9MetN3tW1J6OC3JutkwXgC1Cy7XXx6SdKTcvM5mKnPP5RyDyOMLksibGLqjeHaO8Bh8CI=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "screenshot",
-          "url": "https://play-lh.googleusercontent.com/NKz-DsEmaAbJqX4VmFqCBhqhNDR4wpUiu_uagAKlyFs5pZ3tT97qJdM7znsSafD-2SvjyMStJudTrDcsuLaD-A=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "screenshot",
-          "url": "https://play-lh.googleusercontent.com/odE3JQJcVvLVESdfs_xAK0cB4GX1yoklnruNRAF2i57pFM0Lf1KKkkkTbs6xUAcwfvKD-Hpng8FpE3MdhDlT=w2560-h1440-rw",
-          "caption": ""
-        }
-      ],
-      "links": [],
-      "shortDescription": "Read, search & study authentic Hadith offline with multilingual support & sync"
-    },
-    {
-      "title": "Mumin",
-      "shortDescription": "Comprehensive Islamic app for daily practices, prayer , Quran, Hadith & Ramadan",
-      "description": "Mumin - Your Comprehensive Islamic Companion\n\nMumin is your all-in-one Islamic mobile app, designed to assist you in your daily religious practices and spiritual journey. Whether it's keeping up with daily prayers or observing the holy month of Ramadan, Mumin is your perfect companion.\n\nKey Features:\n\nRamadan Central:\n- Ramadan Calendar: Get precise Sehri and Iftar times based on your location.\n- Countdown Timer: Stay on track with a prominent countdown to the next Iftar.\n- Daily Ramadan Plan: Access curated daily content, including Duas, Quranic verses, and Hadith, to enrich your Ramadan experience.\n\nPrayer Essentials:\n- Accurate Prayer Times: Calculates prayer times (Fajr, Dhuhr, Asr, Maghrib, Isha) based on your location.\n- Qibla Compass: An easy-to-use compass to find the direction of the Kaaba for your prayers.\n- Mosque Finder: Locate nearby mosques with the integrated map feature.\n\nQuran and Hadith:\n- The Holy Quran: A complete digital Quran with Surah lists, Arabic text, transliteration, and translations in both Bengali and English.\n- Audio and Recording: Listen to audio recitations and record your own practice sessions.\n- Hadith: A collection of Hadith for your daily reading and reflection.\n\nOther Islamic Tools:\n- Kalima: Read and learn the six Kalimas.\n- Digital Tasbeeh: A convenient counter for your Dhikr.\n- Zakat Calculator: A simple tool to help you calculate your Zakat.\n- Hajj Guide: Information and guidance for the Hajj pilgrimage.\n\nMumin is designed with a user-friendly interface and a focus on providing accurate, reliable information to help you in your daily life as a Muslim. Download Mumin to enhance your spiritual practice.",
-      "tech": [
-        "Flutter",
-        "Dart"
-      ],
-      "link": "https://play.google.com/store/apps/details?id=com.impala.mumin",
-      "image": "",
-      "logo": "https://play-lh.googleusercontent.com/DHJhs15ThH5Ju5zwcF_oBL8_L7j_lndPJwP-hJvL-G7WN0Tyb7YemQQzqwQvryui0b0iWXUm2ZAi0MnjaYHn=w240-h480-rw",
-      "media": [
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/Si5MkBwdM6akFJQjpuLln1SPXsTMxRmO1jVoEs6IBOV_OboJOvQ3s9zc74A8CaDwFa1H6P7EnrIruKAnCNkCieU=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/-boWAd3ok0NMVdL56Fk_oub50cGEw6xjkmKQMls-QFBXzgkEE_j34yFqcbwujKfziFRj0fkxxwdBS18_Tx_4TTA=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/heMZQpSysitySUN0BD-RCIgAdDJwGa27uSODdcCjDtRTonk64j5XOimUjjtSNLIsskXgB-HdjyUpz5cfHv18=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/MwNrU-fmt8Y8e0rGlEnoywitPjXF-g8WCFWp6MTWwZjiiSUHIHfY7J-0BlpBJ0zFMkv8kA5x0lSWljXPchh8=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/gikSPM9ZLdZpThu8Mtys3ovFvnUmLFnXJJUAb2f-fjX4yVnDFHSEdYRxEJgVGFSjSOpvntreC21whzyYQUDnWzc=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/nBjnZdDn5qVxKZ23B-NloUNzOJ9IIQPrHKmV6I5cgaUmvV6tqHsCDlGRA_pWFzP3WskMT-Og8sDsq3EFahRqR8o=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/DmTfEo3raj3BAtmRhO3NLz7n5Q9qNQjLOX5AbONmISKCsgAlLkD8XC69V8g06-wGm2707VP8oPrbHU-wX46_HA=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/2RWMScE9P2m4BN0rmpWytkHpAPBmWGSbi4MB0sg3zGQI77GZTIPgdVW1OcW5xbnbI00xlCbMT_d9XO_c716t=w2560-h1440-rw",
-          "caption": ""
-        }
-      ],
-      "links": [
-        {
-          "url": "https://play.google.com/store/apps/details?id=com.impala.mumin",
-          "label": "Google Play"
-        }
-      ]
-    },
-    {
-      "title": "Rust Book App",
-      "description": "A complete offline android app for Rust Programming language learners. Rust Book support 14 different translation of Rust Book.\nThe languages supported are :\n1. Danske\n2. Deutsch\n3. English\n4. বাংলা\n5. Esperanto\n6. Farsi\n7. Français\n8. Polski\n9. Português\n10. Svenska\n11. Русский\n12. Українська\n13. 正體中文\n14. 简体中文\n15. 한국어",
-      "tech": [
-        "Kotlin",
-        "Jetpack Compose"
-      ],
-      "link": "https://play.google.com/store/apps/details?id=com.rust_book.example",
-      "image": "",
-      "logo": "https://raw.githubusercontent.com/IsmailHosenIsmailJames/rust_book_multi_language/refs/heads/main/assets/img/logo.png",
-      "media": [
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/A-j1axMDHIZ_8XLl3mACcwDstLvGdoe31UeU1sSGb4K9g_ih85qK-mfbxJKCzzd7nhYZ=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/0jBxmFb-lWRzDevpbLFYMcu5yMuKOzDC5JVYyrPq5dVwRaDEY60tg4qWYG5UcBhx_Dk=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/Nrj5L03bcOgZM4mpssxYUve0oDJI11TvzjlZFptzSkWPH9X0vuxDSjMdir6qF1Oo5kM=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/fCNar31_VTvtgePaCupw3pR7kp7hbZZTY97pi9KJpeepd_OY_9iolAhkMRdpK3ipcw=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/3F8qOTDzmTIenq6RdBCkzFMfWq2zD19A8OjN7sW6n84DaYy2gSdPogEXC12HoLvWiKg=w2560-h1440-rw",
-          "caption": ""
-        }
-      ],
-      "links": [
-        {
-          "url": "https://play.google.com/store/apps/details?id=com.rust_book.example",
-          "label": "Google Play"
-        }
-      ],
-      "shortDescription": "An educational app for learning the Rust programming language. Rust Book translation in 18 languages with some extra features. "
-    },
-    {
-      "title": "RNL360",
-      "shortDescription": "A Productivity App for MIO of Radiant Pharmaceuticals Limited",
-      "description": "RNL360 is the official, all-in-one productivity application designed exclusively for the Medical Information Officers (MIOs) of Radiant Pharmaceuticals Limited in Bangladesh. Streamline your daily workflow, enhance engagement, and stay connected with a powerful suite of tools at your fingertips.\n\nKey Features:\n\nDoctor Engagement (Doctor Zone):\n• Quiz: Participate in interactive quizzes to test and enhance your product knowledge.\n• Promotional Materials: Easily access and share the latest promotional content.\n• Awareness Campaigns: Stay updated on and contribute to ongoing health awareness initiatives.\n• Doctor's Queries: Manage and respond to queries from doctors efficiently.\n• Surveys: Collect valuable feedback through targeted surveys.\n• Choice Card: A special feature for doctor engagement.\n• Doctor's Celebration: Keep track of and celebrate doctors' special occasions.\n\nField Force Empowerment (FF Zone):\n• Quick Test: Sharpen your knowledge with quick, on-the-go tests.\n• Corporate Info: Access important corporate information and updates.\n• E-Library: A digital library of resources for continuous learning.\n• Training: Participate in and track your training modules.\n• Competitor Info: Stay informed about the competitive landscape.\n• RCPA: Manage and submit your Retail Chemist Prescription Audit (RCPA) data.\n• Awards & Recognition: View your achievements and company-wide recognitions.\n• Role Play: Practice and improve your communication skills.\n• Activity Summary: Get a comprehensive overview of your activities.\n• Feedback: Provide valuable feedback to the company.\n• Link-Up: Connect to various company resources and social media pages.\n• Planning: Plan and manage your daily, weekly, and monthly schedules.\n\nRNL360 is your dedicated partner for success, simplifying planning, tracking, and professional growth. Download now to unlock your full potential as a Medical Information Officer at Radiant Pharmaceuticals Limited.",
-      "tech": [
-        "Kotlin",
-        "Android",
-        ""
-      ],
-      "link": "https://play.google.com/store/apps/details?id=com.impala.rnl360",
-      "image": "",
-      "logo": "https://play-lh.googleusercontent.com/7lSyZEDbs_uzLcWn60KbrbU0YwdyFzJ5l5rP5usx_9i0-xAs97oRr2RDzBgPuspQZlBYrnu068xUngwTHOzh0Q8=w240-h480-rw",
-      "media": [
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/Gxnxi71J0BRu8UtoV3q_Oa3y2n4zAiO88TV929Y_Jz_FWUOgvViestf6yU45TXemactnbCEGbN0K5_-4s6lmPQ=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/1yqwkWCL_fp30p6Kwt_mgV9OJoG4XsOUsh-Kv-kh__25X7by-L3zuWwASZfi67SdGdPAqVdyGDs7YWL4MXlQlt4=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/uj5tJZhFoSw_YVumkAkhZz7PwTgvaqf1nCE1aej-E2r7zfM7I5l_uEL1vO_Qh0yPaA2iCG-hfwm5CFHCD5pEoUU=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/ocESxbQTKk8IlIdNF7MXQUBYS3DB_I6eSNlMdw2lGyArerUuKsIoWVjUSPal9aMBIXQgcRmRlBDA4ALORGew6ps=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/c1bjsa1-gkyZdfd6xuFH_6AGOlvR0gQANeMMDUXgRpAkyIM8Sk69A8oM2MwL6YQbSCOOwRWWDfI3lHMT-7pnmLU=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/KsTznArzmdIJa2zx5FTnTk4sOZDT0eykLdjW_sLpSEfx8USFLaEw9Qvadkb-xxFo-IfVkjvnL4YLpTrpmb969hE=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/v3ttkVQt37exadFJtsZfd59eiDUzgamI2D_VkmhC2FpwGtfCE5pjZmCb3xqx05cDMSHmS321ajQYYMDWjsOKDQ=w2560-h1440-rw",
-          "caption": ""
-        }
-      ],
-      "links": [
-        {
-          "url": "https://play.google.com/store/apps/details?id=com.impala.rnl360",
-          "label": ""
-        }
-      ]
-    },
-    {
-      "title": "X Obese",
-      "shortDescription": "X-Obese helps you track fitness and join virtual and on-site marathons.",
-      "description": "Take control of your health with X-Obese, the ultimate fitness companion.\n\nX-Obese is a powerful and user-friendly mobile application designed to empower you on your journey to a healthier lifestyle. Whether you're looking to lose weight, train for a marathon, or simply stay active, our app provides the tools and motivation you need to succeed.\n\nKey Features:\n\nTrack Your Activities: Monitor your daily steps with our built-in pedometer, and log a variety of workouts including running and walking. Our GPS integration with Google Maps allows you to track your routes and see your progress on a map.\n\nPersonalized Insights: Create a detailed user profile with your age, weight, and height to receive personalized recommendations and track your progress with engaging charts and visualizations.\n\nSeamless Data Integration: Sync your data with Google Fit and Apple Health to consolidate all your health and fitness information in one place.\n\nJoin the Community: Participate in virtual marathons and connect with a supportive community. You can also join physical on-site marathons organized in partnership with Radiant Pharmaceutical.\n\nStay Informed: Read inspiring articles and helpful tips on our regularly updated blog.\n\nEngaging and Intuitive Design: Enjoy a clean and modern user interface with a customizable theme, smooth animations, and local notifications to keep you motivated and on track.\n\nDownload X-Obese today and start your journey towards a healthier you!",
-      "tech": [
-        "Flutter",
-        "Health"
-      ],
-      "link": "https://play.google.com/store/apps/details?id=com.impala.x_obese&hl=en-US",
-      "image": "",
-      "logo": "https://play-lh.googleusercontent.com/10QCIz9A93KMVwrocTvzG9DV8_2XzNAFM_ZDdEdaCIxw_1aSashN2B7AjQlj1fLwceuG1G92juk7dJGmnQCoLA=w240-h480-rw",
-      "media": [
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/WaiLdcM9T6pn16Sw1FuBfr75Urh1vdGJHgO-Uf2CSoLkhgpPm_HUijKJL37XhA17kSjyCuJO_3byAv6EjJ4AUA=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/JnOZBASVs-Wq_vrJaMNNNlnnq2duyDJXRzKDcObVx383gWy-uzHDiZLZd-caLSmLdcP0bX5OvCLlT74egzIO2VA=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/_vToXTy9ugWnzDzWzM30mzPiwalu9D1MWrBi8r0hpZP3LXJlqE_uJB0_YdQw2zR0XbHvMtjMm_wjMa3BNWIa-D4=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/DxwxsGVGCnX7iGu6WTndKsV5IsXEbuzff-ZOARsQc8xfEZhAsytYDypg5oSh8WVYeoOFyWitg_aZnO1l3S-t4Q=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/pGYf0R9ghYDCe26n_mDybttkpYefXlrhhOFyQZ26T5KCP-TETncHnAbaU0ejRRpQVfhvogwJHPWKKyMWa-1L=w2560-h1440-rw",
-          "caption": ""
-        }
-      ],
-      "links": [
-        {
-          "url": "https://play.google.com/store/apps/details?id=com.impala.x_obese&hl=en-US",
-          "label": ""
-        }
-      ]
-    },
-    {
-      "title": "ePharma - Healthcare App",
-      "shortDescription": "Bangladesh’s trusted online pharmacy. 100% genuine medicine & home delivery.",
-      "description": "Bangladesh’s leading digital healthcare platform, bringing the pharmacy to your doorstep.\n\nWhy Choose Us -\n100% Authentic: Sourced directly from manufacturers with a valid drug license.\nOne-Stop Shop: From prescription drugs to wellness, vitamins, and baby care.\nDoctor Consultation: Connect with experts for advice without leaving home.\nRefill Reminders: Never miss a dose with our automated pill reminders.\n\nHow it Works:\n• Search your required product or\n• Upload your prescription or search for products.\n• Get a call or SMS from our pharmacist for verification and confirmation.\n• Receive your medicine at home with cash-on-delivery or digital payment.\nWe are a proud member of e-CAB (Member No: 370) and our DBID(from Bangladesh Ministry of Finance) Registration: 236458313 follow strict guidelines. Shop with confidence.",
-      "tech": [
-        "Flutter",
-        "JavaScript",
-        "Express.js"
-      ],
-      "link": "https://play.google.com/store/apps/details?id=com.themessenger.epharma&hl=en-US",
-      "image": "",
-      "logo": "https://play-lh.googleusercontent.com/Jeeo000qIordL7JUocD_4e4kOlpLPbZE9YwPjyZsp-Wej1y-G6jGWD0en60tKSLhHEs=w240-h480-rw",
-      "media": [
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/TaNpYc8XhSyUR5AnQeC_RI_FPKUrReS0XaxudEAo-L7KQpROh58-NewszgGPyaTFhp0=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/KZCGgvmU3rpk21HSxr1rNQFTJh7Bapid8EquedKgwkv841A_MCtzVmIiY5uAdmDd3PQK=w2560-h1440-rw",
-          "caption": ""
-        },
-        {
-          "type": "mobile_screenshot",
-          "url": "https://play-lh.googleusercontent.com/Fldrv175EwlSr0B9J9C3P3E2g1NaKBX1A1RjhxVN4SzQG0JGsmdj10sXv-plMgzKDEU=w2560-h1440-rw",
-          "caption": ""
-        }
-      ],
-      "links": [
-        {
-          "url": "https://play.google.com/store/apps/details?id=com.themessenger.epharma&hl=en-US",
-          "label": ""
-        }
-      ]
+      "id": "2",
+      "role": "Full Stack Developer",
+      "company": "Startup Inc",
+      "duration": "2018 - 2021",
+      "description": "Developed and maintained multiple client projects using React, Node.js, and MongoDB."
     }
   ],
   "achievements": [
     {
-      "title": "Winner, National Skills Competition 2025 (Mobile App Development) - Organized by NSDA.",
-      "image": ""
+      "id": "1",
+      "title": "AWS Certified Solutions Architect",
+      "date": "2023",
+      "description": "Earned the AWS Certified Solutions Architect - Associate certification."
+    },
+    {
+      "id": "2",
+      "title": "Hackathon Winner",
+      "date": "2022",
+      "description": "First place at Global Tech Hackathon for building an accessibility tool."
     }
   ]
 }

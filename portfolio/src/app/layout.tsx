@@ -1,23 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "react-hot-toast";
-import { AnimatedBackground } from "@/components/AnimatedBackground";
+import Navbar from "@/components/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Ismail Hossain - Portfolio",
-  description: "Flutter & Kotlin Developer Portfolio",
+  title: "Portfolio",
+  description: "Personal Portfolio Website",
 };
 
 export default function RootLayout({
@@ -26,12 +18,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased selection:bg-primary-500 selection:text-white transition-colors duration-300`}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AnimatedBackground />
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
+      <body className={`${inter.className} bg-background text-foreground antialiased`}>
+        <ThemeProvider>
+          <Navbar />
           {children}
           <Toaster position="bottom-right" />
         </ThemeProvider>
