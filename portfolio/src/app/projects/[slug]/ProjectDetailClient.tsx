@@ -16,6 +16,7 @@ interface MediaItem {
     caption: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function MediaTypeBadge({ type }: { type: MediaItem["type"] }) {
     const config = {
         screenshot: { label: "Screenshot", icon: Monitor, color: "bg-blue-500" },
