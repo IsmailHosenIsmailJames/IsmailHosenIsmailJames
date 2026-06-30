@@ -1,3 +1,4 @@
+import Link from "next/link";
 import data from "@/data/portfolio.json";
 import { ProjectDetailClient } from "./ProjectDetailClient";
 
@@ -38,7 +39,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold mb-4">Project Not Found</h1>
-                    <a href="/" className="text-primary-500 hover:underline">Go back home</a>
+                    <Link href="/" className="text-primary-500 hover:underline">Go back home</Link>
                 </div>
             </div>
         );
