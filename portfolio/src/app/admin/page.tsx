@@ -104,7 +104,7 @@ export default function AdminPage() {
     };
 
     return (
-        <div className="min-h-screen bg-background py-10 px-6">
+        <div className="min-h-screen bg-background py-10 px-6 pb-32">
             <div className="max-w-4xl mx-auto">
                 <div className="flex items-center justify-between mb-8 pb-6 border-b border-primary-100 dark:border-primary-900/30">
                     <div className="flex items-center gap-4">
@@ -113,13 +113,7 @@ export default function AdminPage() {
                         </Link>
                         <h1 className="text-3xl font-bold">Portfolio Admin</h1>
                     </div>
-                    <button
-                        onClick={handleCopyJson}
-                        className="flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg transition-all hover:-translate-y-1"
-                    >
-                        <Save size={20} />
-                        Copy Updated JSON
-                    </button>
+
                 </div>
 
                 <div className="space-y-12">
@@ -841,6 +835,17 @@ export default function AdminPage() {
 
                 </div>
             </div >
+
+            {/* Fixed Bottom Bar for Copy JSON */}
+            <div className="fixed bottom-0 inset-x-0 p-4 bg-background/80 backdrop-blur-md border-t border-primary-100/20 dark:border-primary-900/20 z-50 flex justify-center">
+                <button
+                    onClick={handleCopyJson}
+                    className="flex items-center gap-2 bg-primary-500 hover:bg-primary-600 text-white px-8 py-4 rounded-xl font-bold shadow-xl transition-all hover:-translate-y-1 w-full max-w-md justify-center"
+                >
+                    <Save size={24} />
+                    Copy Updated JSON
+                </button>
+            </div>
         </div >
     );
 }
